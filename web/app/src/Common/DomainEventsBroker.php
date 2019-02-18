@@ -2,7 +2,9 @@
 
 namespace Jmj\Parking\Common;
 
-class DomainEventsBroker
+use Jmj\Parking\Domain\Service\Event\DomainEventsBroker as DomainEventsBrokerInterface;
+
+class DomainEventsBroker implements DomainEventsBrokerInterface
 {
     private const ALL_EVENTS = '*';
 
@@ -23,9 +25,9 @@ class DomainEventsBroker
     }
 
     /**
-     * @return DomainEventsBroker
+     * @inheritdoc
      */
-    public static function getInstance() : DomainEventsBroker
+    public static function getInstance() : DomainEventsBrokerInterface
     {
         if (self::$singleton === null) {
             self::$singleton = new self();
@@ -35,7 +37,7 @@ class DomainEventsBroker
     }
 
     /**
-     *
+     * @inheritdoc
      */
     public function resetSubscriptions()
     {
@@ -44,7 +46,7 @@ class DomainEventsBroker
     }
 
     /**
-     * @param callable $callback
+     * @inheritdoc
      */
     public function subscribeToAllEvents(callable $callback)
     {
@@ -52,8 +54,7 @@ class DomainEventsBroker
     }
 
     /**
-     * @param string $className
-     * @param callable $callback
+     * @inheritdoc
      */
     public function subscribeToClassEvents(string $className, callable $callback)
     {
@@ -69,9 +70,7 @@ class DomainEventsBroker
     }
 
     /**
-     * @param string $className
-     * @param string $eventName
-     * @param callable $callback
+     * @inheritdoc
      */
     public function subscribeToSingleClassEvent(string $className, string $eventName, callable $callback)
     {
@@ -87,10 +86,7 @@ class DomainEventsBroker
     }
 
     /**
-     * @param string $className
-     * @param string $eventName
-     * @param object $object
-     * @param mixed $payload
+     * @inheritdoc
      */
     public function publishEvent(string $className, string $eventName, object $object, $payload = null)
     {

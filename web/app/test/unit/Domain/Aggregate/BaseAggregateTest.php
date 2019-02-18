@@ -9,6 +9,13 @@ use PHPUnit\Framework\TestCase;
 
 class BaseAggregateTest extends TestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+
+        BaseAggregate::setDomainEventBroker(DomainEventsBroker::getInstance());
+    }
+
     /**
      *
      * @throws ExceptionGeneratingUuid

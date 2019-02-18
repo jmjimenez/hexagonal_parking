@@ -3,20 +3,20 @@
 namespace Jmj\Parking\Domain\Aggregate;
 
 use Exception;
-use Jmj\Parking\Common\DomainEventsBroker;
 use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Domain\Service\Event\DomainEventsBroker;
 use Ramsey\Uuid\Uuid;
 
 abstract class BaseAggregate
 {
     /** @var string */
-    private static $lastUuid = null;
+    protected static $lastUuid = null;
 
     /** @var string */
     private $uuid;
 
     /** @var DomainEventsBroker */
-    private $eventBroker;
+    protected static $eventBroker;
 
     abstract protected function getClassName() : string;
 
@@ -30,6 +30,14 @@ abstract class BaseAggregate
     }
 
     /**
+     * @param DomainEventsBroker $eventsBroker
+     */
+    public static function setDomainEventBroker(DomainEventsBroker $eventsBroker)
+    {
+        self::$eventBroker = $eventsBroker;
+    }
+
+    /**
      * @return string
      */
     public function uuid() : string
@@ -37,12 +45,17 @@ abstract class BaseAggregate
         return $this->uuid;
     }
 
+    /**
+     * @param string $eventName
+     * @param mixed $payload
+     */
     protected function publishEvent(string $eventName, $payload = null)
     {
-        $eventBroker = $this->getEventBroker();
-        $className = $this->getClassName();
+        if (self::$eventBroker == null) {
+            return;
+        }
 
-        $eventBroker->publishEvent($className, $eventName, $this, $payload);
+        self::$eventBroker->publishEvent($this->getClassName(), $eventName, $this, $payload);
     }
 
     /**
@@ -61,17 +74,5 @@ abstract class BaseAggregate
         self::$lastUuid = $uuid;
 
         $this->uuid = $uuid;
-    }
-
-    /**
-     * @return DomainEventsBroker
-     */
-    protected function getEventBroker() : DomainEventsBroker
-    {
-        if ($this->eventBroker === null) {
-            $this->eventBroker = DomainEventsBroker::getInstance();
-        }
-
-        return $this->eventBroker;
     }
 }

@@ -5,6 +5,7 @@ namespace Jmj\Test\Unit\Infrastructure\Aggregate\InMemory;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Jmj\Parking\Common\Exception\InvalidDateRange;
+use Jmj\Parking\Domain\Aggregate\BaseAggregate;
 use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Common\DomainEventsRegister;
 use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNotFound;
@@ -36,6 +37,7 @@ class ParkingTest extends TestCase
     {
         parent::setUp();
 
+        BaseAggregate::setDomainEventBroker($this->getEventBroker());
         $this->getEventBroker()->resetSubscriptions();
     }
 

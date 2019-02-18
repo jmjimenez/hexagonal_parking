@@ -7,7 +7,7 @@ use DateTimeInterface;
 use Jmj\Parking\Common\Exception\InvalidDateRange;
 use Jmj\Parking\Domain\Aggregate\BaseAggregate;
 use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
-use Jmj\Parking\Common\DomainEventsRegister;
+use Jmj\Parking\Infrastructure\Aggregate\Event\DomainEventsRegister;
 use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNotFound;
 use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNumberAlreadyExists;
 use Jmj\Parking\Domain\Aggregate\Exception\UserEmailInvalid;

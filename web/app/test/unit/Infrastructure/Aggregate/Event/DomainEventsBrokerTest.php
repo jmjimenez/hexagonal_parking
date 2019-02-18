@@ -1,8 +1,8 @@
 <?php
 
-namespace Jmj\Test\Unit\Common;
+namespace Jmj\Test\Unit\Infrastructure\Aggregate\Event;
 
-use Jmj\Parking\Common\DomainEventsBroker;
+use Jmj\Parking\Infrastructure\Aggregate\Event\DomainEventsBroker;
 use PHPUnit\Framework\TestCase;
 
 class DomainEventsBrokerTest extends TestCase

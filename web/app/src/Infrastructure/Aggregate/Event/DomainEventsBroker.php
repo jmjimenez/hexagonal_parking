@@ -1,6 +1,6 @@
 <?php
 
-namespace Jmj\Parking\Common;
+namespace Jmj\Parking\Infrastructure\Aggregate\Event;
 
 use Jmj\Parking\Domain\Service\Event\DomainEventsBroker as DomainEventsBrokerInterface;
 

@@ -13,9 +13,9 @@ interface DomainEventsBroker
      * @param string $className
      * @param string $eventName
      * @param object $object
-     * @param mixed $payload
+     * @param mixed | null $payload
      */
-    public function publishEvent(string $className, string $eventName, object $object, $payload);
+    public function publishEvent(string $className, string $eventName, object $object, $payload = null);
 
     /**
      */

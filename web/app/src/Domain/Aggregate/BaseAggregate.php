@@ -1,9 +1,10 @@
 <?php
 
-namespace Jmj\Parking\Common;
+namespace Jmj\Parking\Domain\Aggregate;
 
 use Exception;
-use Jmj\Parking\Common\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Common\DomainEventsBroker;
+use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
 use Ramsey\Uuid\Uuid;
 
 abstract class BaseAggregate

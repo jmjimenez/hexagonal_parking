@@ -4,9 +4,8 @@ namespace Jmj\Parking\Domain\Aggregate;
 
 use DateTimeImmutable;
 use DateTimeInterface;
-use Jmj\Parking\Common\BaseAggregate;
 use Jmj\Parking\Common\DateRangeProcessor;
-use Jmj\Parking\Common\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNotFound;
 use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNumberAlreadyExists;
 use Jmj\Parking\Domain\Aggregate\Exception\UserIsNotAdministrator;

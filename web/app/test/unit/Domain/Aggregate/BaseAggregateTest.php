@@ -1,10 +1,10 @@
 <?php
 
-namespace Jmj\Test\Unit\Common;
+namespace Jmj\Test\Unit\Domain\Aggregate;
 
-use Jmj\Parking\Common\BaseAggregate;
+use Jmj\Parking\Domain\Aggregate\BaseAggregate;
 use Jmj\Parking\Common\DomainEventsBroker;
-use Jmj\Parking\Common\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
 use PHPUnit\Framework\TestCase;
 
 class BaseAggregateTest extends TestCase

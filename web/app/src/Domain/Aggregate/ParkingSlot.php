@@ -5,7 +5,7 @@ namespace Jmj\Parking\Domain\Aggregate;
 use DateTimeImmutable;
 use Exception;
 use Jmj\Parking\Common\DateRangeProcessor;
-use Jmj\Parking\Common\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Common\Exception\InvalidDateRange;
 use Jmj\Parking\Common\NormalizeDate;
 use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotAlreadyAssigned;
@@ -15,7 +15,6 @@ use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNotAssignedToUser;
 use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNumberInvalid;
 use Jmj\Parking\Domain\Value\Assignment;
 use Jmj\Parking\Domain\Value\Reservation;
-use Jmj\Parking\Common\BaseAggregate;
 
 abstract class ParkingSlot extends BaseAggregate
 {

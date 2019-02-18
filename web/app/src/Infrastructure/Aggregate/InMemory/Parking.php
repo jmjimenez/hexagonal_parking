@@ -2,6 +2,9 @@
 
 namespace Jmj\Parking\Infrastructure\Aggregate\InMemory;
 
+use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotDescriptionInvalid;
+use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNumberInvalid;
 use Jmj\Parking\Domain\Aggregate\Parking as DomainParking;
 use Jmj\Parking\Domain\Aggregate\ParkingSlot as DomainParkingSlot;
 use Jmj\Parking\Domain\Aggregate\User;
@@ -27,7 +30,12 @@ class Parking extends DomainParking
 
     /**
      * @inheritdoc
-     * @throws \ExceptionGeneratingUuid
+     * @param string $number
+     * @param string $description
+     * @return DomainParkingSlot
+     * @throws ParkingSlotDescriptionInvalid
+     * @throws ParkingSlotNumberInvalid
+     * @throws ExceptionGeneratingUuid
      */
     protected function _createParkingSlot(string $number, string $description) : DomainParkingSlot
     {

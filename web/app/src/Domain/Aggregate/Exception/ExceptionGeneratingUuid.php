@@ -1,8 +1,9 @@
 <?php
 
-namespace Jmj\Parking\Common\Exception;
+namespace Jmj\Parking\Domain\Aggregate\Exception;
 
 use Exception;
+use Throwable;
 
 class ExceptionGeneratingUuid extends Exception
 {

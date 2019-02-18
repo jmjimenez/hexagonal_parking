@@ -6,7 +6,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Jmj\Parking\Common\DateRangeProcessor;
 use Jmj\Parking\Common\DomainEventsRegister;
-use Jmj\Parking\Common\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Common\Exception\InvalidDateRange;
 use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotAlreadyAssigned;
 use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotAlreadyReserved;
@@ -40,6 +40,7 @@ class ParkingSlotTest extends TestCase
 
     /**
      *
+     * @throws ExceptionGeneratingUuid
      */
     protected function setUp()
     {

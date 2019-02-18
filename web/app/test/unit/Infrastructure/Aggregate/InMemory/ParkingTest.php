@@ -4,7 +4,8 @@ namespace Jmj\Test\Unit\Infrastructure\Aggregate\InMemory;
 
 use DateTimeImmutable;
 use DateTimeInterface;
-use Jmj\Parking\Common\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Common\Exception\InvalidDateRange;
+use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Common\DomainEventsRegister;
 use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNotFound;
 use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNumberAlreadyExists;
@@ -823,7 +824,7 @@ class ParkingTest extends TestCase
      * @throws UserNameAlreadyExists
      * @throws UserNameInvalid
      * @throws UserPasswordInvalid
-     * @throws \Jmj\Parking\Common\Exception\InvalidDateRange
+     * @throws InvalidDateRange
      * @throws \Exception
      */
     public function testDelete()

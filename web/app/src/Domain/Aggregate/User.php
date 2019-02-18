@@ -3,8 +3,6 @@
 namespace Jmj\Parking\Domain\Aggregate;
 
 use DateTime;
-use Jmj\Parking\Common\BaseAggregate;
-use Jmj\Parking\Common\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Domain\Aggregate\Exception\UserEmailInvalid;
 use Jmj\Parking\Domain\Aggregate\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Aggregate\Exception\UserPasswordInvalid;
@@ -46,10 +44,10 @@ class User extends BaseAggregate
      * @param string $email
      * @param string $password
      * @param bool $isAdministrator
+     * @throws Exception\ExceptionGeneratingUuid
      * @throws UserEmailInvalid
      * @throws UserNameInvalid
      * @throws UserPasswordInvalid
-     * @throws ExceptionGeneratingUuid
      */
     public function __construct(string $name, string $email, string $password, bool $isAdministrator = false)
     {

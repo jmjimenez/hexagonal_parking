@@ -4,7 +4,7 @@ namespace Jmj\Test\Unit\Infrastructure\Aggregate\InMemory;
 
 use DateTime;
 use Jmj\Parking\Common\DomainEventsRegister;
-use Jmj\Parking\Common\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Domain\Aggregate\Exception\UserEmailInvalid;
 use Jmj\Parking\Domain\Aggregate\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Aggregate\Exception\UserPasswordInvalid;

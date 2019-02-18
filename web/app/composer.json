@@ -1,0 +1,24 @@
+{
+  "require-dev": {
+    "apigen/apigen": "dev-master",
+    "phpmd/phpmd": "@stable",
+    "phpunit/phpunit": "^7.0",
+    "roave/better-reflection": "dev-master#c87d856",
+    "squizlabs/php_codesniffer": "3.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Jmj\\Parking\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jmj\\Test\\": "test/"
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "require": {
+    "ramsey/uuid": "4.x-dev"
+  }
+}

@@ -2,9 +2,9 @@
 
 namespace Jmj\Parking\Infrastructure\Aggregate\InMemory;
 
-use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
-use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotDescriptionInvalid;
-use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNumberInvalid;
+use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Domain\Exception\ParkingSlotDescriptionInvalid;
+use Jmj\Parking\Domain\Exception\ParkingSlotNumberInvalid;
 use Jmj\Parking\Domain\Aggregate\Parking as DomainParking;
 use Jmj\Parking\Domain\Aggregate\ParkingSlot as DomainParkingSlot;
 use Jmj\Parking\Domain\Aggregate\User;

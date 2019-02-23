@@ -2,41 +2,71 @@
 
 namespace Jmj\Parking\Domain\Service\Command;
 
-use DateTime;
-use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNotFound;
+use DateTimeImmutable;
+use Jmj\Parking\Domain\Exception\ParkingException;
+use Jmj\Parking\Domain\Exception\ParkingSlotNotFound;
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
-use Jmj\Parking\Domain\Service\Command\Exception\UserNotAssigned;
+use Jmj\Parking\Domain\Exception\UserNotAssigned;
 
-class ReserveParkingSlotForUserAndPeriod
+class ReserveParkingSlotForUserAndPeriod extends ParkingBaseCommand
 {
+    /** @var Parking */
+    protected $parking;
+
+    /** @var User */
+    protected $user;
+
+    /** @var string */
+    protected $parkingSlotUuid;
+
+    /** @var DateTimeImmutable */
+    protected $fromDate;
+
+    /** @var DateTimeImmutable */
+    protected $toDate;
+
     /**
      * @param Parking $parking
      * @param User $user
-     * @param int $parkingSlotId
-     * @param DateTime $fromDate
-     * @param DateTime $toDate
-     * @return bool
-     * @throws UserNotAssigned
-     * @throws ParkingSlotNotFound
+     * @param string $parkingSlotUuid
+     * @param DateTimeImmutable $fromDate
+     * @param DateTimeImmutable $toDate
+     * @throws ParkingException
      */
     public function execute(
         Parking $parking,
         User $user,
-        int $parkingSlotId,
-        DateTime $fromDate,
-        DateTime $toDate
-    ) : bool {
-        if (!$parking->isUserAssigned($user)) {
+        string $parkingSlotUuid,
+        DateTimeImmutable $fromDate,
+        DateTimeImmutable $toDate
+    ) {
+        $this->parking = $parking;
+        $this->user = $user;
+        $this->parkingSlotUuid = $parkingSlotUuid;
+        $this->fromDate = $fromDate;
+        $this->toDate = $toDate;
+
+        $this->processCatchingDomainEvents();
+    }
+
+    /**
+     * @throws ParkingSlotNotFound
+     * @throws UserNotAssigned
+     * @throws \Exception
+     */
+    protected function process()
+    {
+        if (!$this->parking->isUserAssigned($this->user)) {
             throw new UserNotAssigned('User is not registered in parking');
         }
 
-        $parkingSlot = $parking->getParkingSlotByUuid($parkingSlotId);
+        $parkingSlot = $this->parking->getParkingSlotByUuid($this->parkingSlotUuid);
 
         if (!$parkingSlot) {
             throw new ParkingSlotNotFound('parking slot not found');
         }
 
-        return $parkingSlot->reserveToUserForPeriod($user, $fromDate, $toDate);
+        $parkingSlot->reserveToUserForPeriod($this->user, $this->fromDate, $this->toDate);
     }
 }

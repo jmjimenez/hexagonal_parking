@@ -4,23 +4,46 @@ namespace Jmj\Parking\Domain\Service\Command;
 
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
-use Jmj\Parking\Domain\Service\Command\Exception\NotAuthorizedOperation;
+use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
+use Jmj\Parking\Domain\Exception\ParkingException;
+use Jmj\Parking\Domain\Exception\ParkingSlotNotFound;
 
-class DeleteParkingSlot
+class DeleteParkingSlot extends ParkingBaseCommand
 {
+    /** @var User */
+    protected $loggedInUser;
+
+    /** @var Parking */
+    protected $parking;
+
+    /** @var string */
+    protected $parkingSlotUuid;
+
     /**
      * @param User $loggedInUser
      * @param Parking $parking
-     * @param int $parkingSlotId
-     * @return bool
-     * @throws NotAuthorizedOperation
+     * @param string $parkingSlotUuid
+     * @throws ParkingException
      */
-    public function execute(User $loggedInUser, Parking $parking, int $parkingSlotId) : bool
+    public function execute(User $loggedInUser, Parking $parking, string $parkingSlotUuid)
     {
-        if (!$parking->isAdministeredByUser($loggedInUser)) {
+        $this->loggedInUser = $loggedInUser;
+        $this->parking = $parking;
+        $this->parkingSlotUuid = $parkingSlotUuid;
+
+        $this->processCatchingDomainEvents();
+    }
+
+    /**
+     * @throws NotAuthorizedOperation
+     * @throws ParkingSlotNotFound
+     */
+    protected function process()
+    {
+        if (!$this->parking->isAdministeredByUser($this->loggedInUser)) {
             throw new NotAuthorizedOperation('User cannot do this operation');
         }
 
-        return $parking->deleteParkingSlotByUuid($parkingSlotId);
+        $this->parking->deleteParkingSlotByUuid($this->parkingSlotUuid);
     }
 }

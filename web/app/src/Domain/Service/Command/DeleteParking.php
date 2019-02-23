@@ -4,22 +4,39 @@ namespace Jmj\Parking\Domain\Service\Command;
 
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
-use Jmj\Parking\Domain\Service\Command\Exception\NotAuthorizedOperation;
+use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
+use Jmj\Parking\Domain\Exception\ParkingException;
 
-class DeleteParking
+class DeleteParking extends ParkingBaseCommand
 {
+    /** @var User */
+    protected $loggedInUser;
+
+    /** @var Parking */
+    protected $parking;
+
     /**
      * @param User $loggedInUser
      * @param Parking $parking
-     * @return bool
+     * @throws ParkingException
+     */
+    public function execute(User $loggedInUser, Parking $parking)
+    {
+        $this->loggedInUser = $loggedInUser;
+        $this->parking = $parking;
+
+        $this->processCatchingDomainEvents();
+    }
+
+    /**
      * @throws NotAuthorizedOperation
      */
-    public function execute(User $loggedInUser, Parking $parking) : bool
+    protected function process()
     {
-        if (!$parking->isAdministeredByUser($loggedInUser)) {
+        if (!$this->loggedInUser->isAdministrator()) {
             throw new NotAuthorizedOperation('User cannot do this operation');
         }
 
-        return $parking->delete();
+        $this->parking->delete();
     }
 }

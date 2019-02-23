@@ -4,11 +4,21 @@ namespace Jmj\Parking\Domain\Service\Command;
 
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
-use Jmj\Parking\Domain\Service\Command\Exception\NotAuthorizedOperation;
+use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
+use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Service\Factory\Parking as ParkingFactory;
 
-class CreateParking
+class CreateParking extends ParkingBaseCommand
 {
+    /** @var User */
+    protected $loggedInUser;
+
+    /** @var string */
+    protected $parkingName;
+
+    /** @var Parking */
+    private $parking;
+
     /** @var ParkingFactory  */
     private $parkingFactory;
 
@@ -23,16 +33,31 @@ class CreateParking
 
     /**
      * @param User $loggedInUser
-     * @param string $parkingName
+     * @param string $description
      * @return Parking
+     * @throws ParkingException
+     */
+    public function execute(User $loggedInUser, string $description) : Parking
+    {
+        //TODO: create a parking repository or a parking collection
+
+        $this->loggedInUser = $loggedInUser;
+        $this->parkingName = $description;
+
+        $this->processCatchingDomainEvents();
+
+        return $this->parking;
+    }
+
+    /**
      * @throws NotAuthorizedOperation
      */
-    public function execute(User $loggedInUser, string $parkingName): Parking
+    protected function process()
     {
-        if (!$loggedInUser->isAdministrator()) {
+        if (!$this->loggedInUser->isAdministrator()) {
             throw new NotAuthorizedOperation('User cannot create a new Parking');
         }
 
-        return $this->parkingFactory->create($loggedInUser, $parkingName);
+        $this->parking = $this->parkingFactory->create($this->parkingName);
     }
 }

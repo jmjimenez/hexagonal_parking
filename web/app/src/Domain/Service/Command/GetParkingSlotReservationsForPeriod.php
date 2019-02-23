@@ -2,41 +2,76 @@
 
 namespace Jmj\Parking\Domain\Service\Command;
 
-use DateTime;
-use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNotFound;
+use DateTimeImmutable;
+use Jmj\Parking\Domain\Exception\ParkingException;
+use Jmj\Parking\Domain\Exception\ParkingSlotNotFound;
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
-use Jmj\Parking\Domain\Service\Command\Exception\UserNotAssigned;
+use Jmj\Parking\Domain\Exception\UserNotAssigned;
 
-class GetParkingSlotReservationsForPeriod
+class GetParkingSlotReservationsForPeriod extends ParkingBaseCommand
 {
+    /** @var User */
+    protected $loggedInUser;
+
+    /** @var Parking */
+    protected $parking;
+
+    /** @var string */
+    protected $parkingSlotUuidd;
+
+    /** @var DateTimeImmutable */
+    protected $fromDate;
+
+    /** @var DateTimeImmutable */
+    protected $toDate;
+
+    /** @var array */
+    protected $parkingSlotReservations;
+
     /**
      * @param User $loggedInUser
      * @param Parking $parking
-     * @param int $parkingSlotId
-     * @param DateTime $fromDate
-     * @param DateTime $toDate
+     * @param string $parkingSlotUuid
+     * @param DateTimeImmutable $fromDate
+     * @param DateTimeImmutable $toDate
      * @return array
-     * @throws ParkingSlotNotFound
-     * @throws UserNotAssigned
+     * @throws ParkingException
      */
     public function execute(
         User $loggedInUser,
         Parking $parking,
-        int $parkingSlotId,
-        DateTime $fromDate,
-        DateTime $toDate
-    ) : array
+        string $parkingSlotUuid,
+        DateTimeImmutable $fromDate,
+        DateTimeImmutable $toDate
+    ) : array {
+        $this->loggedInUser = $loggedInUser;
+        $this->parking = $parking;
+        $this->parkingSlotUuidd = $parkingSlotUuid;
+        $this->fromDate = $fromDate;
+        $this->toDate = $toDate;
+
+        $this->processCatchingDomainEvents();
+
+        return $this->parkingSlotReservations;
+    }
+
+    /**
+     * @throws ParkingSlotNotFound
+     * @throws UserNotAssigned
+     */
+    protected function process()
     {
-        if (!$parking->isUserAssigned($loggedInUser)) {
+        if (!$this->parking->isUserAssigned($this->loggedInUser)) {
             throw new UserNotAssigned('User is not registered in parking');
         }
 
-        $parkingSlot = $parking->getParkingSlotByUuid($parkingSlotId);
+        $parkingSlot = $this->parking->getParkingSlotByUuid($this->parkingSlotUuidd);
 
         if (!$parkingSlot) {
             throw new ParkingSlotNotFound('parking slot not found');
         }
-        return $parkingSlot->getReservationsForPeriod($fromDate, $toDate);
+
+        $this->parkingSlotReservations = $parkingSlot->getReservationsForPeriod($this->fromDate, $this->toDate);
     }
 }

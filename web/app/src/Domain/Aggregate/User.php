@@ -3,12 +3,14 @@
 namespace Jmj\Parking\Domain\Aggregate;
 
 use DateTime;
-use Jmj\Parking\Domain\Aggregate\Exception\UserEmailInvalid;
-use Jmj\Parking\Domain\Aggregate\Exception\UserNameInvalid;
-use Jmj\Parking\Domain\Aggregate\Exception\UserPasswordInvalid;
-use Jmj\Parking\Domain\Aggregate\Exception\UserResetPasswordTokenExpired;
-use Jmj\Parking\Domain\Aggregate\Exception\UserResetPasswordTokenInvalid;
-use Jmj\Parking\Domain\Aggregate\Exception\UserResetPasswordTokenTimeoutInvalid;
+use DateTimeImmutable;
+use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Domain\Exception\UserEmailInvalid;
+use Jmj\Parking\Domain\Exception\UserNameInvalid;
+use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
+use Jmj\Parking\Domain\Exception\UserResetPasswordTokenExpired;
+use Jmj\Parking\Domain\Exception\UserResetPasswordTokenInvalid;
+use Jmj\Parking\Domain\Exception\UserResetPasswordTokenTimeoutInvalid;
 
 class User extends BaseAggregate
 {
@@ -44,10 +46,10 @@ class User extends BaseAggregate
      * @param string $email
      * @param string $password
      * @param bool $isAdministrator
-     * @throws Exception\ExceptionGeneratingUuid
      * @throws UserEmailInvalid
      * @throws UserNameInvalid
      * @throws UserPasswordInvalid
+     * @throws ExceptionGeneratingUuid
      */
     public function __construct(string $name, string $email, string $password, bool $isAdministrator = false)
     {
@@ -144,11 +146,11 @@ class User extends BaseAggregate
 
     /**
      * @param string $resetPasswordToken
-     * @param DateTime $resetPasswordTokenTimeout
+     * @param DateTimeImmutable $resetPasswordTokenTimeout
      * @throws UserResetPasswordTokenInvalid
      * @throws UserResetPasswordTokenTimeoutInvalid
      */
-    public function requestResetPassword(string $resetPasswordToken, DateTime $resetPasswordTokenTimeout)
+    public function requestResetPassword(string $resetPasswordToken, DateTimeImmutable $resetPasswordTokenTimeout)
     {
         $this->setResetPasswordToken($resetPasswordToken);
         $this->setResetPasswordTokenTimeout($resetPasswordTokenTimeout);
@@ -198,7 +200,12 @@ class User extends BaseAggregate
      */
     public function getInformation() : array
     {
-        return [];
+        return [
+            'uuid' => $this->uuid(),
+            'name' => $this->name(),
+            'email' => $this->email(),
+            'isAdministrator' => $this->isAdministrator(),
+        ];
     }
 
     /**
@@ -258,11 +265,11 @@ class User extends BaseAggregate
     }
 
     /**
-     * @param DateTime $resetPasswordTokenTimeout
+     * @param DateTimeImmutable $resetPasswordTokenTimeout
      * @throws UserResetPasswordTokenTimeoutInvalid
      * @throws \Exception
      */
-    private function setResetPasswordTokenTimeout(DateTime $resetPasswordTokenTimeout)
+    private function setResetPasswordTokenTimeout(DateTimeImmutable $resetPasswordTokenTimeout)
     {
         if ($resetPasswordTokenTimeout < new DateTime()) {
             throw new UserResetPasswordTokenTimeoutInvalid();

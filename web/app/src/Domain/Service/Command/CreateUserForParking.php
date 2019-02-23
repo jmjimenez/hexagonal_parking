@@ -4,20 +4,50 @@ namespace Jmj\Parking\Domain\Service\Command;
 
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
-use Jmj\Parking\Domain\Service\Command\Exception\NotAuthorizedOperation;
-use Jmj\Parking\Domain\Service\Command\Exception\UserNameAlreadyExists;
-use Jmj\Parking\Infrastructure\Repository\User as UserRepository;
+use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
+use Jmj\Parking\Domain\Exception\ParkingException;
+use Jmj\Parking\Domain\Exception\UserEmailAlreadyExists;
+use Jmj\Parking\Domain\Exception\UserEmailInvalid;
+use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
+use Jmj\Parking\Domain\Exception\UserNameInvalid;
+use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
+use Jmj\Parking\Infrastructure\Repository\InMemory\User as UserRepository;
 use Jmj\Parking\Domain\Service\Factory\User as UserFactory;
 
-class CreateUserForParking
+class CreateUserForParking extends ParkingBaseCommand
 {
+    /** @var User */
+    private $loggedInUser;
+
+    /** @var Parking */
+    private $parking;
+
+    /** @var string */
+    private $userName;
+
+    /** @var string */
+    protected $userEmail;
+
+    /** @var string */
+    protected $userPassword;
+
+    /** @var bool */
+    protected $userIsAdministrator;
+
+    /** @var bool */
+    protected $userIsAdministratorForParking;
+
+    /** @var User */
+    private $user;
+
     /** @var UserRepository  */
     private $userRepository;
 
     /** @var UserFactory */
     private $userFactory;
 
-    public function __construct(User $userRepository, UserFactory $userFactory)
+    public function __construct(UserRepository $userRepository, UserFactory $userFactory)
     {
         $this->userRepository = $userRepository;
         $this->userFactory = $userFactory;
@@ -27,23 +57,68 @@ class CreateUserForParking
      * @param User $loggedInUser
      * @param Parking $parking
      * @param string $userName
-     * @param bool $isAdministrator
+     * @param string $userEmail
+     * @param string $userPassword
+     * @param bool $userIsAdministrator
+     * @param bool $userIsAdministratorForParking
      * @return User
-     * @throws NotAuthorizedOperation
-     * @throws UserNameAlreadyExists
+     * @throws ParkingException
      */
-    public function execute(User $loggedInUser, Parking $parking, string $userName, bool $isAdministrator): User
+    public function execute(
+        User $loggedInUser,
+        Parking $parking,
+        string $userName,
+        string $userEmail,
+        string $userPassword,
+        bool $userIsAdministrator,
+        bool $userIsAdministratorForParking
+    ) : User {
+        $this->loggedInUser = $loggedInUser;
+        $this->parking = $parking;
+        $this->userName = $userName;
+        $this->userEmail = $userEmail;
+        $this->userPassword = $userPassword;
+        $this->userIsAdministrator = $userIsAdministrator;
+        $this->userIsAdministratorForParking = $userIsAdministratorForParking;
+
+        $this->processCatchingDomainEvents();
+
+        return $this->user;
+    }
+
+    /**
+     * @throws ExceptionGeneratingUuid
+     * @throws NotAuthorizedOperation
+     * @throws UserEmailAlreadyExists
+     * @throws UserEmailInvalid
+     * @throws UserNameAlreadyExists
+     * @throws UserNameInvalid
+     * @throws UserPasswordInvalid
+     */
+    protected function process()
     {
-        if (!$parking->isAdministeredByUser($loggedInUser)) {
-            throw new NotAuthorizedOperation('User cannot do this operation');
+        if (!$this->parking->isAdministeredByUser($this->loggedInUser)) {
+            throw new NotAuthorizedOperation();
         }
 
-        if (false !== $this->userRepository->findUserByName($userName)) {
-            throw new UserNameAlreadyExists('user name already exists');
+        if (null != $this->userRepository->findUserByName($this->userName)) {
+            throw new UserNameAlreadyExists();
         }
 
-        $user = $this->userFactory->create($userName);
 
-        return $parking->addUser($user, $isAdministrator);
+        if (null != $this->userRepository->findUserByEmail($this->userEmail)) {
+            throw new UserEmailAlreadyExists();
+        }
+
+        $user = $this->userFactory->create(
+            $this->userName,
+            $this->userEmail,
+            $this->userPassword,
+            $this->userIsAdministrator
+        );
+
+        $this->parking->addUser($user, $this->userIsAdministratorForParking);
+
+        $this->user = $user;
     }
 }

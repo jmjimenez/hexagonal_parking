@@ -2,25 +2,51 @@
 
 namespace Jmj\Parking\Domain\Service\Command;
 
+use Jmj\Parking\Domain\Exception\ParkingException;
+use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
-use Jmj\Parking\Domain\Service\Command\Exception\NotAuthorizedOperation;
+use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 
-class AssignAdministratorRightsToUserForParking
+class AssignAdministratorRightsToUserForParking extends ParkingBaseCommand
 {
+    /** @var User */
+    protected $loggedInUser;
+
+    /** @var User */
+    protected $user;
+
+    /** @var Parking */
+    protected $parking;
+
     /**
      * @param User $loggedInUser
      * @param User $user
      * @param Parking $parking
-     * @return User
-     * @throws NotAuthorizedOperation
+     * @throws ParkingException
      */
-    public function execute(User $loggedInUser, User $user, Parking $parking) : User
+    public function execute(User $loggedInUser, User $user, Parking $parking)
     {
-        if (!$parking->isAdministeredByUser($loggedInUser)) {
+        $this->loggedInUser = $loggedInUser;
+        $this->user = $user;
+        $this->parking = $parking;
+
+        $this->processCatchingDomainEvents();
+
+    }
+
+    /**
+     * @throws NotAuthorizedOperation
+     * @throws UserNameAlreadyExists
+     */
+    protected function process()
+    {
+        //TODO: implement phpunit for wrong paths
+        if (!$this->parking->isAdministeredByUser($this->loggedInUser)) {
             throw new NotAuthorizedOperation('User is not administrator');
         }
 
-        return $parking->addAdministrator($user);
+        $this->parking->addAdministrator($this->user);
+
     }
 }

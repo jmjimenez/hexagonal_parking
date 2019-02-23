@@ -206,7 +206,7 @@ class NormalizeDateMock
      */
     public function testLessThanOrEqual(DateTimeInterface $date1, DateTimeInterface $date2) : bool
     {
-        return $this->lessThanOrEqual($date1, $date2);
+        return $this->dateLessThanOrEqual($date1, $date2);
     }
 
     /**
@@ -216,7 +216,7 @@ class NormalizeDateMock
      */
     public function testGreaterThanOrEqual(DateTimeInterface $date1, DateTimeInterface $date2) : bool
     {
-        return $this->greaterThanOrEqual($date1, $date2);
+        return $this->dateGreaterThanOrEqual($date1, $date2);
     }
 
     /**
@@ -252,6 +252,6 @@ class NormalizeDateMock
 
     public function testInRange(DateTimeInterface $date, DateTimeInterface $fromDate, DateTimeInterface $toDate) : bool
     {
-       return $this->inRange($date, $fromDate, $toDate);
+       return $this->dateInRange($date, $fromDate, $toDate);
     }
 }

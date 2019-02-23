@@ -13,7 +13,7 @@ trait NormalizeDate
      * @param DateTimeInterface $date2
      * @return bool
      */
-    protected function lessThanOrEqual(DateTimeInterface $date1, DateTimeInterface $date2) : bool
+    protected function dateLessThanOrEqual(DateTimeInterface $date1, DateTimeInterface $date2) : bool
     {
         return $this->normalizeDate($date1) <= $this->normalizeDate($date2);
     }
@@ -23,7 +23,7 @@ trait NormalizeDate
      * @param DateTimeInterface $date2
      * @return bool
      */
-    protected function greaterThanOrEqual(DateTimeInterface $date1, DateTimeInterface $date2) : bool
+    protected function dateGreaterThanOrEqual(DateTimeInterface $date1, DateTimeInterface $date2) : bool
     {
         return $this->normalizeDate($date1) >= $this->normalizeDate($date2);
     }
@@ -65,7 +65,7 @@ trait NormalizeDate
      * @param DateTimeInterface $toDate
      * @return bool
      */
-    protected function inRange(DateTimeInterface $date, DateTimeInterface $fromDate, DateTimeInterface $toDate) : bool
+    protected function dateInRange(DateTimeInterface $date, DateTimeInterface $fromDate, DateTimeInterface $toDate) : bool
     {
         return $this->normalizeDate($date) >= $this->normalizeDate($fromDate)
             && $this->normalizeDate($date) <= $this->normalizeDate($toDate);

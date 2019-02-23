@@ -3,7 +3,7 @@
 namespace Jmj\Parking\Domain\Aggregate;
 
 use Exception;
-use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Domain\Service\Event\DomainEventsBroker;
 use Ramsey\Uuid\Uuid;
 

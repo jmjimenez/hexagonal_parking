@@ -6,6 +6,9 @@ use Jmj\Parking\Domain\Service\Event\DomainEventsBroker as DomainEventsBrokerInt
 
 class DomainEventsBroker implements DomainEventsBrokerInterface
 {
+    //TODO: rename this class to SynchronousInMemoryDomainEventsBroker
+    //TODO: move to Infrastructure\Service\Event
+
     private const ALL_EVENTS = '*';
 
     /** @var DomainEventsBroker */

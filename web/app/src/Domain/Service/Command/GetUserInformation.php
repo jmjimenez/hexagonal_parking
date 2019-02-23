@@ -3,22 +3,45 @@
 namespace Jmj\Parking\Domain\Service\Command;
 
 use Jmj\Parking\Domain\Aggregate\User;
-use Jmj\Parking\Domain\Service\Command\Exception\NotAuthorizedOperation;
+use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
+use Jmj\Parking\Domain\Exception\ParkingException;
 
-class GetUserInformation
+class GetUserInformation extends ParkingBaseCommand
 {
+    /** @var User */
+    protected $loggedInUser;
+
+    /** @var User */
+    protected $user;
+
+    /** @var array */
+    protected $userInformation;
+
     /**
      * @param User $loggedInUser
      * @param User $user
      * @return array
-     * @throws NotAuthorizedOperation
+     * @throws ParkingException
      */
     public function execute(User $loggedInUser, User $user): array
     {
-        if (!$loggedInUser->isAdministrator()) {
+        $this->loggedInUser = $loggedInUser;
+        $this->user = $user;
+
+        $this->processCatchingDomainEvents();
+
+        return $this->userInformation;
+    }
+
+    /**
+     * @throws NotAuthorizedOperation
+     */
+    protected function process()
+    {
+        if (!$this->loggedInUser->isAdministrator() && $this->loggedInUser->uuid() != $this->user->uuid()) {
             throw new NotAuthorizedOperation('User does not have rights');
         }
 
-        return $user->getInformation();
+        $this->userInformation = $this->user->getInformation();
     }
 }

@@ -3,22 +3,39 @@
 namespace Jmj\Parking\Domain\Service\Command;
 
 use Jmj\Parking\Domain\Aggregate\User;
-use Jmj\Parking\Domain\Service\Command\Exception\NotAuthorizedOperation;
+use Jmj\Parking\Domain\Exception\ParkingException;
 
-class ResetPasswordForUser
+class ResetPasswordForUser extends ParkingBaseCommand
 {
-    /**
-     * @param User $loggedInUser
-     * @param User $user
-     * @return bool
-     * @throws NotAuthorizedOperation
-     */
-    public function execute(User $loggedInUser, User $user)
-    {
-        if (!$loggedInUser->isAdministrator() && $loggedInUser->uuid() != $user->uuid()) {
-            throw new NotAuthorizedOperation('cannot perform this operation');
-        }
+    /** @var User */
+    protected $user;
 
-        return $user->resetPassword();
+    /** @var string */
+    protected $password;
+
+    /** @var string */
+    protected $passwordToken;
+
+    /**
+     * @param User $user
+     * @param string $password
+     * @param string $passwordToken
+     * @throws ParkingException
+     */
+    public function execute(User $user, string $password, string $passwordToken)
+    {
+        $this->user = $user;
+        $this->password = $password;
+        $this->passwordToken = $passwordToken;
+
+        $this->processCatchingDomainEvents();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    protected function process()
+    {
+        $this->user->resetPassword($this->password, $this->passwordToken);
     }
 }

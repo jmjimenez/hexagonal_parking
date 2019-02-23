@@ -2,32 +2,52 @@
 
 namespace Jmj\Parking\Domain\Service\Command;
 
-
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
-use Jmj\Parking\Domain\Service\Command\Exception\NotAuthorizedOperation;
-use Jmj\Parking\Domain\Service\Command\Exception\UserNotAssigned;
+use Jmj\Parking\Domain\Exception\ParkingException;
+use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
+use Jmj\Parking\Domain\Exception\UserNotAssigned;
 
-class DeassignUserFromParking
+class DeassignUserFromParking extends ParkingBaseCommand
 {
+    /** @var User */
+    protected $loggedInUser;
+
+    /** @var Parking */
+    protected $parking;
+
+    /** @var User */
+    protected $user;
+
     /**
      * @param User $loggedInUser
      * @param Parking $parking
      * @param User $user
-     * @return bool
+     * @throws ParkingException
+     */
+    public function execute(User $loggedInUser, Parking $parking, User $user)
+    {
+        $this->loggedInUser = $loggedInUser;
+        $this->parking = $parking;
+        $this->user = $user;
+
+        $this->processCatchingDomainEvents();
+    }
+
+    /**
      * @throws NotAuthorizedOperation
      * @throws UserNotAssigned
      */
-    public function execute(User $loggedInUser, Parking $parking, User $user) : bool
+    protected function process()
     {
-        if (!$parking->isAdministeredByUser($loggedInUser)) {
+        if (!$this->parking->isAdministeredByUser($this->loggedInUser)) {
             throw new NotAuthorizedOperation('User cannot do this operation');
         }
 
-        if (!$parking->isUserAssigned($user)) {
+        if (!$this->parking->isUserAssigned($this->user)) {
             throw new UserNotAssigned('User is not assigned to this parking');
         }
 
-        return $parking->removeUser($user);
+        $this->parking->removeUser($this->user);
     }
 }

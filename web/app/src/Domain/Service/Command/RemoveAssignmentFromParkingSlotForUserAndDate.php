@@ -2,50 +2,82 @@
 
 namespace Jmj\Parking\Domain\Service\Command;
 
-use DateTime;
-use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNotFound;
+use DateTimeImmutable;
+use Jmj\Parking\Domain\Exception\ParkingException;
+use Jmj\Parking\Domain\Exception\ParkingSlotNotFound;
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\ParkingSlot;
 use Jmj\Parking\Domain\Aggregate\User;
-use Jmj\Parking\Domain\Service\Command\Exception\NotAuthorizedOperation;
-use Jmj\Parking\Domain\Service\Command\Exception\UserNotAssigned;
+use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
+use Jmj\Parking\Domain\Exception\UserNotAssigned;
 
-class RemoveAssignmentFromParkingSlotForUserAndDate
+class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseCommand
 {
+    /** @var User */
+    protected $loggedInUser;
+
+    /** @var Parking */
+    protected $parking;
+
+    /** @var string */
+    protected $parkingSlotUuid;
+
+    /** @var User */
+    protected $user;
+
+    /** @var DateTimeImmutable */
+    protected $fromDate;
+
     /**
      * @param User $loggedInUser
      * @param Parking $parking
-     * @param int $parkingSlotId
+     * @param string $parkingSlotUuid
      * @param User $user
-     * @param DateTime $fromDate
-     * @return bool
-     * @throws NotAuthorizedOperation
-     * @throws ParkingSlotNotFound
-     * @throws UserNotAssigned
+     * @param DateTimeImmutable $fromDate
+     * @return void
+     * @throws ParkingException
      */
     public function execute(
         User $loggedInUser,
         Parking $parking,
-        int $parkingSlotId,
+        string $parkingSlotUuid,
         User $user,
-        DateTime $fromDate
-    ) : bool
+        DateTimeImmutable $fromDate
+    ) {
+        $this->loggedInUser = $loggedInUser;
+        $this->parking = $parking;
+        $this->parkingSlotUuid = $parkingSlotUuid;
+        $this->user = $user;
+        $this->fromDate = $fromDate;
+
+        $this->processCatchingDomainEvents();
+    }
+
+    /**
+     * @throws NotAuthorizedOperation
+     * @throws ParkingSlotNotFound
+     * @throws UserNotAssigned
+     */
+    protected function process()
     {
-        if (!$parking->isAdministeredByUser($loggedInUser) && ($user->uuid() !== $loggedInUser->uuid())) {
+        /** TODO: these checking methods may be in the parent class */
+        if (
+            !$this->parking->isAdministeredByUser($this->loggedInUser)
+            && ($this->user->uuid() !== $this->loggedInUser->uuid())
+        ) {
             throw new NotAuthorizedOperation('Operation not allowed');
         }
 
-        if (!$parking->isUserAssigned($user)) {
+        if (!$this->parking->isUserAssigned($this->user)) {
             throw new UserNotAssigned('User is not assigned to this parking');
         }
 
-        /** @var ParkingSlot $parkingSlot */
-        $parkingSlot = $parking->getParkingSlotByUuid($parkingSlotId);
+        $parkingSlot = $this->parking->getParkingSlotByUuid($this->parkingSlotUuid);
 
         if (!$parkingSlot instanceof ParkingSlot) {
             throw new ParkingSlotNotFound('Parking Slot not found');
         }
 
-        return $parkingSlot->removeAssigment($user, $fromDate);
+        $parkingSlot->removeAssigment($this->user, $this->fromDate);
     }
 }

@@ -37,8 +37,8 @@ class ParkingSlot extends DomainParkingSlot
     protected function _isFreeForUserAndDay(User $user, DateTimeImmutable $date) : bool
     {
         foreach ($this->freeNotifications as $freeNotification) {
-            if ($this->greaterThanOrEqual($date, $freeNotification['fromDate'])
-                && $this->lessThanOrEqual($date, $freeNotification['toDate'])
+            if ($this->dateGreaterThanOrEqual($date, $freeNotification['fromDate'])
+                && $this->dateLessThanOrEqual($date, $freeNotification['toDate'])
                 && $user == $freeNotification['user']
             ) {
                 return true;
@@ -86,8 +86,8 @@ class ParkingSlot extends DomainParkingSlot
             foreach ($this->assignments as $assignment) {
                 /** @noinspection PhpUndefinedMethodInspection */
                 if (
-                    $this->lessThanOrEqual($assignment['fromDate'], $date)
-                    && $this->greaterThanOrEqual($assignment['toDate'], $date)
+                    $this->dateLessThanOrEqual($assignment['fromDate'], $date)
+                    && $this->dateGreaterThanOrEqual($assignment['toDate'], $date)
                 ) {
                     $assignments[] = new Assignment($this, $assignment['user'], $date, $assignment['exclusive']);
                 }
@@ -127,15 +127,15 @@ class ParkingSlot extends DomainParkingSlot
             }
 
             if (
-                $this->greaterThanOrEqual($assignment['fromDate'], $date)
-                && $this->greaterThanOrEqual($assignment['toDate'], $date)
+                $this->dateGreaterThanOrEqual($assignment['fromDate'], $date)
+                && $this->dateGreaterThanOrEqual($assignment['toDate'], $date)
             ) {
                 unset($this->assignments[$index]);
             }
 
             if (
-                $this->lessThanOrEqual($assignment['fromDate'], $date)
-                && $this->greaterThanOrEqual($assignment['toDate'], $date)
+                $this->dateLessThanOrEqual($assignment['fromDate'], $date)
+                && $this->dateGreaterThanOrEqual($assignment['toDate'], $date)
             ) {
                 $this->assignments[$index]['toDate'] = $this->decrementDate($date, 1);
             }
@@ -179,8 +179,8 @@ class ParkingSlot extends DomainParkingSlot
         $dateRangeProcessor->process($fromDate, $toDate, function ($date) use (&$reservations) {
             foreach ($this->reservations as $reservation) {
                 if (
-                    $this->lessThanOrEqual($reservation['fromDate'], $date)
-                    && $this->greaterThanOrEqual($reservation['toDate'],  $date)
+                    $this->dateLessThanOrEqual($reservation['fromDate'], $date)
+                    && $this->dateGreaterThanOrEqual($reservation['toDate'],  $date)
                 ) {
                     $reservations[] = new Reservation($this, $reservation['user'], $date);
                 }

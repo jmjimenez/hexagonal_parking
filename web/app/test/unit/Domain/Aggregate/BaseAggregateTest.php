@@ -4,7 +4,7 @@ namespace Jmj\Test\Unit\Domain\Aggregate;
 
 use Jmj\Parking\Domain\Aggregate\BaseAggregate;
 use Jmj\Parking\Infrastructure\Aggregate\Event\DomainEventsBroker;
-use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
 use PHPUnit\Framework\TestCase;
 
 class BaseAggregateTest extends TestCase

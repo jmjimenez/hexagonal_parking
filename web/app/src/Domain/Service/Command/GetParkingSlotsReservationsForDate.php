@@ -2,26 +2,55 @@
 
 namespace Jmj\Parking\Domain\Service\Command;
 
-use DateTime;
+use DateTimeImmutable;
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
-use Jmj\Parking\Domain\Service\Command\Exception\UserNotAssigned;
+use Jmj\Parking\Domain\Exception\ParkingException;
+use Jmj\Parking\Domain\Exception\ParkingSlotReservationsForDateIncorrect;
+use Jmj\Parking\Domain\Exception\UserNotAssigned;
 
-class GetParkingSlotsReservationsForDate
+class GetParkingSlotsReservationsForDate extends ParkingBaseCommand
 {
+    /** @var User */
+    protected $loggedInUser;
+
+    /** @var Parking */
+    protected $parking;
+
+    /** @var DateTimeImmutable */
+    protected $date;
+
+    /** @var array */
+    protected $parkingSlotReservations;
+
     /**
      * @param User $loggedInUser
      * @param Parking $parking
-     * @param DateTime $date
+     * @param DateTimeImmutable $date
      * @return array
-     * @throws UserNotAssigned
+     * @throws ParkingException
      */
-    public function execute(User $loggedInUser, Parking $parking, DateTime $date) : array
+    public function execute(User $loggedInUser, Parking $parking, DateTimeImmutable $date) : array
     {
-        if (!$parking->isUserAssigned($loggedInUser)) {
+        $this->loggedInUser = $loggedInUser;
+        $this->parking = $parking;
+        $this->date = $date;
+
+        $this->processCatchingDomainEvents();
+
+        return $this->parkingSlotReservations;
+    }
+
+    /**
+     * @throws UserNotAssigned
+     * @throws ParkingSlotReservationsForDateIncorrect
+     */
+    protected function process()
+    {
+        if (!$this->parking->isUserAssigned($this->loggedInUser)) {
             throw new UserNotAssigned('User is not registered in parking');
         }
 
-        return $parking->getParkingSlotsReservationsForDate($date);
+        $this->parkingSlotReservations = $this->parking->getParkingSlotsReservationsForDate($this->date);
     }
 }

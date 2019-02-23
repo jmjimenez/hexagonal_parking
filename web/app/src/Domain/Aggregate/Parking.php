@@ -5,12 +5,13 @@ namespace Jmj\Parking\Domain\Aggregate;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Jmj\Parking\Common\DateRangeProcessor;
-use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
-use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNotFound;
-use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNumberAlreadyExists;
-use Jmj\Parking\Domain\Aggregate\Exception\UserIsNotAdministrator;
-use Jmj\Parking\Domain\Aggregate\Exception\UserNameAlreadyExists;
-use Jmj\Parking\Domain\Aggregate\Exception\UserNotAssigned;
+use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Domain\Exception\ParkingSlotNotFound;
+use Jmj\Parking\Domain\Exception\ParkingSlotNumberAlreadyExists;
+use Jmj\Parking\Domain\Exception\ParkingSlotReservationsForDateIncorrect;
+use Jmj\Parking\Domain\Exception\UserIsNotAdministrator;
+use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
+use Jmj\Parking\Domain\Exception\UserNotAssigned;
 use Jmj\Parking\Domain\Value\Assignment;
 use Jmj\Parking\Domain\Value\Reservation;
 
@@ -329,11 +330,9 @@ abstract class Parking extends BaseAggregate
             $reservations = $this->getParkingSlotsReservationsForDate($date);
 
             /** @var Reservation $reservation */
-            foreach ($reservations as $parkingSlotReservations) {
-                foreach ($parkingSlotReservations as $reservation) {
-                    if ($reservation->user()->uuid() == $user->uuid()) {
-                        $userInformation['reservations'][] = $reservation;
-                    }
+            foreach ($reservations as $reservation) {
+                if ($reservation->user()->uuid() == $user->uuid()) {
+                    $userInformation['reservations'][] = $reservation;
                 }
             }
 
@@ -356,13 +355,22 @@ abstract class Parking extends BaseAggregate
     /**
      * @param DateTimeImmutable $date
      * @return array
+     * @throws ParkingSlotReservationsForDateIncorrect
      */
     public function getParkingSlotsReservationsForDate(DateTimeImmutable $date) : array
     {
         $parkingReservations = [];
 
         foreach ($this->_getParkingSlots() as $parkingSlot) {
-            $parkingReservations[$parkingSlot->number()] = $parkingSlot->getReservationsForPeriod($date, $date);
+            $parkingSlotReservations = $parkingSlot->getReservationsForPeriod($date, $date);
+
+            if (count($parkingSlotReservations) > 1) {
+                throw new ParkingSlotReservationsForDateIncorrect();
+            }
+
+            if (count($parkingSlotReservations) == 1) {
+                $parkingReservations[$parkingSlot->number()] = $parkingSlotReservations[0];
+            }
         }
 
         return $parkingReservations;

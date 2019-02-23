@@ -5,14 +5,14 @@ namespace Jmj\Parking\Domain\Aggregate;
 use DateTimeImmutable;
 use Exception;
 use Jmj\Parking\Common\DateRangeProcessor;
-use Jmj\Parking\Domain\Aggregate\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Common\Exception\InvalidDateRange;
 use Jmj\Parking\Common\NormalizeDate;
-use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotAlreadyAssigned;
-use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotAlreadyReserved;
-use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotDescriptionInvalid;
-use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNotAssignedToUser;
-use Jmj\Parking\Domain\Aggregate\Exception\ParkingSlotNumberInvalid;
+use Jmj\Parking\Domain\Exception\ParkingSlotAlreadyAssigned;
+use Jmj\Parking\Domain\Exception\ParkingSlotAlreadyReserved;
+use Jmj\Parking\Domain\Exception\ParkingSlotDescriptionInvalid;
+use Jmj\Parking\Domain\Exception\ParkingSlotNotAssignedToUser;
+use Jmj\Parking\Domain\Exception\ParkingSlotNumberInvalid;
 use Jmj\Parking\Domain\Value\Assignment;
 use Jmj\Parking\Domain\Value\Reservation;
 
@@ -325,6 +325,7 @@ abstract class ParkingSlot extends BaseAggregate
      */
     public function delete()
     {
+        //TODO: it would be nice to remove all assigments and reservations this way users will be updated
         $this->_delete();
 
         $this->publishEvent(self::EVENT_PARKING_SLOT_DELETED);
@@ -338,7 +339,8 @@ abstract class ParkingSlot extends BaseAggregate
         $this->_removeReservationsForUser($user);
         $this->_removeAssignmensForUser($user);
         $this->_removeFreeNotificationsForUser($user);
-        
+
+        //TODO: this event should only be triggered if the user has been really removed from parking slot
         $this->publishEvent(self::EVENT_USER_REMOVED_FROM_PARKING_SLOT, $user);
     }
 

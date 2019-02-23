@@ -2,8 +2,8 @@
 
 namespace Jmj\Test\Unit\Infrastructure\Aggregate\Event;
 
-use Jmj\Parking\Infrastructure\Aggregate\Event\DomainEventsBroker;
-use Jmj\Parking\Infrastructure\Aggregate\Event\DomainEventsRegister;
+use Jmj\Test\Unit\Common\DomainEventsRegister;
+use Jmj\Parking\Infrastructure\Service\Event\InMemory\SynchronousEventsBroker;
 use PHPUnit\Framework\TestCase;
 
 class DomainEventsRegisterTest extends TestCase
@@ -12,7 +12,7 @@ class DomainEventsRegisterTest extends TestCase
 
     public function testStartRecordingEvents()
     {
-        $domainBroker = DomainEventsBroker::getInstance();
+        $domainBroker = SynchronousEventsBroker::getInstance();
         $domainBroker->resetSubscriptions();
 
         $objectA = new DomainEventsTestA();
@@ -41,7 +41,7 @@ class DomainEventsTestA
 
     public function publishEvent()
     {
-        $domainBroker = DomainEventsBroker::getInstance();
+        $domainBroker = SynchronousEventsBroker::getInstance();
 
         $domainBroker->publishEvent(get_class($this), self::EVENT_TEST_A, $this);
     }
@@ -53,7 +53,7 @@ class DomainEventsTestB
 
     public function publishEvent()
     {
-        $domainBroker = DomainEventsBroker::getInstance();
+        $domainBroker = SynchronousEventsBroker::getInstance();
 
         $domainBroker->publishEvent(get_class($this), self::EVENT_TEST_B, $this);
     }

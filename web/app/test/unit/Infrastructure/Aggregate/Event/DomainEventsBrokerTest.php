@@ -2,12 +2,12 @@
 
 namespace Jmj\Test\Unit\Infrastructure\Aggregate\Event;
 
-use Jmj\Parking\Infrastructure\Aggregate\Event\DomainEventsBroker;
+use Jmj\Parking\Infrastructure\Service\Event\InMemory\SynchronousEventsBroker;
 use PHPUnit\Framework\TestCase;
 
 class DomainEventsBrokerTest extends TestCase
 {
-    /** @var DomainEventsBroker */
+    /** @var SynchronousEventsBroker */
     private $domainEventsBroker;
 
     /** @var array */
@@ -17,7 +17,7 @@ class DomainEventsBrokerTest extends TestCase
     {
         parent::setUp();
 
-        $this->domainEventsBroker = DomainEventsBroker::getInstance();
+        $this->domainEventsBroker = SynchronousEventsBroker::getInstance();
     }
 
     /**
@@ -25,7 +25,7 @@ class DomainEventsBrokerTest extends TestCase
      */
     public function testGetInstance()
     {
-        $secondInstance = DomainEventsBroker::getInstance();
+        $secondInstance = SynchronousEventsBroker::getInstance();
 
         $this->assertEquals($this->domainEventsBroker, $secondInstance);
     }

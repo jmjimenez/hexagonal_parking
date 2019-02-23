@@ -1,17 +1,14 @@
 <?php
 
-namespace Jmj\Parking\Infrastructure\Aggregate\Event;
+namespace Jmj\Parking\Infrastructure\Service\Event\InMemory;
 
 use Jmj\Parking\Domain\Service\Event\DomainEventsBroker as DomainEventsBrokerInterface;
 
-class DomainEventsBroker implements DomainEventsBrokerInterface
+class SynchronousEventsBroker implements DomainEventsBrokerInterface
 {
-    //TODO: rename this class to SynchronousInMemoryDomainEventsBroker
-    //TODO: move to Infrastructure\Service\Event
-
     private const ALL_EVENTS = '*';
 
-    /** @var DomainEventsBroker */
+    /** @var SynchronousEventsBroker */
     protected static $singleton = null;
 
     /** @var callable[] */

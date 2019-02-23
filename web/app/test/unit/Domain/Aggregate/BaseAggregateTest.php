@@ -3,8 +3,8 @@
 namespace Jmj\Test\Unit\Domain\Aggregate;
 
 use Jmj\Parking\Domain\Aggregate\BaseAggregate;
-use Jmj\Parking\Infrastructure\Aggregate\Event\DomainEventsBroker;
 use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Infrastructure\Service\Event\InMemory\SynchronousEventsBroker;
 use PHPUnit\Framework\TestCase;
 
 class BaseAggregateTest extends TestCase
@@ -13,7 +13,7 @@ class BaseAggregateTest extends TestCase
     {
         parent::setUp();
 
-        BaseAggregate::setDomainEventBroker(DomainEventsBroker::getInstance());
+        BaseAggregate::setDomainEventBroker(SynchronousEventsBroker::getInstance());
     }
 
     /**
@@ -52,7 +52,7 @@ class BaseAggregateTest extends TestCase
         $baseAggregateMock = new BaseAggregateMock();
         $testPayload = [ 1, 2, 3 ];
 
-        $eventBroker = DomainEventsBroker::getInstance();
+        $eventBroker = SynchronousEventsBroker::getInstance();
 
         $eventBroker->resetSubscriptions();
 

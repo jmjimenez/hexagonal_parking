@@ -12,9 +12,9 @@ use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
 use Jmj\Parking\Domain\Service\Command\CreateUserForParking;
-use Jmj\Parking\Infrastructure\Aggregate\Event\DomainEventsRegister;
 use Jmj\Parking\Infrastructure\Repository\InMemory\User as InMemoryUserRepository;
 use Jmj\Parking\Infrastructure\Service\Factory\InMemory\User as InMemoryUserFactory;
+use Jmj\Test\Unit\Common\DomainEventsRegister;
 use PHPUnit\Framework\TestCase;
 
 class CreateUserForParkingTest extends TestCase

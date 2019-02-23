@@ -1,8 +1,9 @@
 <?php
 
-namespace Jmj\Parking\Infrastructure\Aggregate\Event;
+namespace Jmj\Test\Unit\Common;
 
 use Jmj\Parking\Domain\Service\Event\DomainEventsBroker as DomainEventsBrokerInterface;
+use Jmj\Parking\Infrastructure\Service\Event\InMemory\SynchronousEventsBroker;
 
 trait DomainEventsRegister
 {
@@ -19,11 +20,11 @@ trait DomainEventsRegister
     private $recordedPayloads = [];
 
     /**
-     * @return DomainEventsBroker
+     * @return SynchronousEventsBroker
      */
     private function getEventBroker() : DomainEventsBrokerInterface
     {
-        return DomainEventsBroker::getInstance();
+        return SynchronousEventsBroker::getInstance();
     }
 
     /**

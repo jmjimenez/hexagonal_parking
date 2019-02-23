@@ -11,10 +11,10 @@ use Jmj\Parking\Domain\Exception\UserEmailInvalid;
 use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
-use Jmj\Parking\Infrastructure\Aggregate\Event\DomainEventsBroker;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\Parking;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\ParkingSlot;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\User;
+use Jmj\Parking\Infrastructure\Service\Event\InMemory\SynchronousEventsBroker;
 
 trait DataSamplesGenerator
 {
@@ -106,7 +106,7 @@ trait DataSamplesGenerator
      */
     private function configureDomainEventsBroker()
     {
-        $domainEventBroker = DomainEventsBroker::getInstance();
+        $domainEventBroker = SynchronousEventsBroker::getInstance();
         BaseAggregate::setDomainEventBroker($domainEventBroker);
         $domainEventBroker->resetSubscriptions();
     }

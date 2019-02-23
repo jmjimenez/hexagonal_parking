@@ -12,7 +12,7 @@ use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
 use Jmj\Parking\Domain\Service\Command\DeassignUserFromParking;
-use Jmj\Parking\Infrastructure\Aggregate\Event\DomainEventsRegister;
+use Jmj\Test\Unit\Common\DomainEventsRegister;
 use PHPUnit\Framework\TestCase;
 
 class DeassignUserFromParkingTest extends TestCase

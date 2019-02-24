@@ -46,7 +46,7 @@ class ReserveParkingSlotForUserAndPeriodTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new ReserveParkingSlotForUserAndPeriod();
+        $command = new ReserveParkingSlotForUserAndPeriod($this->parkingRepository);
         $command->execute(
             $this->parking,
             $this->loggedInUser,
@@ -57,16 +57,19 @@ class ReserveParkingSlotForUserAndPeriodTest extends TestCase
 
         $this->assertEquals([ ParkingSlot::EVENT_PARKING_SLOT_RESERVED ], $this->recordedEventNames);
 
+        $parking = $this->parkingRepository->findByUuid($this->parking->uuid());
+        $parkingSlot = $parking->getParkingSlotByUuid($this->parkingSlotOne->uuid());
+
         $dateProcessor = new DateRangeProcessor();
 
         $dateProcessor->process(
             $checkFromDate,
             $checkToDate,
-            function(DateTimeImmutable $date) use ($checkFromDate, $checkToDate, $reserveFromDate, $reserveToDate) {
+            function(DateTimeImmutable $date) use ($parkingSlot, $checkFromDate, $checkToDate, $reserveFromDate, $reserveToDate) {
                 if ($this->dateInRange($date, $reserveFromDate, $reserveToDate)) {
-                    $this->assertFalse($this->parkingSlotOne->isFreeForDate($date));
+                    $this->assertFalse($parkingSlot->isFreeForDate($date));
                 } else{
-                    $this->assertTrue($this->parkingSlotOne->isFreeForDate($date));
+                    $this->assertTrue($parkingSlot->isFreeForDate($date));
                 }
             }
         );

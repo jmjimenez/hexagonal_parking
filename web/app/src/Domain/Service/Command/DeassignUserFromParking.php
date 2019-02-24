@@ -7,6 +7,7 @@ use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
+use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class DeassignUserFromParking extends ParkingBaseCommand
 {
@@ -18,6 +19,14 @@ class DeassignUserFromParking extends ParkingBaseCommand
 
     /** @var User */
     protected $user;
+
+    /** @var ParkingRepositoryInterface  */
+    protected $parkingRepository;
+
+    public function __construct(ParkingRepositoryInterface $parkingRepository)
+    {
+        $this->parkingRepository = $parkingRepository;
+    }
 
     /**
      * @param User $loggedInUser
@@ -49,5 +58,7 @@ class DeassignUserFromParking extends ParkingBaseCommand
         }
 
         $this->parking->removeUser($this->user);
+
+        $this->parkingRepository->save($this->parking);
     }
 }

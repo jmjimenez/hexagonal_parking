@@ -7,6 +7,7 @@ use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
+use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class AssignAdministratorRightsToUserForParking extends ParkingBaseCommand
 {
@@ -18,6 +19,14 @@ class AssignAdministratorRightsToUserForParking extends ParkingBaseCommand
 
     /** @var Parking */
     protected $parking;
+
+    /** @var ParkingRepositoryInterface  */
+    protected $parkingRepository;
+
+    public function __construct(ParkingRepositoryInterface $parkingRepository)
+    {
+        $this->parkingRepository = $parkingRepository;
+    }
 
     /**
      * @param User $loggedInUser
@@ -48,5 +57,7 @@ class AssignAdministratorRightsToUserForParking extends ParkingBaseCommand
 
         $this->parking->addAdministrator($this->user);
 
+        $this->parkingRepository->save($this->parking);
     }
 }
+

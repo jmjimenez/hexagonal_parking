@@ -9,6 +9,7 @@ use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
+use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class FreeAssignedParkingSlotForUserAndPeriod extends ParkingBaseCommand
 {
@@ -29,6 +30,14 @@ class FreeAssignedParkingSlotForUserAndPeriod extends ParkingBaseCommand
 
     /** @var DateTimeImmutable */
     protected $toDate;
+
+    /** @var ParkingRepositoryInterface  */
+    protected $parkingRepository;
+
+    public function __construct(ParkingRepositoryInterface $parkingRepository)
+    {
+        $this->parkingRepository = $parkingRepository;
+    }
 
     /**
      * @param User $loggedInUser
@@ -83,5 +92,7 @@ class FreeAssignedParkingSlotForUserAndPeriod extends ParkingBaseCommand
         }
 
         $parkingSlot->markAsFreeFromUserAndPeriod($this->user, $this->fromDate, $this->toDate);
+
+        $this->parkingRepository->save($this->parking);
     }
 }

@@ -46,7 +46,7 @@ class RemoveAssignmentFromParkingSlotForUserAndDateTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new RemoveAssignmentFromParkingSlotForUserAndDate();
+        $command = new RemoveAssignmentFromParkingSlotForUserAndDate($this->parkingRepository);
         $command->execute(
             $this->loggedInUser,
             $this->parking,
@@ -57,16 +57,19 @@ class RemoveAssignmentFromParkingSlotForUserAndDateTest extends TestCase
 
         $this->assertEquals([ ParkingSlot::EVENT_PARKING_SLOT_ASSIGNMENT_REMOVED ], $this->recordedEventNames);
 
+        $parking = $this->parkingRepository->findByUuid($this->parking->uuid());
+        $parkingSlot = $parking->getParkingSlotByUuid($this->parkingSlotOne->uuid());
+
         $dateProcessor = new DateRangeProcessor();
 
         $dateProcessor->process(
             $assignFromDate,
             $assignToDate,
-            function(DateTimeImmutable $date) use ($assignFromDate, $assignToDate, $removeAssigmentFromDate) {
+            function(DateTimeImmutable $date) use ($parkingSlot, $assignFromDate, $assignToDate, $removeAssigmentFromDate) {
                 if ($this->dateInRange($date, $assignFromDate, $this->decrementDate($removeAssigmentFromDate, 1))) {
-                    $this->assertFalse($this->parkingSlotOne->isFreeForDate($date));
+                    $this->assertFalse($parkingSlot->isFreeForDate($date));
                 } else{
-                    $this->assertTrue($this->parkingSlotOne->isFreeForDate($date));
+                    $this->assertTrue($parkingSlot->isFreeForDate($date));
                 }
             }
         );

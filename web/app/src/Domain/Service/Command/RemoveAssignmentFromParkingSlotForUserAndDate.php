@@ -10,6 +10,7 @@ use Jmj\Parking\Domain\Aggregate\ParkingSlot;
 use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
+use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseCommand
 {
@@ -27,6 +28,14 @@ class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseCommand
 
     /** @var DateTimeImmutable */
     protected $fromDate;
+
+    /** @var ParkingRepositoryInterface  */
+    protected $parkingRepository;
+
+    public function __construct(ParkingRepositoryInterface $parkingRepository)
+    {
+        $this->parkingRepository = $parkingRepository;
+    }
 
     /**
      * @param User $loggedInUser
@@ -60,7 +69,7 @@ class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseCommand
      */
     protected function process()
     {
-        /** TODO: these checking methods may be in the parent class */
+        /** TODO: perhaps these checking methods should be in the parent class */
         if (
             !$this->parking->isAdministeredByUser($this->loggedInUser)
             && ($this->user->uuid() !== $this->loggedInUser->uuid())
@@ -79,5 +88,7 @@ class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseCommand
         }
 
         $parkingSlot->removeAssigment($this->user, $this->fromDate);
+
+        $this->parkingRepository->save($this->parking);
     }
 }

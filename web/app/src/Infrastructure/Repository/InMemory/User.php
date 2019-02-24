@@ -13,7 +13,7 @@ class User implements DomainUserRepository
     /**
      * @inheritdoc
      */
-    public function findByUuid(int $uuid) : ?DomainUser
+    public function findByUuid(string $uuid) : ?DomainUser
     {
         foreach ($this->users as $user) {
             if ($user->uuid() === $uuid) {
@@ -27,7 +27,7 @@ class User implements DomainUserRepository
     /**
      * @inheritdoc
      */
-    public function findUserByName(string $name) : ?DomainUser
+    public function findByName(string $name) : ?DomainUser
     {
         foreach ($this->users as $user) {
             if ($user->name() === $name) {
@@ -41,7 +41,7 @@ class User implements DomainUserRepository
     /**
      * @inheritdoc
      */
-    public function findUserByEmail(string $email) : ?DomainUser
+    public function findByEmail(string $email) : ?DomainUser
     {
         foreach ($this->users as $user) {
             if ($user->email() === $email) {
@@ -50,5 +50,13 @@ class User implements DomainUserRepository
         }
 
         return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function save(DomainUser $user)
+    {
+        $this->users[$user->uuid()] = $user;
     }
 }

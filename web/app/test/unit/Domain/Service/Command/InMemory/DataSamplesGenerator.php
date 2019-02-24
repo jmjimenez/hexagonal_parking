@@ -11,9 +11,13 @@ use Jmj\Parking\Domain\Exception\UserEmailInvalid;
 use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
+use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
+use Jmj\Parking\Domain\Repository\User as UserRepositoryInterface;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\Parking;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\ParkingSlot;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\User;
+use Jmj\Parking\Infrastructure\Repository\InMemory\Parking as InMemoryParkingRepository;
+use Jmj\Parking\Infrastructure\Repository\InMemory\User as InMemoryUserRepository;
 use Jmj\Parking\Infrastructure\Service\Event\InMemory\SynchronousEventsBroker;
 
 trait DataSamplesGenerator
@@ -36,6 +40,12 @@ trait DataSamplesGenerator
     /** @var ParkingSlot */
     private $parkingSlotTwo;
 
+    /** @var ParkingRepositoryInterface */
+    private $parkingRepository;
+
+    /** @var UserRepositoryInterface */
+    private $userRepository;
+
     /**
      * @throws ExceptionGeneratingUuid
      * @throws UserEmailInvalid
@@ -46,6 +56,9 @@ trait DataSamplesGenerator
      */
     private function createTestCase()
     {
+        $this->parkingRepository = new InMemoryParkingRepository();
+        $this->userRepository = new InMemoryUserRepository();
+
         $this->parking = $this->createParking('Parking Test');
 
         $this->loggedInUser = $this->createUser('useradministrator', true);
@@ -125,7 +138,10 @@ trait DataSamplesGenerator
         $userEmail = sprintf('%s@test.com', $userName);
         $password = sprintf('%spassword', $userName);
 
-        return new User($userName, $userEmail, $password, $isAdministrator);
+        $user = new User($userName, $userEmail, $password, $isAdministrator);
+        $this->userRepository->save($user);
+
+        return $user;
     }
 
     /**
@@ -135,6 +151,9 @@ trait DataSamplesGenerator
      */
     private function createParking(string $description): Parking
     {
-        return new Parking($description);
+        $parking = new Parking($description);
+        $this->parkingRepository->save($parking);
+
+        return $parking;
     }
 }

@@ -39,7 +39,7 @@ class UpdateParkingSlotInformationTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new UpdateParkingSlotInformation();
+        $command = new UpdateParkingSlotInformation($this->parkingRepository);
         $command->execute(
             $this->loggedInUser,
             $this->parking,
@@ -50,8 +50,11 @@ class UpdateParkingSlotInformationTest extends TestCase
 
         $this->assertEquals([ ParkingSlot::EVENT_PARKING_SLOT_INFORMATION_UPDATED ], $this->recordedEventNames);
 
-        $this->assertEquals($number, $this->parkingSlotOne->number());
-        $this->assertEquals($description, $this->parkingSlotOne->description());
+        $parking = $this->parkingRepository->findByUuid($this->parking->uuid());
+        $parkingSlot = $parking->getParkingSlotByUuid($this->parkingSlotOne->uuid());
+
+        $this->assertEquals($number, $parkingSlot->number());
+        $this->assertEquals($description, $parkingSlot->description());
     }
 }
 

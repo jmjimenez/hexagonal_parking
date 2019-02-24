@@ -32,17 +32,22 @@ class DeleteParkingSlotTest extends TestCase
     public function testExecute()
     {
         $this->createTestCase();
+        $parkingSlotUuid = $this->parkingSlotOne->uuid();
 
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new DeleteParkingSlot();
-        $command->execute($this->loggedInUser, $this->parking, $this->parkingSlotOne->uuid());
+        $command = new DeleteParkingSlot($this->parkingRepository);
+        $command->execute($this->loggedInUser, $this->parking, $parkingSlotUuid);
 
         $this->assertEquals(
             [ ParkingSlot::EVENT_PARKING_SLOT_DELETED, Parking::EVENT_PARKING_SLOT_DELETED_FROM_PARKING ],
             $this->recordedEventNames
         );
+
+        $parking = $this->parkingRepository->findByUuid($this->parking->uuid());
+        $parkingSlot = $parking->getParkingSlotByUuid($parkingSlotUuid);
+        $this->assertNull($parkingSlot);
     }
 }
 

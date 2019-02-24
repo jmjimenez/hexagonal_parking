@@ -12,7 +12,7 @@ use Jmj\Parking\Domain\Exception\UserEmailInvalid;
 use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
-use Jmj\Parking\Infrastructure\Repository\InMemory\User as UserRepository;
+use Jmj\Parking\Domain\Repository\User as UserRepositoryInterface;
 use Jmj\Parking\Domain\Service\Factory\User as UserFactory;
 
 class CreateUserForParking extends ParkingBaseCommand
@@ -41,13 +41,18 @@ class CreateUserForParking extends ParkingBaseCommand
     /** @var User */
     private $user;
 
-    /** @var UserRepository  */
+    /** @var UserRepositoryInterface  */
     private $userRepository;
 
     /** @var UserFactory */
     private $userFactory;
 
-    public function __construct(UserRepository $userRepository, UserFactory $userFactory)
+    /**
+     * CreateUserForParking constructor.
+     * @param UserRepositoryInterface $userRepository
+     * @param UserFactory $userFactory
+     */
+    public function __construct(UserRepositoryInterface $userRepository, UserFactory $userFactory)
     {
         $this->userRepository = $userRepository;
         $this->userFactory = $userFactory;
@@ -101,12 +106,12 @@ class CreateUserForParking extends ParkingBaseCommand
             throw new NotAuthorizedOperation();
         }
 
-        if (null != $this->userRepository->findUserByName($this->userName)) {
+        if (null != $this->userRepository->findByName($this->userName)) {
             throw new UserNameAlreadyExists();
         }
 
 
-        if (null != $this->userRepository->findUserByEmail($this->userEmail)) {
+        if (null != $this->userRepository->findByEmail($this->userEmail)) {
             throw new UserEmailAlreadyExists();
         }
 
@@ -116,6 +121,8 @@ class CreateUserForParking extends ParkingBaseCommand
             $this->userPassword,
             $this->userIsAdministrator
         );
+
+        $this->userRepository->save($user);
 
         $this->parking->addUser($user, $this->userIsAdministratorForParking);
 

@@ -43,7 +43,7 @@ class AssignParkingSlotToUserForPeriodTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new AssignParkingSlotToUserForPeriod();
+        $command = new AssignParkingSlotToUserForPeriod($this->parkingRepository);
         $command->execute(
             $this->loggedInUser,
             $this->userOne,
@@ -54,15 +54,18 @@ class AssignParkingSlotToUserForPeriodTest extends TestCase
             $exclusive
         );
 
-        foreach ($this->parkingSlotOne->getAssignmentsForPeriod($fromDate, $toDate) as $assignment) {
+        $this->assertEquals([ ParkingSlot::EVENT_PARKING_SLOT_ASSIGNED ], $this->recordedEventNames);
+
+        $parking = $this->parkingRepository->findByUuid($this->parking->uuid());
+        $parkingSlot = $parking->getParkingSlotByUuid($this->parkingSlotOne->uuid());
+
+        foreach ($parkingSlot->getAssignmentsForPeriod($fromDate, $toDate) as $assignment) {
             $this->assertEquals($this->userOne, $assignment->user());
             $this->assertEquals($this->parkingSlotOne, $assignment->ParkingSlot());
             $this->assertEquals($exclusive, $assignment->isExclusive());
             $this->assertLessThanOrEqual($assignment->date()->format('Ymd'), $fromDate->format('Ymd'));
             $this->assertGreaterThanOrEqual($assignment->date()->format('Ymd'), $toDate->format('Ymd'));
         }
-
-        $this->assertEquals([ ParkingSlot::EVENT_PARKING_SLOT_ASSIGNED ], $this->recordedEventNames);
     }
 }
 

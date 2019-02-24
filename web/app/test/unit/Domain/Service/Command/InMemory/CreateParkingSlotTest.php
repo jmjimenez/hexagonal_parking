@@ -11,43 +11,47 @@ use Jmj\Parking\Domain\Exception\UserEmailInvalid;
 use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
-use Jmj\Parking\Domain\Service\Command\DeassignUserFromParking;
+use Jmj\Parking\Domain\Service\Command\CreateParkingSlot;
 use Jmj\Test\Unit\Common\DomainEventsRegister;
 use PHPUnit\Framework\TestCase;
 
-class DeassignUserFromParkingTest extends TestCase
+class CreateParkingSlotTest extends TestCase
 {
-    use DomainEventsRegister;
     use DataSamplesGenerator;
+    use DomainEventsRegister;
 
     /**
      * @throws ExceptionGeneratingUuid
+     * @throws ParkingException
      * @throws ParkingSlotNumberAlreadyExists
      * @throws UserEmailInvalid
      * @throws UserNameAlreadyExists
      * @throws UserNameInvalid
      * @throws UserPasswordInvalid
-     * @throws ParkingException
      */
     public function testExecute()
     {
+        $number = '101';
+        $description = 'Parking 101';
+
         $this->createTestCase();
 
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new DeassignUserFromParking($this->parkingRepository);
-        $command->execute($this->loggedInUser, $this->parking, $this->userOne);
+        $command = new CreateParkingSlot($this->parkingRepository);
+        $parkingSlot = $command->execute($this->loggedInUser, $this->parking, $number, $description);
 
-        $this->assertEquals(false, $this->parking->isUserAssigned($this->userOne));
         $this->assertEquals(
-            [
-                ParkingSlot::EVENT_USER_REMOVED_FROM_PARKING_SLOT,
-                ParkingSlot::EVENT_USER_REMOVED_FROM_PARKING_SLOT,
-                Parking::EVENT_USER_REMOVED_FROM_PARKING
-            ],
+            [ ParkingSlot::EVENT_PARKING_SLOT_CREATED, Parking::EVENT_PARKING_SLOT_ADDED_TO_PARKING ],
             $this->recordedEventNames
         );
+
+        $parking = $this->parkingRepository->findByUuid($this->parking->uuid());
+        $parkingSlotFromRepository = $parking->getParkingSlotByNumber($number);
+
+        $this->assertInstanceOf(ParkingSlot::class, $parkingSlotFromRepository);
+        $this->assertEquals($parkingSlot->uuid(), $parkingSlotFromRepository->uuid());
     }
 }
 

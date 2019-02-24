@@ -12,7 +12,6 @@ use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
 use Jmj\Parking\Domain\Service\Command\CreateUserForParking;
-use Jmj\Parking\Infrastructure\Repository\InMemory\User as InMemoryUserRepository;
 use Jmj\Parking\Infrastructure\Service\Factory\InMemory\User as InMemoryUserFactory;
 use Jmj\Test\Unit\Common\DomainEventsRegister;
 use PHPUnit\Framework\TestCase;
@@ -44,7 +43,8 @@ class CreateUserForParkingTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new CreateUserForParking(new InMemoryUserRepository(), new InMemoryUserFactory());
+
+        $command = new CreateUserForParking($this->userRepository, new InMemoryUserFactory());
         $user = $command->execute(
             $this->loggedInUser,
             $this->parking,
@@ -69,6 +69,11 @@ class CreateUserForParkingTest extends TestCase
         $this->assertEquals($userEmail, $user->email());
         $this->assertEquals($userIsAdministrator, $user->isAdministrator());
         $this->assertEquals($this->parking->isAdministeredByUser($user), $userIsAdministratorForParking);
+
+        $userFromRepository = $this->userRepository->findByEmail($userEmail);
+
+        $this->assertInstanceOf(User::class, $userFromRepository);
+        $this->assertEquals($user->uuid(), $userFromRepository->uuid());
     }
 }
 

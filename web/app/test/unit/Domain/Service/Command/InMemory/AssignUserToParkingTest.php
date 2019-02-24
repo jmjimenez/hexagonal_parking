@@ -39,7 +39,7 @@ class AssignUserToParkingTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new AssignUserToParking();
+        $command = new AssignUserToParking($this->parkingRepository);
         $command->execute(
             $this->loggedInUser,
             $user,
@@ -47,10 +47,12 @@ class AssignUserToParkingTest extends TestCase
             $isAdministrator
         );
 
-        $this->assertTrue($this->parking->isUserAssigned($user));
-        $this->assertFalse($this->parking->isAdministeredByUser($user));
-
         $this->assertEquals([ Parking::EVENT_USER_ADDED_TO_PARKING ], $this->recordedEventNames);
+
+        $parking = $this->parkingRepository->findByUuid($this->parking->uuid());
+
+        $this->assertTrue($parking->isUserAssigned($user));
+        $this->assertFalse($parking->isAdministeredByUser($user));
     }
 }
 

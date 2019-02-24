@@ -43,7 +43,7 @@ class ResetPasswordForUserTest extends TestCase
         $this->userOne->requestResetPassword($passwordToken, $passwordTimeout);
 
         $this->startRecordingEvents();
-        $command = new ResetPasswordForUser();
+        $command = new ResetPasswordForUser($this->userRepository);
         $command->execute(
             $this->userOne,
             $password,
@@ -51,7 +51,9 @@ class ResetPasswordForUserTest extends TestCase
         );
 
         $this->assertEquals([ User::EVENT_USER_PASSWORD_RESETTED ], $this->recordedEventNames);
-        $this->assertTrue($this->userOne->checkPassword($password));
+
+        $user = $this->userRepository->findByUuid($this->userOne->uuid());
+        $this->assertTrue($user->checkPassword($password));
     }
 }
 

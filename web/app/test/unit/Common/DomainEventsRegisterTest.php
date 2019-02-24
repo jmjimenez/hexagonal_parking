@@ -1,8 +1,8 @@
 <?php
 
-namespace Jmj\Test\Unit\Infrastructure\Aggregate\Event;
+namespace Jmj\Test\Unit\Common;
 
-use Jmj\Test\Unit\Common\DomainEventsRegister;
+use Jmj\Parking\Common\DomainEventsRegister;
 use Jmj\Parking\Infrastructure\Service\Event\InMemory\SynchronousEventsBroker;
 use PHPUnit\Framework\TestCase;
 

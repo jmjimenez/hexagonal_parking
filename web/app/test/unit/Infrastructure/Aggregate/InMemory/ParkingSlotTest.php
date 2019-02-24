@@ -23,7 +23,7 @@ use Jmj\Parking\Domain\Value\Reservation;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\Parking;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\ParkingSlot;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\User;
-use Jmj\Test\Unit\Common\DomainEventsRegister;
+use Jmj\Parking\Common\DomainEventsRegister;
 use PHPUnit\Framework\TestCase;
 
 class ParkingSlotTest extends TestCase

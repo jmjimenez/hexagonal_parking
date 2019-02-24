@@ -14,7 +14,7 @@ use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
 use Jmj\Parking\Domain\Service\Command\ReserveParkingSlotForUserAndPeriod;
-use Jmj\Test\Unit\Common\DomainEventsRegister;
+use Jmj\Parking\Common\DomainEventsRegister;
 use PHPUnit\Framework\TestCase;
 
 class ReserveParkingSlotForUserAndPeriodTest extends TestCase

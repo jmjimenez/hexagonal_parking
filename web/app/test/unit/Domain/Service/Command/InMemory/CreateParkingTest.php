@@ -12,7 +12,7 @@ use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
 use Jmj\Parking\Domain\Service\Command\CreateParking;
 use Jmj\Parking\Infrastructure\Service\Factory\InMemory\Parking as InMemoryParkingFactory;
-use Jmj\Test\Unit\Common\DomainEventsRegister;
+use Jmj\Parking\Common\DomainEventsRegister;
 use PHPUnit\Framework\TestCase;
 
 class CreateParkingTest extends TestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace Jmj\Test\Unit\Infrastructure\Aggregate\Event;
+namespace Jmj\Test\Unit\Infrastructure\Service\Event\InMemory;
 
 use Jmj\Parking\Infrastructure\Service\Event\InMemory\SynchronousEventsBroker;
 use PHPUnit\Framework\TestCase;

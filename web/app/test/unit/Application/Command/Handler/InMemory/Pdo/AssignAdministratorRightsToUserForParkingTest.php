@@ -2,7 +2,8 @@
 
 namespace Jmj\Test\Unit\Application\Command\Handler\InMemory\Pdo;
 
-use Jmj\Parking\Application\Command\AssignAdministratorRightsToUserForParking as AssignAdministratorRightsToUserForParkingPayload;
+use Jmj\Parking\Application\Command\AssignAdministratorRightsToUserForParking
+    as AssignAdministratorRightsToUserForParkingPayload;
 use Jmj\Parking\Application\Command\Handler\AssignAdministratorRightsToUserForParking;
 use Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
@@ -55,4 +56,3 @@ class AssignAdministratorRightsToUserForParkingTest extends TestCase
         $this->assertTrue($parkingFound->isAdministeredByUser($userFound));
     }
 }
-

@@ -8,18 +8,24 @@ use Jmj\Parking\Domain\Exception\ParkingException;
 
 class GetUserInformation extends ParkingBaseCommand
 {
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $loggedInUser;
 
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $user;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $userInformation;
 
     /**
-     * @param User $loggedInUser
-     * @param User $user
+     * @param  User $loggedInUser
+     * @param  User $user
      * @return array
      * @throws ParkingException
      */

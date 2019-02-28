@@ -65,10 +65,15 @@ class RemoveAssignmentFromParkingSlotForUserAndDateTest extends TestCase
         $dateProcessor->process(
             $assignFromDate,
             $assignToDate,
-            function(DateTimeImmutable $date) use ($parkingSlot, $assignFromDate, $assignToDate, $removeAssigmentFromDate) {
+            function (DateTimeImmutable $date) use (
+                $parkingSlot,
+                $assignFromDate,
+                $assignToDate,
+                $removeAssigmentFromDate
+            ) {
                 if ($this->dateInRange($date, $assignFromDate, $this->decrementDate($removeAssigmentFromDate, 1))) {
                     $this->assertFalse($parkingSlot->isFreeForDate($date));
-                } else{
+                } else {
                     $this->assertTrue($parkingSlot->isFreeForDate($date));
                 }
             }

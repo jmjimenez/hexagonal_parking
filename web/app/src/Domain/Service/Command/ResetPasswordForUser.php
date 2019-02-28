@@ -8,16 +8,24 @@ use Jmj\Parking\Domain\Repository\User as UserRepositoryInterface;
 
 class ResetPasswordForUser extends ParkingBaseCommand
 {
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $user;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $password;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $passwordToken;
 
-    /** @var UserRepositoryInterface */
+    /**
+     * @var UserRepositoryInterface
+     */
     protected $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository)
@@ -26,9 +34,9 @@ class ResetPasswordForUser extends ParkingBaseCommand
     }
 
     /**
-     * @param User $user
-     * @param string $password
-     * @param string $passwordToken
+     * @param  User   $user
+     * @param  string $password
+     * @param  string $passwordToken
      * @throws ParkingException
      */
     public function execute(User $user, string $password, string $passwordToken)

@@ -52,4 +52,3 @@ class CreateParkingTest extends TestCase
         $this->assertEquals($parking->description(), $description);
     }
 }
-

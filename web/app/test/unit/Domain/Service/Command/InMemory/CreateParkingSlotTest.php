@@ -54,4 +54,3 @@ class CreateParkingSlotTest extends TestCase
         $this->assertEquals($parkingSlot->uuid(), $parkingSlotFromRepository->uuid());
     }
 }
-

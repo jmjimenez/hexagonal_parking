@@ -73,7 +73,5 @@ class GetParkingSlotReservationsForPeriodTest extends TestCase
                 || $this->dateInRange($reservation->date(), $reserveFromDate, $reserveToDate)
             );
         }
-
     }
 }
-

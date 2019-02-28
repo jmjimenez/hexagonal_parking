@@ -58,7 +58,6 @@ class PdoProxy
         } catch (PDOException $e) {
             throw new PdoConnectionError($e->getMessage());
         }
-
     }
 
     /**
@@ -86,7 +85,15 @@ class PdoProxy
      */
     public function insert(string $table, array $values): int
     {
-        $fieldNames = join(',', array_map(function(string $v) { return "`{$v}`"; }, array_keys($values)));
+        $fieldNames = join(
+            ',',
+            array_map(
+                function (string $v) {
+                    return "`{$v}`";
+                },
+                array_keys($values)
+            )
+        );
 
         $params = [];
         foreach ($values as $field => $value) {
@@ -219,4 +226,3 @@ class PdoProxy
         return $result;
     }
 }
-

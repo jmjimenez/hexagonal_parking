@@ -57,4 +57,3 @@ class DeleteParkingTest extends TestCase
         $this->assertNull($parking);
     }
 }
-

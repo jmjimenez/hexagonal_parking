@@ -85,10 +85,8 @@ class ParkingSlot extends DomainParkingSlot
         $dateRangeProcessor->process($fromDate, $toDate, function ($date) use (&$assignments) {
             foreach ($this->assignments as $assignment) {
                 /** @noinspection PhpUndefinedMethodInspection */
-                if (
-                    $this->dateLessThanOrEqual($assignment['fromDate'], $date)
-                    && $this->dateGreaterThanOrEqual($assignment['toDate'], $date)
-                ) {
+                if ($this->dateLessThanOrEqual($assignment['fromDate'], $date)
+                    && $this->dateGreaterThanOrEqual($assignment['toDate'], $date)) {
                     $assignments[] = new Assignment($this, $assignment['user'], $date, $assignment['exclusive']);
                 }
             }
@@ -105,8 +103,7 @@ class ParkingSlot extends DomainParkingSlot
         DateTimeImmutable $fromDate,
         DateTimeImmutable $toDate,
         bool $exclusive
-    )
-    {
+    ) {
         $this->assignments[] = [
             'fromDate' => $fromDate,
             'toDate' => $toDate,
@@ -126,17 +123,13 @@ class ParkingSlot extends DomainParkingSlot
                 continue;
             }
 
-            if (
-                $this->dateGreaterThanOrEqual($assignment['fromDate'], $date)
-                && $this->dateGreaterThanOrEqual($assignment['toDate'], $date)
-            ) {
+            if ($this->dateGreaterThanOrEqual($assignment['fromDate'], $date)
+                && $this->dateGreaterThanOrEqual($assignment['toDate'], $date)) {
                 unset($this->assignments[$index]);
             }
 
-            if (
-                $this->dateLessThanOrEqual($assignment['fromDate'], $date)
-                && $this->dateGreaterThanOrEqual($assignment['toDate'], $date)
-            ) {
+            if ($this->dateLessThanOrEqual($assignment['fromDate'], $date)
+                && $this->dateGreaterThanOrEqual($assignment['toDate'], $date)) {
                 $this->assignments[$index]['toDate'] = $this->decrementDate($date, 1);
             }
         }
@@ -178,10 +171,8 @@ class ParkingSlot extends DomainParkingSlot
 
         $dateRangeProcessor->process($fromDate, $toDate, function ($date) use (&$reservations) {
             foreach ($this->reservations as $reservation) {
-                if (
-                    $this->dateLessThanOrEqual($reservation['fromDate'], $date)
-                    && $this->dateGreaterThanOrEqual($reservation['toDate'],  $date)
-                ) {
+                if ($this->dateLessThanOrEqual($reservation['fromDate'], $date)
+                    && $this->dateGreaterThanOrEqual($reservation['toDate'], $date)) {
                     $reservations[] = new Reservation($this, $reservation['user'], $date);
                 }
             }
@@ -207,6 +198,5 @@ class ParkingSlot extends DomainParkingSlot
      */
     protected function _delete()
     {
-
     }
 }

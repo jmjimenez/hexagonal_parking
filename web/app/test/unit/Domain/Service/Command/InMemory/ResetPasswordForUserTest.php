@@ -56,4 +56,3 @@ class ResetPasswordForUserTest extends TestCase
         $this->assertTrue($user->checkPassword($password));
     }
 }
-

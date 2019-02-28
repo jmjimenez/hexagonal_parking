@@ -12,22 +12,34 @@ use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class ReserveParkingSlotForUserAndPeriod extends ParkingBaseCommand
 {
-    /** @var Parking */
+    /**
+     * @var Parking
+     */
     protected $parking;
 
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $user;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $parkingSlotUuid;
 
-    /** @var DateTimeImmutable */
+    /**
+     * @var DateTimeImmutable
+     */
     protected $fromDate;
 
-    /** @var DateTimeImmutable */
+    /**
+     * @var DateTimeImmutable
+     */
     protected $toDate;
 
-    /** @var ParkingRepositoryInterface  */
+    /**
+     * @var ParkingRepositoryInterface
+     */
     protected $parkingRepository;
 
     public function __construct(ParkingRepositoryInterface $parkingRepository)
@@ -36,11 +48,11 @@ class ReserveParkingSlotForUserAndPeriod extends ParkingBaseCommand
     }
 
     /**
-     * @param Parking $parking
-     * @param User $user
-     * @param string $parkingSlotUuid
-     * @param DateTimeImmutable $fromDate
-     * @param DateTimeImmutable $toDate
+     * @param  Parking           $parking
+     * @param  User              $user
+     * @param  string            $parkingSlotUuid
+     * @param  DateTimeImmutable $fromDate
+     * @param  DateTimeImmutable $toDate
      * @throws ParkingException
      */
     public function execute(

@@ -11,19 +11,29 @@ use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class AssignUserToParking extends ParkingBaseCommand
 {
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $loggedInUser;
 
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $user;
 
-    /** @var Parking */
+    /**
+     * @var Parking
+     */
     protected $parking;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $isAdministrator;
 
-    /** @var ParkingRepositoryInterface  */
+    /**
+     * @var ParkingRepositoryInterface
+     */
     protected $parkingRepository;
 
     public function __construct(ParkingRepositoryInterface $parkingRepository)
@@ -32,10 +42,10 @@ class AssignUserToParking extends ParkingBaseCommand
     }
 
     /**
-     * @param User $loggedInUser
-     * @param User $user
-     * @param Parking $parking
-     * @param bool $isAdministrator
+     * @param  User    $loggedInUser
+     * @param  User    $user
+     * @param  Parking $parking
+     * @param  bool    $isAdministrator
      * @throws ParkingException
      */
     public function execute(User $loggedInUser, User $user, Parking $parking, bool $isAdministrator)
@@ -46,7 +56,6 @@ class AssignUserToParking extends ParkingBaseCommand
         $this->isAdministrator = $isAdministrator;
 
         $this->processCatchingDomainEvents();
-
     }
 
     /**

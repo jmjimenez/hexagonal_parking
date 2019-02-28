@@ -52,5 +52,4 @@ class AssignAdministratorRightsToUserForParking
     {
         return $this->parkingUuid;
     }
-
 }

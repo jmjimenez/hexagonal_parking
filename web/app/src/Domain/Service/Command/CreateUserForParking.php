@@ -17,40 +17,61 @@ use Jmj\Parking\Domain\Service\Factory\User as UserFactory;
 
 class CreateUserForParking extends ParkingBaseCommand
 {
-    /** @var User */
+    /**
+     * @var User
+     */
     private $loggedInUser;
 
-    /** @var Parking */
+    /**
+     * @var Parking
+     */
     private $parking;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $userName;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $userEmail;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $userPassword;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $userIsAdministrator;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $userIsAdministratorForParking;
 
-    /** @var User */
+    /**
+     * @var User
+     */
     private $user;
 
-    /** @var UserRepositoryInterface  */
+    /**
+     * @var UserRepositoryInterface
+     */
     private $userRepository;
 
-    /** @var UserFactory */
+    /**
+     * @var UserFactory
+     */
     private $userFactory;
 
     /**
      * CreateUserForParking constructor.
+     *
      * @param UserRepositoryInterface $userRepository
-     * @param UserFactory $userFactory
+     * @param UserFactory             $userFactory
      */
     public function __construct(UserRepositoryInterface $userRepository, UserFactory $userFactory)
     {
@@ -59,13 +80,13 @@ class CreateUserForParking extends ParkingBaseCommand
     }
 
     /**
-     * @param User $loggedInUser
-     * @param Parking $parking
-     * @param string $userName
-     * @param string $userEmail
-     * @param string $userPassword
-     * @param bool $userIsAdministrator
-     * @param bool $userIsAdministratorForParking
+     * @param  User    $loggedInUser
+     * @param  Parking $parking
+     * @param  string  $userName
+     * @param  string  $userEmail
+     * @param  string  $userPassword
+     * @param  bool    $userIsAdministrator
+     * @param  bool    $userIsAdministratorForParking
      * @return User
      * @throws ParkingException
      */

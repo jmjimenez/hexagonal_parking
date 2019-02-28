@@ -11,22 +11,30 @@ use Jmj\Parking\Domain\Exception\UserNotAssigned;
 
 class GetParkingSlotsReservationsForDate extends ParkingBaseCommand
 {
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $loggedInUser;
 
-    /** @var Parking */
+    /**
+     * @var Parking
+     */
     protected $parking;
 
-    /** @var DateTimeImmutable */
+    /**
+     * @var DateTimeImmutable
+     */
     protected $date;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $parkingSlotReservations;
 
     /**
-     * @param User $loggedInUser
-     * @param Parking $parking
-     * @param DateTimeImmutable $date
+     * @param  User              $loggedInUser
+     * @param  Parking           $parking
+     * @param  DateTimeImmutable $date
      * @return array
      * @throws ParkingException
      */

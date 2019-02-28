@@ -43,4 +43,3 @@ class AssignAdministratorRightsToUserForParkingTest extends TestCase
         $this->assertTrue($this->parking->isAdministeredByUser($this->userOne));
     }
 }
-

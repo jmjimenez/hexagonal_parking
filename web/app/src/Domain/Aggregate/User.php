@@ -22,30 +22,43 @@ class User extends BaseAggregate
     const EVENT_USER_PASSWORD_RESET_REQUESTED = 'UserPasswordResetRequested';
     const EVENT_USER_ADMINISTRATOR_RIGHTS_CONFIGURED = 'UserAdministratorRightsConfigured';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $name;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $password;
 
-    /** @var string  */
+    /**
+     * @var string
+     */
     private $email;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $resetPasswordToken;
 
-    /** @var DateTime */
+    /**
+     * @var DateTime
+     */
     private $resetPasswordTokenTimeout;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     private $isAdministrator;
 
     /**
      * User constructor.
-     * @param string $name
-     * @param string $email
-     * @param string $password
-     * @param bool $isAdministrator
+     *
+     * @param  string $name
+     * @param  string $email
+     * @param  string $password
+     * @param  bool   $isAdministrator
      * @throws UserEmailInvalid
      * @throws UserNameInvalid
      * @throws UserPasswordInvalid
@@ -64,8 +77,8 @@ class User extends BaseAggregate
     }
 
     /**
-     * @param string $name
-     * @param bool $publishEvent
+     * @param  string $name
+     * @param  bool   $publishEvent
      * @throws UserNameInvalid
      */
     public function setName(string $name, bool $publishEvent = true)
@@ -87,8 +100,8 @@ class User extends BaseAggregate
     }
 
     /**
-     * @param string $email
-     * @param bool $publishEvent
+     * @param  string $email
+     * @param  bool   $publishEvent
      * @throws UserEmailInvalid
      */
     public function setEmail(string $email, bool $publishEvent = true)
@@ -110,8 +123,8 @@ class User extends BaseAggregate
     }
 
     /**
-     * @param string $password
-     * @param bool $publishEvent
+     * @param  string $password
+     * @param  bool   $publishEvent
      * @throws UserPasswordInvalid
      */
     public function setPassword(string $password, bool $publishEvent = true)
@@ -125,8 +138,8 @@ class User extends BaseAggregate
     }
 
     /**
-     * @param string $password
-     * @param string $resetPasswordToken
+     * @param  string $password
+     * @param  string $resetPasswordToken
      * @throws \Exception
      */
     public function resetPassword(string $password, string $resetPasswordToken)
@@ -145,8 +158,8 @@ class User extends BaseAggregate
     }
 
     /**
-     * @param string $resetPasswordToken
-     * @param DateTimeImmutable $resetPasswordTokenTimeout
+     * @param  string            $resetPasswordToken
+     * @param  DateTimeImmutable $resetPasswordTokenTimeout
      * @throws UserResetPasswordTokenInvalid
      * @throws UserResetPasswordTokenTimeoutInvalid
      */
@@ -162,7 +175,7 @@ class User extends BaseAggregate
     }
 
     /**
-     * @param string $password
+     * @param  string $password
      * @return bool
      */
     public function checkPassword(string $password) : bool
@@ -209,7 +222,7 @@ class User extends BaseAggregate
     }
 
     /**
-     * @param string $name
+     * @param  string $name
      * @throws UserNameInvalid
      */
     private function validateName(string $name)
@@ -220,7 +233,7 @@ class User extends BaseAggregate
     }
 
     /**
-     * @param string $email
+     * @param  string $email
      * @throws UserEmailInvalid
      */
     private function validateEmail(string $email)
@@ -231,7 +244,7 @@ class User extends BaseAggregate
     }
 
     /**
-     * @param string $password
+     * @param  string $password
      * @throws UserPasswordInvalid
      */
     private function validatePassword(string $password)
@@ -252,7 +265,7 @@ class User extends BaseAggregate
     }
 
     /**
-     * @param string $resetPasswordToken
+     * @param  string $resetPasswordToken
      * @throws UserResetPasswordTokenInvalid
      */
     private function setResetPasswordToken(string $resetPasswordToken)
@@ -265,7 +278,7 @@ class User extends BaseAggregate
     }
 
     /**
-     * @param DateTimeImmutable $resetPasswordTokenTimeout
+     * @param  DateTimeImmutable $resetPasswordTokenTimeout
      * @throws UserResetPasswordTokenTimeoutInvalid
      * @throws \Exception
      */

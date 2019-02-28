@@ -49,4 +49,3 @@ class GetUserInformationTest extends TestCase
         $this->assertEquals($expectedResult, $userInformation);
     }
 }
-

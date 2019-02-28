@@ -26,12 +26,14 @@ abstract class Parking extends BaseAggregate
     const EVENT_USER_REMOVED_FROM_PARKING = 'UserRemovedFromParking';
     const EVENT_PARKING_CREATED = 'ParkingCreated';
 
-    /** @var string  */
+    /**
+     * @var string
+     */
     private $description;
 
     /**
-     * @param string $number
-     * @param string $description
+     * @param  string $number
+     * @param  string $description
      * @return ParkingSlot
      */
     abstract protected function _createParkingSlot(string $number, string $description) : ParkingSlot;
@@ -42,13 +44,13 @@ abstract class Parking extends BaseAggregate
     abstract protected function _addParkingSlot(ParkingSlot $parkingSlot);
 
     /**
-     * @param string $parkingSlotUuid
+     * @param  string $parkingSlotUuid
      * @return ParkingSlot|null
      */
     abstract protected function _getParkingSlotByUuid(string $parkingSlotUuid) : ?ParkingSlot;
 
     /**
-     * @param string $number
+     * @param  string $number
      * @return ParkingSlot|null
      */
     abstract protected function _getParkingSlotByNumber(string $number) : ?ParkingSlot;
@@ -59,7 +61,7 @@ abstract class Parking extends BaseAggregate
     abstract protected function _getParkingSlots();
 
     /**
-     * @param string $userUuid
+     * @param  string $userUuid
      * @return User|null
      */
     abstract protected function _getUserByUuid(string $userUuid) : ?User;
@@ -76,7 +78,7 @@ abstract class Parking extends BaseAggregate
     abstract protected function _removeUser(User $user);
 
     /**
-     * @param User $user
+     * @param  User $user
      * @return mixed
      */
     abstract protected function _addAdministrator(User $user);
@@ -92,13 +94,13 @@ abstract class Parking extends BaseAggregate
     abstract protected function _countParkingSlots() : int;
 
     /**
-     * @param string $parkingSlotUuid
+     * @param  string $parkingSlotUuid
      * @return mixed
      */
     abstract protected function _deleteParkingSlotByUuid(string $parkingSlotUuid);
 
     /**
-     * @param string $userName
+     * @param  string $userName
      * @return User|null
      */
     abstract protected function _getUserByName(string $userName) : ?User;
@@ -110,7 +112,8 @@ abstract class Parking extends BaseAggregate
 
     /**
      * Parking constructor.
-     * @param string $description
+     *
+     * @param  string $description
      * @throws ExceptionGeneratingUuid
      */
     public function __construct(string $description)
@@ -131,8 +134,8 @@ abstract class Parking extends BaseAggregate
     }
 
     /**
-     * @param string $number
-     * @param string $description
+     * @param  string $number
+     * @param  string $description
      * @return ParkingSlot
      * @throws ParkingSlotNumberAlreadyExists
      */
@@ -160,7 +163,7 @@ abstract class Parking extends BaseAggregate
     }
 
     /**
-     * @param string $parkingSlotUuid
+     * @param  string $parkingSlotUuid
      * @throws ParkingSlotNotFound
      */
     public function deleteParkingSlotByUuid(string $parkingSlotUuid)
@@ -178,7 +181,7 @@ abstract class Parking extends BaseAggregate
     }
 
     /**
-     * @param $parkingSlotUuidd
+     * @param  $parkingSlotUuidd
      * @return ParkingSlot
      */
     public function getParkingSlotByUuid(string $parkingSlotUuidd): ?ParkingSlot
@@ -187,7 +190,7 @@ abstract class Parking extends BaseAggregate
     }
 
     /**
-     * @param string $number
+     * @param  string $number
      * @return ParkingSlot|null
      */
     public function getParkingSlotByNumber(string $number) : ?ParkingSlot
@@ -196,7 +199,7 @@ abstract class Parking extends BaseAggregate
     }
 
     /**
-     * @param User $user
+     * @param  User $user
      * @throws UserNameAlreadyExists
      */
     public function addAdministrator(User $user)
@@ -212,7 +215,7 @@ abstract class Parking extends BaseAggregate
     }
 
     /**
-     * @param User $user
+     * @param  User $user
      * @throws UserIsNotAdministrator
      * @throws UserNotAssigned
      */
@@ -232,7 +235,7 @@ abstract class Parking extends BaseAggregate
     }
 
     /**
-     * @param User $user
+     * @param  User $user
      * @return bool
      */
     public function isAdministeredByUser(User $user) : bool
@@ -247,8 +250,8 @@ abstract class Parking extends BaseAggregate
     }
 
     /**
-     * @param User $user
-     * @param bool $isAdministrator
+     * @param  User $user
+     * @param  bool $isAdministrator
      * @throws UserNameAlreadyExists
      */
     public function addUser(User $user, bool $isAdministrator = false)
@@ -267,7 +270,7 @@ abstract class Parking extends BaseAggregate
     }
 
     /**
-     * @param string $userName
+     * @param  string $userName
      * @return User|null
      */
     public function getUserByName(string $userName) : ?User
@@ -276,7 +279,7 @@ abstract class Parking extends BaseAggregate
     }
 
     /**
-     * @param User $user
+     * @param  User $user
      * @throws UserNotAssigned
      */
     public function removeUser(User $user)
@@ -297,7 +300,7 @@ abstract class Parking extends BaseAggregate
     }
 
     /**
-     * @param User $user
+     * @param  User $user
      * @return bool
      */
     public function isUserAssigned(User $user) : bool
@@ -306,9 +309,9 @@ abstract class Parking extends BaseAggregate
     }
 
     /**
-     * @param User $user
-     * @param DateTimeInterface $fromDate
-     * @param DateTimeInterface $toDate
+     * @param  User              $user
+     * @param  DateTimeInterface $fromDate
+     * @param  DateTimeInterface $toDate
      * @return array
      * @throws UserNotAssigned
      * @throws \Exception
@@ -326,34 +329,41 @@ abstract class Parking extends BaseAggregate
 
         $dateRangeProcessor = new DateRangeProcessor();
 
-        $dateRangeProcessor->process($fromDate, $toDate, function (DateTimeImmutable $date) use ($user, &$userInformation) {
-            $reservations = $this->getParkingSlotsReservationsForDate($date);
+        $dateRangeProcessor->process(
+            $fromDate,
+            $toDate,
+            function (DateTimeImmutable $date) use ($user, &$userInformation) {
+                $reservations = $this->getParkingSlotsReservationsForDate($date);
 
-            /** @var Reservation $reservation */
-            foreach ($reservations as $reservation) {
-                if ($reservation->user()->uuid() == $user->uuid()) {
-                    $userInformation['reservations'][] = $reservation;
+                /**
+                 * @var Reservation $reservation
+                 */
+                foreach ($reservations as $reservation) {
+                    if ($reservation->user()->uuid() == $user->uuid()) {
+                        $userInformation['reservations'][] = $reservation;
+                    }
                 }
-            }
 
-            $assignments = $this->getParkingSlotsAssignmentsForDate($date);
+                $assignments = $this->getParkingSlotsAssignmentsForDate($date);
 
-            /** @var Assignment $assignment */
-            foreach ($assignments as $parkingSlotAssignments) {
-                foreach ($parkingSlotAssignments as $assignment) {
-                    if ($assignment->user()->uuid() == $user->uuid()) {
-                        $userInformation['assignments'][] = $assignment;
+                /**
+                 * @var Assignment $assignment
+                 */
+                foreach ($assignments as $parkingSlotAssignments) {
+                    foreach ($parkingSlotAssignments as $assignment) {
+                        if ($assignment->user()->uuid() == $user->uuid()) {
+                            $userInformation['assignments'][] = $assignment;
+                        }
                     }
                 }
             }
-
-        });
+        );
 
         return $userInformation;
     }
 
     /**
-     * @param DateTimeImmutable $date
+     * @param  DateTimeImmutable $date
      * @return array
      * @throws ParkingSlotReservationsForDateIncorrect
      */
@@ -377,7 +387,7 @@ abstract class Parking extends BaseAggregate
     }
 
     /**
-     * @param DateTimeImmutable $date
+     * @param  DateTimeImmutable $date
      * @return array
      */
     public function getParkingSlotsAssignmentsForDate(DateTimeImmutable $date) : array

@@ -15,22 +15,34 @@ use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class UpdateParkingSlotInformation extends ParkingBaseCommand
 {
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $loggedInUser;
     
-    /** @var Parking */
+    /**
+     * @var Parking
+     */
     protected $parking;
     
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $parkingSlotUuid;
     
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $number;
     
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $description;
 
-    /** @var ParkingRepositoryInterface  */
+    /**
+     * @var ParkingRepositoryInterface
+     */
     protected $parkingRepository;
 
     public function __construct(ParkingRepositoryInterface $parkingRepository)
@@ -39,11 +51,11 @@ class UpdateParkingSlotInformation extends ParkingBaseCommand
     }
 
     /**
-     * @param User $loggedInUser
-     * @param Parking $parking
-     * @param string $parkingSlotUuid
-     * @param string $number
-     * @param string $description
+     * @param  User    $loggedInUser
+     * @param  Parking $parking
+     * @param  string  $parkingSlotUuid
+     * @param  string  $number
+     * @param  string  $description
      * @throws ParkingException
      */
     public function execute(
@@ -75,7 +87,9 @@ class UpdateParkingSlotInformation extends ParkingBaseCommand
             throw new NotAuthorizedOperation('operation not allowed');
         }
 
-        /** @var ParkingSlot $parkingSlot */
+        /**
+         * @var ParkingSlot $parkingSlot
+         */
         $parkingSlot = $this->parking->getParkingSlotByUuid($this->parkingSlotUuid);
 
         if (!$parkingSlot instanceof ParkingSlot) {
@@ -93,4 +107,3 @@ class UpdateParkingSlotInformation extends ParkingBaseCommand
         $this->parkingRepository->save($this->parking);
     }
 }
-

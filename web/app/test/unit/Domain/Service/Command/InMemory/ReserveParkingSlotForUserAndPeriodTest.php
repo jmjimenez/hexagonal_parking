@@ -65,10 +65,16 @@ class ReserveParkingSlotForUserAndPeriodTest extends TestCase
         $dateProcessor->process(
             $checkFromDate,
             $checkToDate,
-            function(DateTimeImmutable $date) use ($parkingSlot, $checkFromDate, $checkToDate, $reserveFromDate, $reserveToDate) {
+            function (DateTimeImmutable $date) use (
+                $parkingSlot,
+                $checkFromDate,
+                $checkToDate,
+                $reserveFromDate,
+                $reserveToDate
+            ) {
                 if ($this->dateInRange($date, $reserveFromDate, $reserveToDate)) {
                     $this->assertFalse($parkingSlot->isFreeForDate($date));
-                } else{
+                } else {
                     $this->assertTrue($parkingSlot->isFreeForDate($date));
                 }
             }

@@ -9,19 +9,26 @@ use Ramsey\Uuid\Uuid;
 
 abstract class BaseAggregate
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected static $lastUuid = null;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $uuid;
 
-    /** @var DomainEventsBroker */
+    /**
+     * @var DomainEventsBroker
+     */
     protected static $eventBroker;
 
     abstract protected function getClassName() : string;
 
     /**
      * BaseAggregate constructor.
+     *
      * @throws ExceptionGeneratingUuid
      */
     public function __construct()
@@ -47,7 +54,7 @@ abstract class BaseAggregate
 
     /**
      * @param string $eventName
-     * @param mixed $payload
+     * @param mixed  $payload
      */
     protected function publishEvent(string $eventName, $payload = null)
     {

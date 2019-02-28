@@ -2,11 +2,13 @@
 
 namespace Jmj\Parking\Application\Command\Handler;
 
-use Jmj\Parking\Application\Command\AssignAdministratorRightsToUserForParking as AssignAdministratorRightsToUserForParkingCommand;
+use Jmj\Parking\Application\Command\AssignAdministratorRightsToUserForParking
+    as AssignAdministratorRightsToUserForParkingCommand;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
-use Jmj\Parking\Domain\Service\Command\AssignAdministratorRightsToUserForParking as AssignAdministratorRightsToUserForParkingDomainCommand;
+use Jmj\Parking\Domain\Service\Command\AssignAdministratorRightsToUserForParking
+    as AssignAdministratorRightsToUserForParkingDomainCommand;
 
 class AssignAdministratorRightsToUserForParking extends ParkingBaseHandler
 {
@@ -21,7 +23,8 @@ class AssignAdministratorRightsToUserForParking extends ParkingBaseHandler
      * @param ParkingRepository $parkingRepository
      * @param UserRepository $userRepository
      */
-    public function __construct(ParkingRepository $parkingRepository, UserRepository $userRepository) {
+    public function __construct(ParkingRepository $parkingRepository, UserRepository $userRepository)
+    {
         $this->parkingRepository = $parkingRepository;
         $this->userRepository = $userRepository;
     }

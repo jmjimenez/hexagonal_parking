@@ -76,4 +76,3 @@ class CreateUserForParkingTest extends TestCase
         $this->assertEquals($user->uuid(), $userFromRepository->uuid());
     }
 }
-

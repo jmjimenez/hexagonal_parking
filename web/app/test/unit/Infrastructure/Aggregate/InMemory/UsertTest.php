@@ -305,7 +305,10 @@ class UserTest extends TestCase
         $this->assertEquals([ $user ], $this->recordedObjects);
         $this->assertEquals(
             [
-                [ 'resetPasswordToken' => $resetPasswordToken, 'resetPasswordTokenTimeout' => $resetPasswordTokenTimeout ]
+                [
+                    'resetPasswordToken' => $resetPasswordToken,
+                    'resetPasswordTokenTimeout' => $resetPasswordTokenTimeout
+                ]
             ],
             $this->recordedPayloads
         );

@@ -50,4 +50,3 @@ class DeassignUserFromParkingTest extends TestCase
         );
     }
 }
-

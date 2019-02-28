@@ -13,25 +13,39 @@ use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class FreeAssignedParkingSlotForUserAndPeriod extends ParkingBaseCommand
 {
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $loggedInUser;
 
-    /** @var Parking */
+    /**
+     * @var Parking
+     */
     protected $parking;
 
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $user;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $parkingSlotUuidd;
 
-    /** @var DateTimeImmutable */
+    /**
+     * @var DateTimeImmutable
+     */
     protected $fromDate;
 
-    /** @var DateTimeImmutable */
+    /**
+     * @var DateTimeImmutable
+     */
     protected $toDate;
 
-    /** @var ParkingRepositoryInterface  */
+    /**
+     * @var ParkingRepositoryInterface
+     */
     protected $parkingRepository;
 
     public function __construct(ParkingRepositoryInterface $parkingRepository)
@@ -40,12 +54,12 @@ class FreeAssignedParkingSlotForUserAndPeriod extends ParkingBaseCommand
     }
 
     /**
-     * @param User $loggedInUser
-     * @param Parking $parking
-     * @param User $user
-     * @param string $parkingSlotUuid
-     * @param DateTimeImmutable $fromDate
-     * @param DateTimeImmutable $toDate
+     * @param  User              $loggedInUser
+     * @param  Parking           $parking
+     * @param  User              $user
+     * @param  string            $parkingSlotUuid
+     * @param  DateTimeImmutable $fromDate
+     * @param  DateTimeImmutable $toDate
      * @throws ParkingException
      */
     public function execute(
@@ -78,8 +92,7 @@ class FreeAssignedParkingSlotForUserAndPeriod extends ParkingBaseCommand
             throw new UserNotAssigned('User is not registered in parking');
         }
 
-        if (
-            !$this->parking->isAdministeredByUser($this->loggedInUser)
+        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
             && $this->loggedInUser->uuid() != $this->user->uuid()
         ) {
             throw new NotAuthorizedOperation('cannot perform this operation');

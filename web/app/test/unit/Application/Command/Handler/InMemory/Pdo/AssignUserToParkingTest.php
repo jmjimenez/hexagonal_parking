@@ -70,4 +70,3 @@ class AssignUserToParkingTest extends TestCase
         $this->assertEquals($isAdministrator, $parkingFound->isAdministeredByUser($newUser));
     }
 }
-

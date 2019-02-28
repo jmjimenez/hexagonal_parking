@@ -68,7 +68,7 @@ abstract class ParkingBaseCommand
         } catch (UserPasswordInvalid $e) {
             throw new ParkingException('User password not valid', 12, $e);
         } catch (Exception $e) {
-            throw new ParkingException('Unknown exception',99, $e);
+            throw new ParkingException('Unknown exception', 99, $e);
         }
     }
 }

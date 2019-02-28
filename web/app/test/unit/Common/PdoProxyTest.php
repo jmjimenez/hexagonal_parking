@@ -220,4 +220,3 @@ class DummyClass
         return $this->children;
     }
 }
-

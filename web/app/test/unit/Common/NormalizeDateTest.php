@@ -158,8 +158,7 @@ class NormalizeDateTest extends TestCase
         DateTimeInterface $fromDate,
         DateTimeInterface $toDate,
         bool $expectedResult
-    )
-    {
+    ) {
         $this->assertEquals(
             $expectedResult,
             $this->normalizeDate->testInRange($date, $fromDate, $toDate)
@@ -252,6 +251,6 @@ class NormalizeDateMock
 
     public function testInRange(DateTimeInterface $date, DateTimeInterface $fromDate, DateTimeInterface $toDate) : bool
     {
-       return $this->dateInRange($date, $fromDate, $toDate);
+        return $this->dateInRange($date, $fromDate, $toDate);
     }
 }

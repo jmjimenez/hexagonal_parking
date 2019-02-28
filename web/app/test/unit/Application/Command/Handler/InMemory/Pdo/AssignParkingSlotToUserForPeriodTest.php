@@ -76,8 +76,14 @@ class AssignParkingSlotToUserForPeriodTest extends TestCase
         $dateProcessor->process(
             $checkFromDate,
             $checkToDate,
-            function (DateTimeImmutable $date)
-            use ($parkingFound, $parkingSlotNumber, $checkFromDate, $checkToDate, $assignFromDate, $assignToDate) {
+            function (DateTimeImmutable $date) use (
+                $parkingFound,
+                $parkingSlotNumber,
+                $checkFromDate,
+                $checkToDate,
+                $assignFromDate,
+                $assignToDate
+            ) {
                 $assignments = $parkingFound->getParkingSlotsAssignmentsForDate($date);
 
                 if ($this->dateInRange($date, $assignFromDate, $assignToDate)) {
@@ -89,4 +95,3 @@ class AssignParkingSlotToUserForPeriodTest extends TestCase
         );
     }
 }
-

@@ -61,11 +61,10 @@ class AssignParkingSlotToUserForPeriodTest extends TestCase
 
         foreach ($parkingSlot->getAssignmentsForPeriod($fromDate, $toDate) as $assignment) {
             $this->assertEquals($this->userOne, $assignment->user());
-            $this->assertEquals($this->parkingSlotOne, $assignment->ParkingSlot());
+            $this->assertEquals($this->parkingSlotOne, $assignment->parkingSlot());
             $this->assertEquals($exclusive, $assignment->isExclusive());
             $this->assertLessThanOrEqual($assignment->date()->format('Ymd'), $fromDate->format('Ymd'));
             $this->assertGreaterThanOrEqual($assignment->date()->format('Ymd'), $toDate->format('Ymd'));
         }
     }
 }
-

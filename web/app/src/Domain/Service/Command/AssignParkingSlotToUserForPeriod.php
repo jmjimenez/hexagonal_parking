@@ -15,28 +15,44 @@ use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class AssignParkingSlotToUserForPeriod extends ParkingBaseCommand
 {
-    /** @var User  */
+    /**
+     * @var User
+     */
     protected $loggedInUser;
 
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $user;
 
-    /** @var Parking */
+    /**
+     * @var Parking
+     */
     protected $parking;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $parkingSlotUuidd;
 
-    /** @var DateTimeImmutable */
+    /**
+     * @var DateTimeImmutable
+     */
     protected $fromDate;
 
-    /** @var DateTimeImmutable */
+    /**
+     * @var DateTimeImmutable
+     */
     protected $toDate;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $exclusive;
 
-    /** @var ParkingRepositoryInterface  */
+    /**
+     * @var ParkingRepositoryInterface
+     */
     protected $parkingRepository;
 
     public function __construct(ParkingRepositoryInterface $parkingRepository)
@@ -45,13 +61,13 @@ class AssignParkingSlotToUserForPeriod extends ParkingBaseCommand
     }
 
     /**
-     * @param User $loggedInUser
-     * @param User $user
-     * @param Parking $parking
-     * @param string $parkingSlotUuidd
-     * @param DateTimeImmutable $fromDate
-     * @param DateTimeImmutable $toDate
-     * @param bool $exclusive
+     * @param  User              $loggedInUser
+     * @param  User              $user
+     * @param  Parking           $parking
+     * @param  string            $parkingSlotUuidd
+     * @param  DateTimeImmutable $fromDate
+     * @param  DateTimeImmutable $toDate
+     * @param  bool              $exclusive
      * @throws ParkingException
      */
     public function execute(
@@ -62,8 +78,7 @@ class AssignParkingSlotToUserForPeriod extends ParkingBaseCommand
         DateTimeImmutable $fromDate,
         DateTimeImmutable $toDate,
         bool $exclusive
-    )
-    {
+    ) {
         $this->loggedInUser = $loggedInUser;
         $this->user = $user;
         $this->parking = $parking;
@@ -91,7 +106,9 @@ class AssignParkingSlotToUserForPeriod extends ParkingBaseCommand
             throw new UserNotAssigned('User is not assigned to this parking');
         }
 
-        /** @var ParkingSlot $parkingSlot */
+        /**
+         * @var ParkingSlot $parkingSlot
+         */
         $parkingSlot = $this->parking->getParkingSlotByUuid($this->parkingSlotUuidd);
 
         if (!$parkingSlot instanceof ParkingSlot) {

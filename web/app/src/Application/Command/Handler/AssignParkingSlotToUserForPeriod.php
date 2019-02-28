@@ -6,7 +6,8 @@ use Jmj\Parking\Application\Command\AssignParkingSlotToUserForPeriod as AssignPa
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
-use Jmj\Parking\Domain\Service\Command\AssignParkingSlotToUserForPeriod as AssignParkingSlotToUserForPeriodDomainCommand;
+use Jmj\Parking\Domain\Service\Command\AssignParkingSlotToUserForPeriod
+    as AssignParkingSlotToUserForPeriodDomainCommand;
 
 class AssignParkingSlotToUserForPeriod extends ParkingBaseHandler
 {
@@ -21,7 +22,8 @@ class AssignParkingSlotToUserForPeriod extends ParkingBaseHandler
      * @param ParkingRepository $parkingRepository
      * @param UserRepository $userRepository
      */
-    public function __construct(ParkingRepository $parkingRepository, UserRepository $userRepository) {
+    public function __construct(ParkingRepository $parkingRepository, UserRepository $userRepository)
+    {
         $this->parkingRepository = $parkingRepository;
         $this->userRepository = $userRepository;
     }

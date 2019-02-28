@@ -55,8 +55,13 @@ class GetParkingSlotsReservationsForDateTest extends TestCase
         $dateProcesor->process(
             $checkFromDate,
             $checkToDate,
-            function(DateTimeImmutable $date)
-            use ($command, $reserveOneFromDate, $reserveOneToDate, $reserveTwoFromDate, $reserveTwoToDate) {
+            function (DateTimeImmutable $date) use (
+                $command,
+                $reserveOneFromDate,
+                $reserveOneToDate,
+                $reserveTwoFromDate,
+                $reserveTwoToDate
+            ) {
                 $expectedReservations = 0;
 
                 if ($this->dateInRange($date, $reserveOneFromDate, $reserveOneToDate)) {
@@ -70,11 +75,11 @@ class GetParkingSlotsReservationsForDateTest extends TestCase
                 $parkingSlotReservations = $command->execute(
                     $this->loggedInUser,
                     $this->parking,
-                    $date);
+                    $date
+                );
 
                 $this->assertEquals($expectedReservations, count($parkingSlotReservations));
             }
         );
     }
 }
-

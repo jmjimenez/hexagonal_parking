@@ -66,10 +66,8 @@ class FreeAssignedParkingSlotForUserAndPeriodTest extends TestCase
             $assignFromDate,
             $assignToDate,
             function (\DateTimeImmutable $date) use ($parkingSlot, $freeFromDate, $freeToDate) {
-                if (
-                    $date->format('Y-m-d') >= $freeFromDate->format('Y-m-d')
-                    && $date->format('Y-m-d') <= $freeToDate->format('Y-m-d')
-                ) {
+                if ($date->format('Y-m-d') >= $freeFromDate->format('Y-m-d')
+                    && $date->format('Y-m-d') <= $freeToDate->format('Y-m-d')) {
                     $this->assertTrue($parkingSlot->isFreeForDate($date));
                 } else {
                     $this->assertFalse($parkingSlot->isFreeForDate($date));
@@ -78,4 +76,3 @@ class FreeAssignedParkingSlotForUserAndPeriodTest extends TestCase
         );
     }
 }
-

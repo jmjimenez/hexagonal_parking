@@ -7,16 +7,21 @@ use Jmj\Parking\Domain\Aggregate\User;
 
 class ParkingSlotNotAssignedToUser extends \Exception
 {
-    /** @var DateTimeImmutable */
+    /**
+     * @var DateTimeImmutable
+     */
     private $day;
 
-    /** @var User */
+    /**
+     * @var User
+     */
     private $user;
 
     /**
      * ParkingSlotNotAssignedToUser constructor.
+     *
      * @param DateTimeImmutable $day
-     * @param User $user
+     * @param User              $user
      */
     public function __construct(DateTimeImmutable $day, User $user)
     {

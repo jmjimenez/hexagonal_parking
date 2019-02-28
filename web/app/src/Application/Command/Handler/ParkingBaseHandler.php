@@ -2,7 +2,6 @@
 
 namespace Jmj\Parking\Application\Command\Handler;
 
-
 use Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Aggregate\Parking;

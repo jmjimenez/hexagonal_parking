@@ -28,7 +28,7 @@ use Ramsey\Uuid\Uuid;
 
 class ParkingTest extends TestCase
 {
-    Use DomainEventsRegister;
+    use DomainEventsRegister;
 
     /**
      *
@@ -70,7 +70,6 @@ class ParkingTest extends TestCase
         $parking = $this->createParking($description);
 
         $this->assertEquals($description, $parking->description());
-
     }
 
     /**
@@ -150,7 +149,10 @@ class ParkingTest extends TestCase
         $parkingSlots = [];
 
         foreach ($parkingSlotsInfo as $index => $parkingSlotInfo) {
-            $parkingSlots[$index] = $parking->createParkingSlot($parkingSlotInfo['number'], $parkingSlotInfo['description']);
+            $parkingSlots[$index] = $parking->createParkingSlot(
+                $parkingSlotInfo['number'],
+                $parkingSlotInfo['description']
+            );
         }
 
         /** @var  ParkingSlot $parkingSlot */

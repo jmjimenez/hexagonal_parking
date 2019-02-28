@@ -58,7 +58,7 @@ class BaseAggregateTest extends TestCase
 
         $eventBroker->subscribeToClassEvents(
             BaseAggregateMock::class,
-            function(string $className, string $eventName, object $object, $payload) use ($testPayload) {
+            function (string $className, string $eventName, object $object, $payload) use ($testPayload) {
                 $this->assertEquals($className, BaseAggregateMock::class);
                 $this->assertEquals($eventName, BaseAggregateMock::EVENT_TESTEVENT);
                 $this->assertInstanceOf(BaseAggregateMock::class, $object);

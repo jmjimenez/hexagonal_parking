@@ -164,10 +164,12 @@ class UserTest extends TestCase
     protected static function createUserTest() : User
     {
         $user = new User(
-            self::USER_NAME, self::USER_EMAIL, self::USER_PASSWORD, self::USER_IS_ADMINISTRATOR
+            self::USER_NAME,
+            self::USER_EMAIL,
+            self::USER_PASSWORD,
+            self::USER_IS_ADMINISTRATOR
         );
 
         return $user;
     }
 }
-

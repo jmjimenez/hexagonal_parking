@@ -11,16 +11,24 @@ use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class DeleteParkingSlot extends ParkingBaseCommand
 {
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $loggedInUser;
 
-    /** @var Parking */
+    /**
+     * @var Parking
+     */
     protected $parking;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $parkingSlotUuid;
 
-    /** @var ParkingRepositoryInterface  */
+    /**
+     * @var ParkingRepositoryInterface
+     */
     protected $parkingRepository;
 
     public function __construct(ParkingRepositoryInterface $parkingRepository)
@@ -29,9 +37,9 @@ class DeleteParkingSlot extends ParkingBaseCommand
     }
 
     /**
-     * @param User $loggedInUser
-     * @param Parking $parking
-     * @param string $parkingSlotUuid
+     * @param  User    $loggedInUser
+     * @param  Parking $parking
+     * @param  string  $parkingSlotUuid
      * @throws ParkingException
      */
     public function execute(User $loggedInUser, Parking $parking, string $parkingSlotUuid)

@@ -204,8 +204,7 @@ class ParkingSlotTest extends TestCase
         $dateRangeProcessor->process(
             $fromDate,
             $toDate,
-            function (DateTimeImmutable $date) use ($parkingSlot, $user, $isExclusive)
-            {
+            function (DateTimeImmutable $date) use ($parkingSlot, $user, $isExclusive) {
                 $assignments = $parkingSlot->getAssignmentsForPeriod($date, $date);
 
                 $this->assertEquals(1, count($assignments));
@@ -473,8 +472,7 @@ class ParkingSlotTest extends TestCase
         $dateRangeProcessor->process(
             $fromDate,
             $toDate,
-            function (DateTimeImmutable $date) use ($parkingSlot, $user, $isExclusive)
-            {
+            function (DateTimeImmutable $date) use ($parkingSlot, $user, $isExclusive) {
                 $assignments = $parkingSlot->getAssignmentsForPeriod($date, $date);
 
                 $this->assertEquals(1, count($assignments));
@@ -493,8 +491,7 @@ class ParkingSlotTest extends TestCase
         $dateRangeProcessor->process(
             $fromDate,
             $toDate,
-            function (DateTimeImmutable $date) use ($parkingSlot, $user, $isExclusive, $removeAssignmentDate)
-            {
+            function (DateTimeImmutable $date) use ($parkingSlot, $user, $isExclusive, $removeAssignmentDate) {
                 $assignments = $parkingSlot->getAssignmentsForPeriod($date, $date);
 
                 if ($this->normalizeDate($date) >= $this->normalizeDate($removeAssignmentDate)) {
@@ -549,8 +546,13 @@ class ParkingSlotTest extends TestCase
         $dateRangeProcessor->process(
             $assignFromDate,
             $assignToDate,
-            function (DateTimeImmutable $date) use ($parkingSlot, $user, $isExclusive, $markAsFreeFromDate, $markAsFreeToDate)
-            {
+            function (DateTimeImmutable $date) use (
+                $parkingSlot,
+                $user,
+                $isExclusive,
+                $markAsFreeFromDate,
+                $markAsFreeToDate
+            ) {
                 $assignments = $parkingSlot->getAssignmentsForPeriod($date, $date);
 
                 if ($this->inRange($date, $markAsFreeFromDate, $markAsFreeToDate)) {
@@ -636,8 +638,7 @@ class ParkingSlotTest extends TestCase
         $dateRangeProcessor->process(
             $fromDate,
             $toDate,
-            function (DateTimeImmutable $date) use ($parkingSlot, $user)
-            {
+            function (DateTimeImmutable $date) use ($parkingSlot, $user) {
                 $reservations = $parkingSlot->getReservationsForPeriod($date, $date);
 
                 $this->assertEquals(1, count($reservations));
@@ -767,8 +768,7 @@ class ParkingSlotTest extends TestCase
         $dateRangeProcessor->process(
             $fromDate,
             $toDate,
-            function (DateTimeImmutable $date) use ($parkingSlot, $user)
-            {
+            function (DateTimeImmutable $date) use ($parkingSlot, $user) {
                 $reservations = $parkingSlot->getReservationsForPeriod($date, $date);
 
                 $this->assertEquals(1, count($reservations));
@@ -786,10 +786,8 @@ class ParkingSlotTest extends TestCase
         $dateRangeProcessor->process(
             $fromDate,
             $toDate,
-            function (DateTimeImmutable $date) use ($parkingSlot, $user)
-            {
+            function (DateTimeImmutable $date) use ($parkingSlot, $user) {
                 $reservations = $parkingSlot->getReservationsForPeriod($date, $date);
-
                 $this->assertEquals(0, count($reservations));
             }
         );
@@ -842,8 +840,13 @@ class ParkingSlotTest extends TestCase
         $dateRangeProcessor->process(
             new DateTimeImmutable(),
             new DateTimeImmutable('+ 14 days'),
-            function (DateTimeImmutable $date)
-            use ($parkingSlot, $assignFromDate, $assignToDate, $reserveFromDate, $reserveToDate) {
+            function (DateTimeImmutable $date) use (
+                $parkingSlot,
+                $assignFromDate,
+                $assignToDate,
+                $reserveFromDate,
+                $reserveToDate
+            ) {
                 if ($this->inRange($date, $assignFromDate, $assignToDate)) {
                     $isFree = false;
                 } elseif ($this->inRange($date, $reserveFromDate, $reserveToDate)) {
@@ -884,7 +887,11 @@ class ParkingSlotTest extends TestCase
         ];
 
         foreach ($reservations as $reservation) {
-            $parkingSlot->reserveToUserForPeriod($reservation['user'], $reservation['fromDate'], $reservation['toDate']);
+            $parkingSlot->reserveToUserForPeriod(
+                $reservation['user'],
+                $reservation['fromDate'],
+                $reservation['toDate']
+            );
         }
 
         $parkingSlotReservations = $parkingSlot->getReservationsForPeriod(
@@ -1005,7 +1012,7 @@ class ParkingSlotTest extends TestCase
         bool $isExclusive
     ) {
         $this->assertInstanceOf(Assignment::class, $assignment);
-        $this->assertEquals($parkingSlot, $assignment->ParkingSlot());
+        $this->assertEquals($parkingSlot, $assignment->parkingSlot());
         $this->assertEquals($user, $assignment->user());
         $this->assertEquals($this->normalizeDate($date), $this->normalizeDate($assignment->date()));
         $this->assertEquals($isExclusive, $assignment->isExclusive());
@@ -1024,7 +1031,7 @@ class ParkingSlotTest extends TestCase
         DateTimeInterface $date
     ) {
         $this->assertInstanceOf(Reservation::class, $reservation);
-        $this->assertEquals($parkingSlot, $reservation->ParkingSlot());
+        $this->assertEquals($parkingSlot, $reservation->parkingSlot());
         $this->assertEquals($user, $reservation->user());
         $this->assertEquals($this->normalizeDate($date), $this->normalizeDate($reservation->date()));
     }
@@ -1035,7 +1042,7 @@ class ParkingSlotTest extends TestCase
      */
     protected function normalizeDate(DateTimeInterface $date): string
     {
-       return $date->format('Y-m-d');
+        return $date->format('Y-m-d');
     }
 
     /**
@@ -1050,4 +1057,3 @@ class ParkingSlotTest extends TestCase
             && $this->normalizeDate($date) <= $this->normalizeDate($toDate);
     }
 }
-

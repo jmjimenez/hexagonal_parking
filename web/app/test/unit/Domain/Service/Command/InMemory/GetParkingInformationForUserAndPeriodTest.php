@@ -62,7 +62,5 @@ class GetParkingInformationForUserAndPeriodTest extends TestCase
                 || $this->dateInRange($assigment->date(), $this->incrementDate($freeToDate, 1), $assignToDate)
             );
         }
-
     }
 }
-

@@ -79,8 +79,11 @@ trait DataSamplesGenerator
      * @param bool $exclusive
      * @throws InvalidDateRange
      */
-    private function assignParkingSlotOneToUserOne(DateTimeImmutable $fromDate, DateTimeImmutable $toDate, bool $exclusive)
-    {
+    private function assignParkingSlotOneToUserOne(
+        DateTimeImmutable $fromDate,
+        DateTimeImmutable $toDate,
+        bool $exclusive
+    ) {
         $this->parkingSlotOne->assignToUserForPeriod($this->userOne, $fromDate, $toDate, $exclusive);
     }
 

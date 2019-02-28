@@ -7,16 +7,21 @@ use Jmj\Parking\Domain\Aggregate\User;
 
 class ParkingSlotAlreadyReserved extends \Exception
 {
-    /** @var DateTimeInterface */
+    /**
+     * @var DateTimeInterface
+     */
     private $day;
 
-    /** @var User */
+    /**
+     * @var User
+     */
     private $user;
 
     /**
      * ParkingSlotAlreadyReserved constructor.
+     *
      * @param DateTimeInterface $day
-     * @param User $user
+     * @param User              $user
      */
     public function __construct(DateTimeInterface $day, User $user)
     {

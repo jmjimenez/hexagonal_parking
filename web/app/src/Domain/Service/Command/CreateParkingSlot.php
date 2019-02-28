@@ -12,22 +12,34 @@ use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class CreateParkingSlot extends ParkingBaseCommand
 {
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $loggedInUser;
 
-    /** @var Parking */
+    /**
+     * @var Parking
+     */
     protected $parking;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $parkingSlotNumber;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $parkingSlotDescription;
 
-    /** @var ParkingRepositoryInterface  */
+    /**
+     * @var ParkingRepositoryInterface
+     */
     protected $parkingRepository;
 
-    /** @var ParkingSlot */
+    /**
+     * @var ParkingSlot
+     */
     protected $parkingSlot;
 
     public function __construct(ParkingRepositoryInterface $parkingRepository)
@@ -36,10 +48,10 @@ class CreateParkingSlot extends ParkingBaseCommand
     }
 
     /**
-     * @param User $loggedInUser
-     * @param Parking $parking
-     * @param string $parkingSlotNumber
-     * @param string $parkingSlotDescription
+     * @param  User    $loggedInUser
+     * @param  Parking $parking
+     * @param  string  $parkingSlotNumber
+     * @param  string  $parkingSlotDescription
      * @return ParkingSlot
      * @throws ParkingException
      */

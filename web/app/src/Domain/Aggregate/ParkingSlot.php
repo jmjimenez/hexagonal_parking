@@ -29,28 +29,38 @@ abstract class ParkingSlot extends BaseAggregate
     const EVENT_PARKING_SLOT_DELETED = 'ParkingSlotDeleted';
     const EVENT_USER_REMOVED_FROM_PARKING_SLOT = 'UserRemovedFromParkingSlot';
 
-    /** @var Parking  */
+    /**
+     * @var Parking
+     */
     private $parking;
 
-    /** @var string  */
+    /**
+     * @var string
+     */
     private $number;
 
-    /** @var string  */
+    /**
+     * @var string
+     */
     private $description;
 
     /**
-     * @param User $user
-     * @param DateTimeImmutable $date
+     * @param  User              $user
+     * @param  DateTimeImmutable $date
      * @return bool
      */
     abstract protected function _isFreeForUserAndDay(User $user, DateTimeImmutable $date): bool;
 
     /**
-     * @param User $user
+     * @param User              $user
      * @param DateTimeImmutable $fromDate
      * @param DateTimeImmutable $toDate
      */
-    abstract protected function _markAsFreeFromUserAndPeriod(User $user, DateTimeImmutable $fromDate, DateTimeImmutable $toDate);
+    abstract protected function _markAsFreeFromUserAndPeriod(
+        User $user,
+        DateTimeImmutable $fromDate,
+        DateTimeImmutable $toDate
+    );
 
     /**
      * @param User $user
@@ -58,17 +68,17 @@ abstract class ParkingSlot extends BaseAggregate
     abstract protected function _removeFreeNotificationsForUser(User $user);
 
     /**
-     * @param DateTimeImmutable $fromDate
-     * @param DateTimeImmutable $toDate
+     * @param  DateTimeImmutable $fromDate
+     * @param  DateTimeImmutable $toDate
      * @return Assignment[]
      */
     abstract protected function _getAssignmentsForPeriod(DateTimeImmutable $fromDate, DateTimeImmutable $toDate);
 
     /**
-     * @param User $user
+     * @param User              $user
      * @param DateTimeImmutable $fromDate
      * @param DateTimeImmutable $toDate
-     * @param bool $exclusive
+     * @param bool              $exclusive
      */
     abstract protected function _assignToUserForPeriod(
         User $user,
@@ -78,7 +88,7 @@ abstract class ParkingSlot extends BaseAggregate
     );
 
     /**
-     * @param User $user
+     * @param User              $user
      * @param DateTimeImmutable $date
      */
     abstract protected function _removeAssignment(User $user, DateTimeImmutable $date);
@@ -89,15 +99,19 @@ abstract class ParkingSlot extends BaseAggregate
     abstract protected function _removeAssignmensForUser(User $user);
 
     /**
-     * @param User $user
+     * @param User              $user
      * @param DateTimeImmutable $fromDate
      * @param DateTimeImmutable $toDate
      */
-    abstract protected function _reserveToUserForPeriod(User $user, DateTimeImmutable $fromDate, DateTimeImmutable $toDate);
+    abstract protected function _reserveToUserForPeriod(
+        User $user,
+        DateTimeImmutable $fromDate,
+        DateTimeImmutable $toDate
+    );
 
     /**
-     * @param DateTimeImmutable $fromDate
-     * @param DateTimeImmutable $toDate
+     * @param  DateTimeImmutable $fromDate
+     * @param  DateTimeImmutable $toDate
      * @return Reservation[]
      */
     abstract protected function _getReservationsForPeriod(DateTimeImmutable $fromDate, DateTimeImmutable $toDate);
@@ -115,9 +129,9 @@ abstract class ParkingSlot extends BaseAggregate
     /**
      * ParkingSlot constructor.
      *
-     * @param Parking $parking
-     * @param string $number
-     * @param string $description
+     * @param  Parking $parking
+     * @param  string  $number
+     * @param  string  $description
      * @throws ParkingSlotDescriptionInvalid
      * @throws ParkingSlotNumberInvalid
      * @throws ExceptionGeneratingUuid
@@ -150,8 +164,8 @@ abstract class ParkingSlot extends BaseAggregate
     }
 
     /**
-     * @param string $number
-     * @param string $description
+     * @param  string $number
+     * @param  string $description
      * @throws ParkingSlotDescriptionInvalid
      * @throws ParkingSlotNumberInvalid
      */
@@ -182,10 +196,10 @@ abstract class ParkingSlot extends BaseAggregate
     }
 
     /**
-     * @param User $user
-     * @param DateTimeImmutable $fromDate
-     * @param DateTimeImmutable $toDate
-     * @param bool $exclusive
+     * @param  User              $user
+     * @param  DateTimeImmutable $fromDate
+     * @param  DateTimeImmutable $toDate
+     * @param  bool              $exclusive
      * @return bool
      * @throws InvalidDateRange
      * @throws Exception
@@ -195,17 +209,20 @@ abstract class ParkingSlot extends BaseAggregate
         DateTimeImmutable $fromDate,
         DateTimeImmutable $toDate,
         bool $exclusive
-    ) :bool
-    {
+    ) :bool {
         if ($fromDate > $toDate) {
             throw new InvalidDateRange();
         }
 
         $dateRangeProcessor = new DateRangeProcessor();
 
-        $dateRangeProcessor->process($fromDate, $toDate, function (DateTimeImmutable $date) use ($user, $exclusive) {
-            $this->checkAssignToUserForDay($user, $exclusive, $date);
-        });
+        $dateRangeProcessor->process(
+            $fromDate,
+            $toDate,
+            function (DateTimeImmutable $date) use ($user, $exclusive) {
+                $this->checkAssignToUserForDay($user, $exclusive, $date);
+            }
+        );
 
         $this->_assignToUserForPeriod($user, $fromDate, $toDate, $exclusive);
 
@@ -216,28 +233,32 @@ abstract class ParkingSlot extends BaseAggregate
                 'fromDate' => $fromDate,
                 'toDate' => $toDate,
                 'exclusive' => $exclusive
-            ]);
+            ]
+        );
 
         return true;
     }
 
     /**
-     * @param User $user
+     * @param User              $user
      * @param DateTimeImmutable $date
      */
     public function removeAssigment(User $user, DateTimeImmutable $date)
     {
         $this->_removeAssignment($user, $date);
 
-        $this->publishEvent(self::EVENT_PARKING_SLOT_ASSIGNMENT_REMOVED, [
-            'user' => $user,
-            'date' => $date
-        ]);
+        $this->publishEvent(
+            self::EVENT_PARKING_SLOT_ASSIGNMENT_REMOVED,
+            [
+                'user' => $user,
+                'date' => $date
+            ]
+        );
     }
 
     /**
-     * @param DateTimeImmutable $fromDate
-     * @param DateTimeImmutable $toDate
+     * @param  DateTimeImmutable $fromDate
+     * @param  DateTimeImmutable $toDate
      * @return Assignment[]
      */
     public function getAssignmentsForPeriod(DateTimeImmutable $fromDate, DateTimeImmutable $toDate)
@@ -246,7 +267,9 @@ abstract class ParkingSlot extends BaseAggregate
 
         $definiteAssignments = [];
 
-        /** @var Assignment $assigment */
+        /**
+         * @var Assignment $assigment
+         */
         foreach ($regularAssigments as $assigment) {
             if (!$this->_isFreeForUserAndDay($assigment->user(), $assigment->date())) {
                 $definiteAssignments[] = $assigment;
@@ -257,9 +280,9 @@ abstract class ParkingSlot extends BaseAggregate
     }
 
     /**
-     * @param User $user
-     * @param DateTimeImmutable $fromDate
-     * @param DateTimeImmutable $toDate
+     * @param  User              $user
+     * @param  DateTimeImmutable $fromDate
+     * @param  DateTimeImmutable $toDate
      * @throws Exception
      */
     public function markAsFreeFromUserAndPeriod(
@@ -269,23 +292,30 @@ abstract class ParkingSlot extends BaseAggregate
     ) {
         $dateRangeProcessor = new DateRangeProcessor();
 
-        $dateRangeProcessor->process($fromDate, $toDate, function (DateTimeImmutable $date) use ($user) {
-            $this->checkMarkAsFreeFromUserAndDay($user, $date);
-        });
+        $dateRangeProcessor->process(
+            $fromDate,
+            $toDate,
+            function (DateTimeImmutable $date) use ($user) {
+                $this->checkMarkAsFreeFromUserAndDay($user, $date);
+            }
+        );
 
         $this->_markAsFreeFromUserAndPeriod($user, $fromDate, $toDate);
 
-        $this->publishEvent(self::EVENT_PARKING_SLOT_MARKED_AS_FREE, [
-            'user' => $user,
-            'fromDate' => $fromDate,
-            'toDate' => $toDate
-        ]);
+        $this->publishEvent(
+            self::EVENT_PARKING_SLOT_MARKED_AS_FREE,
+            [
+                'user' => $user,
+                'fromDate' => $fromDate,
+                'toDate' => $toDate
+            ]
+        );
     }
 
     /**
-     * @param User $user
-     * @param DateTimeImmutable $fromDate
-     * @param DateTimeImmutable $toDate
+     * @param  User              $user
+     * @param  DateTimeImmutable $fromDate
+     * @param  DateTimeImmutable $toDate
      * @throws Exception
      */
     public function reserveToUserForPeriod(
@@ -295,22 +325,29 @@ abstract class ParkingSlot extends BaseAggregate
     ) {
         $dateRangeProcessor = new DateRangeProcessor();
 
-        $dateRangeProcessor->process($fromDate, $toDate, function (DateTimeImmutable $date) use ($user) {
-            $this->checkReserveToUserForDay($user, $date);
-        });
+        $dateRangeProcessor->process(
+            $fromDate,
+            $toDate,
+            function (DateTimeImmutable $date) use ($user) {
+                $this->checkReserveToUserForDay($user, $date);
+            }
+        );
 
         $this->_reserveToUserForPeriod($user, $fromDate, $toDate);
 
-        $this->publishEvent(self::EVENT_PARKING_SLOT_RESERVED, [
-            'user' => $user,
-            'fromDate' => $fromDate,
-            'toDate' => $toDate
-        ]);
+        $this->publishEvent(
+            self::EVENT_PARKING_SLOT_RESERVED,
+            [
+                'user' => $user,
+                'fromDate' => $fromDate,
+                'toDate' => $toDate
+            ]
+        );
     }
 
     /**
-     * @param DateTimeImmutable $fromDate
-     * @param DateTimeImmutable $toDate
+     * @param  DateTimeImmutable $fromDate
+     * @param  DateTimeImmutable $toDate
      * @return Reservation[]
      */
     public function getReservationsForPeriod(
@@ -345,7 +382,7 @@ abstract class ParkingSlot extends BaseAggregate
     }
 
     /**
-     * @param DateTimeImmutable $date
+     * @param  DateTimeImmutable $date
      * @return bool
      */
     public function isFreeForDate(DateTimeImmutable $date) : bool
@@ -376,9 +413,9 @@ abstract class ParkingSlot extends BaseAggregate
     }
 
     /**
-     * @param User $user
-     * @param bool $exclusive
-     * @param DateTimeImmutable $date
+     * @param  User              $user
+     * @param  bool              $exclusive
+     * @param  DateTimeImmutable $date
      * @throws ParkingSlotAlreadyAssigned
      * @throws ParkingSlotAlreadyReserved
      */
@@ -410,8 +447,8 @@ abstract class ParkingSlot extends BaseAggregate
     }
 
     /**
-     * @param User $user
-     * @param DateTimeImmutable $date
+     * @param  User              $user
+     * @param  DateTimeImmutable $date
      * @throws ParkingSlotNotAssignedToUser
      */
     private function checkMarkAsFreeFromUserAndDay(User $user, DateTimeImmutable $date)
@@ -432,8 +469,8 @@ abstract class ParkingSlot extends BaseAggregate
     }
 
     /**
-     * @param User $user
-     * @param DateTimeImmutable $date
+     * @param  User              $user
+     * @param  DateTimeImmutable $date
      * @throws ParkingSlotAlreadyAssigned
      * @throws ParkingSlotAlreadyReserved
      */
@@ -467,7 +504,7 @@ abstract class ParkingSlot extends BaseAggregate
     }
 
     /**
-     * @param string $number
+     * @param  string $number
      * @throws ParkingSlotNumberInvalid
      */
     private function setNumber(string $number)
@@ -480,7 +517,7 @@ abstract class ParkingSlot extends BaseAggregate
     }
 
     /**
-     * @param string $description
+     * @param  string $description
      * @throws ParkingSlotDescriptionInvalid
      */
     private function setDescription(string $description)

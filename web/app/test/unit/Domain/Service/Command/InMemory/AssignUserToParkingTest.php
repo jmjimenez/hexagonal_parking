@@ -55,4 +55,3 @@ class AssignUserToParkingTest extends TestCase
         $this->assertFalse($parking->isAdministeredByUser($user));
     }
 }
-

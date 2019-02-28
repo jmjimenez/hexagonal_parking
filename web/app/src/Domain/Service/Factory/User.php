@@ -11,10 +11,10 @@ use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
 interface User
 {
     /**
-     * @param string $name
-     * @param string $email
-     * @param string $password
-     * @param bool $isAdministrator
+     * @param  string $name
+     * @param  string $email
+     * @param  string $password
+     * @param  bool   $isAdministrator
      * @return UserAggregate
      * @throws ExceptionGeneratingUuid
      * @throws UserEmailInvalid

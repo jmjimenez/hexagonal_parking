@@ -21,7 +21,8 @@ class AssignUserToParking extends ParkingBaseHandler
      * @param ParkingRepository $parkingRepository
      * @param UserRepository $userRepository
      */
-    public function __construct(ParkingRepository $parkingRepository, UserRepository $userRepository) {
+    public function __construct(ParkingRepository $parkingRepository, UserRepository $userRepository)
+    {
         $this->parkingRepository = $parkingRepository;
         $this->userRepository = $userRepository;
     }

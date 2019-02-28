@@ -22,11 +22,9 @@ class DateRangeProcessor
     {
         $dateInterval = new DateInterval('P1D');
 
-        for (
-            $d = new DateTime($this->normalizeDate($fromDate));
+        for ($d = new DateTime($this->normalizeDate($fromDate));
             $this->dateLessThanOrEqual($d, $toDate);
-            $d->add($dateInterval)
-        ) {
+            $d->add($dateInterval)) {
             $d2 = new DateTimeImmutable($this->normalizeDate($d));
             $callback($d2);
         }

@@ -10,19 +10,25 @@ use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 
 class AssignAdministratorRightsToUserForParking extends ParkingBaseCommand
 {
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $loggedInUser;
 
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $user;
 
-    /** @var Parking */
+    /**
+     * @var Parking
+     */
     protected $parking;
 
     /**
-     * @param User $loggedInUser
-     * @param User $user
-     * @param Parking $parking
+     * @param  User    $loggedInUser
+     * @param  User    $user
+     * @param  Parking $parking
      * @throws ParkingException
      */
     public function execute(User $loggedInUser, User $user, Parking $parking)
@@ -32,7 +38,6 @@ class AssignAdministratorRightsToUserForParking extends ParkingBaseCommand
         $this->parking = $parking;
 
         $this->processCatchingDomainEvents();
-
     }
 
     /**
@@ -49,4 +54,3 @@ class AssignAdministratorRightsToUserForParking extends ParkingBaseCommand
         $this->parking->addAdministrator($this->user);
     }
 }
-

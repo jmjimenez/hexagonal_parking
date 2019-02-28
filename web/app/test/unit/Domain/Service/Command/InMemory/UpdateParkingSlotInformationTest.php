@@ -57,4 +57,3 @@ class UpdateParkingSlotInformationTest extends TestCase
         $this->assertEquals($description, $parkingSlot->description());
     }
 }
-

@@ -66,5 +66,4 @@ class AssignUserToParking
     {
         return $this->isAdministrator;
     }
-
 }

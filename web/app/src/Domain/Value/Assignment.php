@@ -10,24 +10,33 @@ use Jmj\Parking\Domain\Aggregate\User;
 
 class Assignment
 {
-    /** @var ParkingSlot */
+    /**
+     * @var ParkingSlot
+     */
     private $parkingSlot;
 
-    /** @var User */
+    /**
+     * @var User
+     */
     private $user;
 
-    /** @var DateTime */
+    /**
+     * @var DateTime
+     */
     private $date;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     private $isExclusive;
 
     /**
      * Assignment constructor.
-     * @param ParkingSlot $parkingSlot
-     * @param User $user
-     * @param DateTimeInterface $day
-     * @param bool $exclusive
+     *
+     * @param  ParkingSlot       $parkingSlot
+     * @param  User              $user
+     * @param  DateTimeInterface $day
+     * @param  bool              $exclusive
      * @throws \Exception
      */
     public function __construct(ParkingSlot $parkingSlot, User $user, DateTimeInterface $day, bool $exclusive)
@@ -38,7 +47,7 @@ class Assignment
         $this->isExclusive = $exclusive;
     }
 
-    public function ParkingSlot() : ParkingSlot
+    public function parkingSlot() : ParkingSlot
     {
         return $this->parkingSlot;
     }

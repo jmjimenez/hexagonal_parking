@@ -11,16 +11,24 @@ use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class DeassignUserFromParking extends ParkingBaseCommand
 {
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $loggedInUser;
 
-    /** @var Parking */
+    /**
+     * @var Parking
+     */
     protected $parking;
 
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $user;
 
-    /** @var ParkingRepositoryInterface  */
+    /**
+     * @var ParkingRepositoryInterface
+     */
     protected $parkingRepository;
 
     public function __construct(ParkingRepositoryInterface $parkingRepository)
@@ -29,9 +37,9 @@ class DeassignUserFromParking extends ParkingBaseCommand
     }
 
     /**
-     * @param User $loggedInUser
-     * @param Parking $parking
-     * @param User $user
+     * @param  User    $loggedInUser
+     * @param  Parking $parking
+     * @param  User    $user
      * @throws ParkingException
      */
     public function execute(User $loggedInUser, Parking $parking, User $user)

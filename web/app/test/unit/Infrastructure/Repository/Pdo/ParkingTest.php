@@ -130,7 +130,10 @@ class ParkingTest extends TestCase
         $this->assertEquals(self::$parking->uuid(), $parkingFound->uuid());
 
         foreach (self::$parkingSlots as $parkingSlot) {
-            $this->assertEquals($parkingSlot->uuid(), $parkingFound->getParkingSlotByUuid($parkingSlot->uuid())->uuid());
+            $this->assertEquals(
+                $parkingSlot->uuid(),
+                $parkingFound->getParkingSlotByUuid($parkingSlot->uuid())->uuid()
+            );
         }
 
         foreach (self::$users as $user) {
@@ -189,4 +192,3 @@ class ParkingTest extends TestCase
         return $parking;
     }
 }
-

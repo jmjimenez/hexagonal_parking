@@ -36,7 +36,7 @@ trait NormalizeDate
      */
     protected function incrementDate(DateTimeInterface $date, int $days) : DateTimeImmutable
     {
-        return new DateTimeImmutable(sprintf('%s +%s days',$this->normalizeDate($date), $days));
+        return new DateTimeImmutable(sprintf('%s +%s days', $this->normalizeDate($date), $days));
     }
 
     /**
@@ -47,7 +47,7 @@ trait NormalizeDate
      */
     protected function decrementDate(DateTimeInterface $date, int $days) : DateTimeImmutable
     {
-        return new DateTimeImmutable(sprintf('%s -%s days',$this->normalizeDate($date), $days));
+        return new DateTimeImmutable(sprintf('%s -%s days', $this->normalizeDate($date), $days));
     }
 
     /**
@@ -65,8 +65,11 @@ trait NormalizeDate
      * @param DateTimeInterface $toDate
      * @return bool
      */
-    protected function dateInRange(DateTimeInterface $date, DateTimeInterface $fromDate, DateTimeInterface $toDate) : bool
-    {
+    protected function dateInRange(
+        DateTimeInterface $date,
+        DateTimeInterface $fromDate,
+        DateTimeInterface $toDate
+    ) : bool {
         return $this->normalizeDate($date) >= $this->normalizeDate($fromDate)
             && $this->normalizeDate($date) <= $this->normalizeDate($toDate);
     }

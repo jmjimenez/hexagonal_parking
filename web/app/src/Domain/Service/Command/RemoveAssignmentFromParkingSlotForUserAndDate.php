@@ -14,22 +14,34 @@ use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseCommand
 {
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $loggedInUser;
 
-    /** @var Parking */
+    /**
+     * @var Parking
+     */
     protected $parking;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $parkingSlotUuid;
 
-    /** @var User */
+    /**
+     * @var User
+     */
     protected $user;
 
-    /** @var DateTimeImmutable */
+    /**
+     * @var DateTimeImmutable
+     */
     protected $fromDate;
 
-    /** @var ParkingRepositoryInterface  */
+    /**
+     * @var ParkingRepositoryInterface
+     */
     protected $parkingRepository;
 
     public function __construct(ParkingRepositoryInterface $parkingRepository)
@@ -38,11 +50,11 @@ class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseCommand
     }
 
     /**
-     * @param User $loggedInUser
-     * @param Parking $parking
-     * @param string $parkingSlotUuid
-     * @param User $user
-     * @param DateTimeImmutable $fromDate
+     * @param  User              $loggedInUser
+     * @param  Parking           $parking
+     * @param  string            $parkingSlotUuid
+     * @param  User              $user
+     * @param  DateTimeImmutable $fromDate
      * @return void
      * @throws ParkingException
      */
@@ -69,9 +81,10 @@ class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseCommand
      */
     protected function process()
     {
-        /** TODO: perhaps these checking methods should be in the parent class */
-        if (
-            !$this->parking->isAdministeredByUser($this->loggedInUser)
+        /**
+         * TODO: perhaps these checking methods should be in the parent class
+         */
+        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
             && ($this->user->uuid() !== $this->loggedInUser->uuid())
         ) {
             throw new NotAuthorizedOperation('Operation not allowed');

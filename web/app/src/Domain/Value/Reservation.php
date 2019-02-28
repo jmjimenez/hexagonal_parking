@@ -8,19 +8,26 @@ use Jmj\Parking\Domain\Aggregate\User;
 
 class Reservation
 {
-    /** @var ParkingSlot  */
+    /**
+     * @var ParkingSlot
+     */
     private $parkingSlot;
 
-    /** @var User */
+    /**
+     * @var User
+     */
     private $user;
 
-    /** @var DateTimeImmutable */
+    /**
+     * @var DateTimeImmutable
+     */
     private $date;
 
     /**
      * Reservation constructor.
-     * @param ParkingSlot $parkingSlot
-     * @param User $user
+     *
+     * @param ParkingSlot       $parkingSlot
+     * @param User              $user
      * @param DateTimeImmutable $day
      */
     public function __construct(ParkingSlot $parkingSlot, User $user, DateTimeImmutable $day)
@@ -30,7 +37,7 @@ class Reservation
         $this->date = $day;
     }
 
-    public function ParkingSlot(): ParkingSlot
+    public function parkingSlot(): ParkingSlot
     {
         return $this->parkingSlot;
     }

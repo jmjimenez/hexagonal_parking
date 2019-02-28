@@ -80,4 +80,3 @@ class RemoveAssignmentFromParkingSlotForUserAndDateTest extends TestCase
         );
     }
 }
-

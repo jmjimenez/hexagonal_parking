@@ -34,27 +34,3 @@ class DomainEventsRegisterTest extends TestCase
         );
     }
 }
-
-class DomainEventsTestA
-{
-    public const EVENT_TEST_A = 'DomainEventsTestAEvent';
-
-    public function publishEvent()
-    {
-        $domainBroker = SynchronousEventsBroker::getInstance();
-
-        $domainBroker->publishEvent(get_class($this), self::EVENT_TEST_A, $this);
-    }
-}
-
-class DomainEventsTestB
-{
-    public const EVENT_TEST_B = 'DomainEventsTestAEvent';
-
-    public function publishEvent()
-    {
-        $domainBroker = SynchronousEventsBroker::getInstance();
-
-        $domainBroker->publishEvent(get_class($this), self::EVENT_TEST_B, $this);
-    }
-}

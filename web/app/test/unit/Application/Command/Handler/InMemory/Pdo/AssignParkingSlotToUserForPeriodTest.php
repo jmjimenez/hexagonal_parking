@@ -4,7 +4,6 @@ namespace Jmj\Test\Unit\Application\Command\Handler\InMemory\Pdo;
 
 use DateTimeImmutable;
 use Jmj\Parking\Application\Command\AssignParkingSlotToUserForPeriod as AssignParkingSlotToUserForPeriodPayload;
-use Jmj\Parking\Application\Command\Handler\AssignAdministratorRightsToUserForParking;
 use Jmj\Parking\Application\Command\Handler\AssignParkingSlotToUserForPeriod;
 use Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
@@ -12,7 +11,6 @@ use Jmj\Parking\Common\DateRangeProcessor;
 use Jmj\Parking\Common\Exception\PdoConnectionError;
 use Jmj\Parking\Common\Exception\PdoExecuteError;
 use Jmj\Parking\Common\NormalizeDate;
-use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Common\DomainEventsRegister;
 use Jmj\Parking\Domain\Aggregate\ParkingSlot;
 use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;

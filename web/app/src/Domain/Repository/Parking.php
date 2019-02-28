@@ -14,13 +14,13 @@ interface Parking
 
     /**
      * @param DomainParking $parking
-     * @return mixed
+     * @return int
      */
-    public function save(DomainParking $parking);
+    public function save(DomainParking $parking) : int;
 
     /**
      * @param DomainParking $parking
      * @return mixed
      */
-    public function delete(DomainParking $parking);
+    public function delete(DomainParking $parking) : int;
 }

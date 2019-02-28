@@ -27,18 +27,24 @@ class Parking implements DomainParkingRepository
     /**
      * @inheritdoc
      */
-    public function save(DomainParking $parking)
+    public function save(DomainParking $parking) : int
     {
         $this->parkings[$parking->uuid()] = $parking;
+
+        return 1;
     }
 
     /**
      * @inheritdoc
      */
-    public function delete(DomainParking $parking)
+    public function delete(DomainParking $parking) : int
     {
         if (isset($this->parkings[$parking->uuid()])) {
             unset($this->parkings[$parking->uuid()]);
+
+            return 1;
         }
+
+        return 0;
     }
 }

@@ -32,7 +32,7 @@ class AssignAdministratorRightsToUserForParking
     /**
      * @return string
      */
-    public function getLoggedUserUuid(): string
+    public function loggedUserUuid(): string
     {
         return $this->loggedUserUuid;
     }
@@ -40,7 +40,7 @@ class AssignAdministratorRightsToUserForParking
     /**
      * @return string
      */
-    public function getUserUuid(): string
+    public function userUuid(): string
     {
         return $this->userUuid;
     }
@@ -48,7 +48,7 @@ class AssignAdministratorRightsToUserForParking
     /**
      * @return string
      */
-    public function getParkingUuid(): string
+    public function parkingUuid(): string
     {
         return $this->parkingUuid;
     }

@@ -30,21 +30,17 @@ class AssignAdministratorRightsToUserForParkingTest extends TestCase
      */
     public function testExecute()
     {
-        //TODO: phpunit tests are a bit disorganized, rearrange them
         $this->createTestCase();
 
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new AssignAdministratorRightsToUserForParking($this->parkingRepository);
+        $command = new AssignAdministratorRightsToUserForParking();
         $command->execute($this->loggedInUser, $this->userOne, $this->parking);
 
         $this->assertEquals([ Parking::EVENT_ADMINISTRATOR_ADDED_TO_PARKING ], $this->recordedEventNames);
 
-        $parking = $this->parkingRepository->findByUuid($this->parking->uuid());
-
-        $this->assertInstanceOf(Parking::class, $parking);
-        $this->assertTrue($parking->isAdministeredByUser($this->userOne));
+        $this->assertTrue($this->parking->isAdministeredByUser($this->userOne));
     }
 }
 

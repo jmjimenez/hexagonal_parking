@@ -38,7 +38,7 @@ abstract class ParkingBaseCommand
     /**
      * @throws ParkingException
      */
-    public function processCatchingDomainEvents()
+    protected function processCatchingDomainEvents()
     {
         //TODO: review all exceptions thrown by all processes
         try {

@@ -10,7 +10,7 @@ use Jmj\Parking\Domain\Service\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Service\Exception\UserNotAssigned;
 use Jmj\Parking\Infrastructure\Repository\Parking;
 use Jmj\Parking\Infrastructure\Repository\User;
-use Jmj\Parking\Application\Command\AssignParkingSlotToUser;
+use Jmj\Parking\Application\Command\AssignParkingSlotToUserForPeriod;
 
 class AdministratorAssignsParkingSlotToUser
 {
@@ -34,14 +34,14 @@ class AdministratorAssignsParkingSlotToUser
     }
 
     /**
-     * @param AssignParkingSlotToUser $command
+     * @param AssignParkingSlotToUserForPeriod $command
      * @throws ParkingNotFound
      * @throws ParkingSlotNotFound
      * @throws UserNotFound
      * @throws NotAuthorizedOperation
      * @throws UserNotAssigned
      */
-    public function execute(AssignParkingSlotToUser $command)
+    public function execute(AssignParkingSlotToUserForPeriod $command)
     {
         $administrator = $this->userRepository->findById($command->administratorId());
         if (false === $administrator) {

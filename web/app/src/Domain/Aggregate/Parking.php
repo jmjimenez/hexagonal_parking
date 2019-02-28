@@ -384,6 +384,7 @@ abstract class Parking extends BaseAggregate
     {
         $parkingAssignments = [];
 
+        //TODO: perhaps the result should be a plain array instead of a bidimensional array
         foreach ($this->_getParkingSlots() as $parkingSlot) {
             $parkingAssignments[$parkingSlot->number()] = $parkingSlot->getAssignmentsForPeriod($date, $date);
         }

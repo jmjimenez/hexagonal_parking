@@ -18,6 +18,7 @@
   "prefer-stable": true,
   "require": {
     "ramsey/uuid": "4.x-dev",
-    "psx/framework": "^4.1"
+    "psx/framework": "^4.1",
+    "firebase/php-jwt": "^5.0"
   }
 }

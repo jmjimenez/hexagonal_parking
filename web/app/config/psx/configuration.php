@@ -42,6 +42,11 @@ return array(
         \PSX\Data\Writer\Jsonx::class,
     ],
 
+    'parking_jwt' => [
+        'secret' => 'parkingSecret',
+        'algorithm' => [ 'HS256' ],
+    ],
+
     // Global middleware which are applied before and after every request. Must
     // bei either a classname, closure or PSX\Dispatch\FilterInterface instance
     //'psx_filter_pre'          => [],

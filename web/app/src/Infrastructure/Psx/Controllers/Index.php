@@ -2,11 +2,10 @@
 
 namespace Jmj\Parking\Infrastructure\Psx\Controllers;
 
-use PSX\Framework\Controller\ControllerAbstract;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class Index extends ControllerAbstract
+class Index extends BaseController
 {
     public function onGet(RequestInterface $request, ResponseInterface $response)
     {

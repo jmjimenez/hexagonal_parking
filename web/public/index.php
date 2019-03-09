@@ -1,16 +1,11 @@
 <?php
 
 include '../app/vendor/autoload.php';
-$foo = new Jmj\Parking\Foo();
 
-?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Docker <?php echo $foo->getName(); ?></title>
-    </head>
-    <body>
-        <h1>Docker <?php echo $foo->getName(); ?></h1>
-    </body>
-</html>
+$container = new \Jmj\Parking\Infrastructure\Psx\Dependency\Container();
+$container->setParameter('config.file', __DIR__ . '/../app/config/psx/configuration.php');
+
+$engine      = new \PSX\Framework\Environment\WebServer\Engine();
+$environment = new \PSX\Framework\Environment\Environment($container, $engine);
+
+return $environment->serve();

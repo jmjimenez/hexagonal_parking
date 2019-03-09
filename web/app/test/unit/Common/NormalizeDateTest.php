@@ -2,9 +2,9 @@
 
 namespace Jmj\Test\Unit\Common;
 
+use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
-use Nette\Utils\DateTime;
 use PHPUnit\Framework\TestCase;
 
 class NormalizeDateTest extends TestCase
@@ -41,7 +41,7 @@ class NormalizeDateTest extends TestCase
             [  new DateTime(''), new DateTimeImmutable('+3 days'), true ],
             [  new DateTimeImmutable(''), new DateTimeImmutable('+3 days'), true ],
             [  new DateTimeImmutable('+3 days'), new DateTimeImmutable('+3 days'), true ],
-            [  new \DateTime('00:10:00'), new DateTimeImmutable('00:00:00'), true ],
+            [  new DateTime('00:10:00'), new DateTimeImmutable('00:00:00'), true ],
         ];
     }
 

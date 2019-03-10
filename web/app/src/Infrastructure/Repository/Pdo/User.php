@@ -12,10 +12,9 @@ use Jmj\Parking\Domain\Repository\User as DomainUserRepository;
 class User extends PdoObjectRepository implements DomainUserRepository
 {
     /** @var string  */
-    private $tableName = 'Parking';
+    private $tableName = 'User';
 
     /**
-     * Parking constructor.
      * @param string $tableName
      * @param PdoProxy $pdoProxy
      */
@@ -33,30 +32,30 @@ class User extends PdoObjectRepository implements DomainUserRepository
      */
     public function findByUuid(string $uuid): ?DomainUser
     {
-        /** @var DomainUser $parking */
-        $parking = parent::findObjectByUuid($uuid);
+        /** @var DomainUser $user */
+        $user = parent::findObjectByUuid($uuid);
 
-        return $parking;
+        return $user;
     }
 
     /**
      * @inheritdoc
-     * @param DomainUser $parking
+     * @param DomainUser $user
      * @throws \Exception
      */
-    public function save(DomainUser $parking) : int
+    public function save(DomainUser $user) : int
     {
-        return parent::saveObject($parking);
+        return parent::saveObject($user);
     }
 
     /**
-     * @param DomainUser $parking
+     * @param DomainUser $user
      * @return int
      * @throws \Exception
      */
-    public function delete(DomainUser $parking): int
+    public function delete(DomainUser $user): int
     {
-        return parent::deleteObject($parking);
+        return parent::deleteObject($user);
     }
 
     /**

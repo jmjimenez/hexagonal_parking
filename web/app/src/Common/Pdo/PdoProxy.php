@@ -35,7 +35,7 @@ class PdoProxy
 
         try {
             $this->pdo = new PDO(
-                sprintf("mysql:host=%s;dbname%s", $host, $this->dbname),
+                sprintf("mysql:host=%s;dbname=%s", $host, $this->dbname),
                 $user,
                 $password
             );
@@ -197,10 +197,16 @@ class PdoProxy
      * @param PDOStatement $statement
      * @param array|null $params
      * @return bool
+     * @throws PdoExecuteError
      */
     protected function executeStatement(PDOStatement $statement, array $params = null)
     {
         $result = $statement->execute($params);
+
+        if (in_array($statement->errorCode(), [ '00000' ]) === false) {
+            throw new PdoExecuteError($statement->errorInfo()[2]);
+        }
+
         return $result;
     }
 

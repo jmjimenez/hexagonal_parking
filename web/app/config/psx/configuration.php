@@ -47,6 +47,13 @@ return array(
         'algorithm' => [ 'HS256' ],
     ],
 
+    'parking_db_conf' => [
+        'host' => 'mysql',
+        'user' => 'dev',
+        'password' => 'dev',
+        'dbname' => 'parking',
+    ],
+
     // Global middleware which are applied before and after every request. Must
     // bei either a classname, closure or PSX\Dispatch\FilterInterface instance
     //'psx_filter_pre'          => [],

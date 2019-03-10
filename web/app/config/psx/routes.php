@@ -2,7 +2,16 @@
 
 return [
     # API
-    [['GET'], '/', Jmj\Parking\Infrastructure\Psx\Controllers\Index::class],
+    [
+        ['GET'],
+        '/',
+        \Jmj\Parking\Infrastructure\Psx\Controllers\Index::class
+    ],
+    [
+        ['POST'],
+        '/assignadministratorrightstouser',
+        \Jmj\Parking\Infrastructure\Psx\Controllers\AssignAdministratorRightsToUserForParking::class
+    ],
 
     # tool controller
     [['ANY'], '/tool/discovery', \PSX\Framework\Controller\Tool\DiscoveryController::class],

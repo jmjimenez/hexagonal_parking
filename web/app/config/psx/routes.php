@@ -12,6 +12,11 @@ return [
         '/assignadministratorrightstouserforparking',
         \Jmj\Parking\Infrastructure\Psx\Controllers\AssignAdministratorRightsToUserForParking::class
     ],
+    [
+        ['POST'],
+        '/createparking',
+        \Jmj\Parking\Infrastructure\Psx\Controllers\CreateParking::class
+    ],
 
     # tool controller
     [['ANY'], '/tool/discovery', \PSX\Framework\Controller\Tool\DiscoveryController::class],

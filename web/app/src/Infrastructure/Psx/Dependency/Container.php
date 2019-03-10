@@ -4,9 +4,11 @@ namespace Jmj\Parking\Infrastructure\Psx\Dependency;
 
 use Jmj\Parking\Application\Command\Handler\AssignAdministratorRightsToUserForParking;
 use Jmj\Parking\Application\Command\Handler\AssignUserToParking;
+use Jmj\Parking\Application\Command\Handler\CreateParking;
 use Jmj\Parking\Common\Pdo\PdoProxy;
 use Jmj\Parking\Infrastructure\Repository\Pdo\User as PdoUserRepository;
 use Jmj\Parking\Infrastructure\Repository\Pdo\Parking as PdoParkingRepository;
+use Jmj\Parking\Infrastructure\Service\Factory\InMemory\Parking as ParkingFactory;
 use PSX\Framework\Dependency\DefaultContainer;
 
 class Container extends DefaultContainer
@@ -103,6 +105,43 @@ class Container extends DefaultContainer
             $this->getParkingRepository(),
             $this->getUserRepository()
         );
+
+        return $command;
+    }
+
+    /**
+     * @return CreateParking
+     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
+     */
+    public function getCreateParkingCommandHandler() : CreateParking
+    {
+        static $command = null;
+
+        if ($command !== null) {
+            return $command;
+        }
+
+        $command = new CreateParking(
+            $this->getUserRepository(),
+            $this->getParkingFactory(),
+            $this->getParkingRepository()
+        );
+
+        return $command;
+    }
+
+    /**
+     * @return ParkingFactory
+     */
+    public function getParkingFactory() : ParkingFactory
+    {
+        static $command = null;
+
+        if ($command !== null) {
+            return $command;
+        }
+
+        $command = new ParkingFactory();
 
         return $command;
     }

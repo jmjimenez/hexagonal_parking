@@ -77,6 +77,7 @@ class CreateParking extends ParkingBaseCommand
             throw new NotAuthorizedOperation('User cannot create a new Parking');
         }
 
+        //TODO: check the description is unique
         $this->parking = $this->parkingFactory->create($this->parkingName);
     }
 }

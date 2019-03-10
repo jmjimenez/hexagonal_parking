@@ -3,11 +3,6 @@
 return [
     # API
     [
-        ['GET'],
-        '/',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\Index::class
-    ],
-    [
         ['POST'],
         '/assignusertoparking',
         \Jmj\Parking\Infrastructure\Psx\Controllers\AssignUserToParking::class

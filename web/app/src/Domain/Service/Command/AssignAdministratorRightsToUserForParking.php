@@ -47,7 +47,8 @@ class AssignAdministratorRightsToUserForParking extends ParkingBaseCommand
     protected function process()
     {
         //TODO: implement phpunit for wrong paths
-        if (!$this->parking->isAdministeredByUser($this->loggedInUser)) {
+        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
+            && !$this->loggedInUser->isAdministrator()) {
             throw new NotAuthorizedOperation('User is not administrator');
         }
 

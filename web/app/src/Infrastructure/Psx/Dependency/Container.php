@@ -2,6 +2,8 @@
 
 namespace Jmj\Parking\Infrastructure\Psx\Dependency;
 
+use Jmj\Parking\Application\Command\Handler\AssignAdministratorRightsToUserForParking;
+use Jmj\Parking\Application\Command\Handler\AssignUserToParking;
 use Jmj\Parking\Common\Pdo\PdoProxy;
 use Jmj\Parking\Infrastructure\Repository\Pdo\User as PdoUserRepository;
 use Jmj\Parking\Infrastructure\Repository\Pdo\Parking as PdoParkingRepository;
@@ -13,7 +15,7 @@ class Container extends DefaultContainer
      * @return PdoUserRepository
      * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
-    public function getUserRepository()
+    public function getUserRepository() : PdoUserRepository
     {
         static $repository = null;
 
@@ -28,7 +30,7 @@ class Container extends DefaultContainer
      * @return PdoParkingRepository
      * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
-    public function getParkingRepository()
+    public function getParkingRepository() : PdoParkingRepository
     {
         static $repository = null;
 
@@ -43,7 +45,7 @@ class Container extends DefaultContainer
      * @return PdoProxy
      * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
-    public function getPdoProxy()
+    public function getPdoProxy() : PdoProxy
     {
         static $pdoProxy = null;
 
@@ -62,5 +64,46 @@ class Container extends DefaultContainer
         );
 
         return $pdoProxy;
+    }
+
+    /**
+     * @return AssignAdministratorRightsToUserForParking
+     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
+     */
+    public function getAssignAdministratorRightsToUserForParkingCommandHandler()
+        : AssignAdministratorRightsToUserForParking
+    {
+        static $command = null;
+
+        if ($command !== null) {
+            return $command;
+        }
+
+        $command = new AssignAdministratorRightsToUserForParking(
+            $this->getParkingRepository(),
+            $this->getUserRepository()
+        );
+
+        return $command;
+    }
+
+    /**
+     * @return AssignUserToParking
+     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
+     */
+    public function getAssignUserToParkingCommandHandler() : AssignUserToParking
+    {
+        static $command = null;
+
+        if ($command !== null) {
+            return $command;
+        }
+
+        $command = new AssignUserToParking(
+            $this->getParkingRepository(),
+            $this->getUserRepository()
+        );
+
+        return $command;
     }
 }

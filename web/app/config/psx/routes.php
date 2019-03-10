@@ -9,7 +9,12 @@ return [
     ],
     [
         ['POST'],
-        '/assignadministratorrightstouser',
+        '/assignusertoparking',
+        \Jmj\Parking\Infrastructure\Psx\Controllers\AssignUserToParking::class
+    ],
+    [
+        ['POST'],
+        '/assignadministratorrightstouserforparking',
         \Jmj\Parking\Infrastructure\Psx\Controllers\AssignAdministratorRightsToUserForParking::class
     ],
 

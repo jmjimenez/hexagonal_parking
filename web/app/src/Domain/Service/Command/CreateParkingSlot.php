@@ -77,7 +77,10 @@ class CreateParkingSlot extends ParkingBaseCommand
      */
     protected function process()
     {
-        if (!$this->parking->isAdministeredByUser($this->loggedInUser)) {
+        //TODO: phpunit that an administrator can perform the operation
+        //TODO: perhaps we may encapsulate this checking
+        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
+            && !$this->loggedInUser->isAdministrator()) {
             throw new NotAuthorizedOperation('User cannot do this operation');
         }
 

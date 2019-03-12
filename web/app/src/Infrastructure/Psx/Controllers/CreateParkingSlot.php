@@ -2,36 +2,39 @@
 
 namespace Jmj\Parking\Infrastructure\Psx\Controllers;
 
-use Jmj\Parking\Application\Command\CreateParking as CreateParkingCommand;
+use Jmj\Parking\Application\Command\CreateParkingSlot as CreateParkingSlotCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class CreateParking extends BaseController
+class CreateParkingSlot extends BaseController
 {
     /**
-     * @Inject("CreateParkingCommandHandler")
-     * @var \Jmj\Parking\Application\Command\Handler\CreateParking
+     * @Inject("CreateParkingSlotCommandHandler")
+     * @var \Jmj\Parking\Application\Command\Handler\CreateParkingSlot
      */
     protected $commandHandler;
 
     /**
      * @param RequestInterface $request
      * @param ResponseInterface $response
+     * @throws \Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound
      */
     public function onPost(RequestInterface $request, ResponseInterface $response)
     {
         $postData = $this->requestReader->getBody($request);
 
-        $command = new CreateParkingCommand(
+        $command = new CreateParkingSlotCommand(
             $this->loggedInUser->uuid(),
-            $postData->description
+            $postData->parkingUuid,
+            $postData->parkingSlotNumber,
+            $postData->parkingSlotDescription
         );
 
         try {
-            $parking = $this->commandHandler->execute($command);
-            $data = [ 'result' => 'ok', 'parkingUuid' => $parking->uuid() ];
+            $parkingSlot = $this->commandHandler->execute($command);
+            $data = [ 'result' => 'ok', 'parkingSlotUuid' => $parkingSlot->uuid() ];
         } catch (UserNotFound $e) {
             $data = [ 'result' => 'error', 'message' => 'User not found' ];
         } catch (ParkingException $e) {

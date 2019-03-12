@@ -2,6 +2,7 @@
 
 namespace Jmj\Parking\Infrastructure\Psx\Dependency;
 
+use Jmj\Parking\Application\Command\Handler\CreateParkingSlot;
 use Jmj\Parking\Application\Command\Handler\AssignAdministratorRightsToUserForParking;
 use Jmj\Parking\Application\Command\Handler\AssignUserToParking;
 use Jmj\Parking\Application\Command\Handler\CreateParking;
@@ -124,6 +125,26 @@ class Container extends DefaultContainer
         $command = new CreateParking(
             $this->getUserRepository(),
             $this->getParkingFactory(),
+            $this->getParkingRepository()
+        );
+
+        return $command;
+    }
+
+    /**
+     * @return CreateParkingSlot
+     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
+     */
+    public function getCreateParkingSlotCommandHandler() : CreateParkingSlot
+    {
+        static $command = null;
+
+        if ($command !== null) {
+            return $command;
+        }
+
+        $command = new CreateParkingSlot(
+            $this->getUserRepository(),
             $this->getParkingRepository()
         );
 

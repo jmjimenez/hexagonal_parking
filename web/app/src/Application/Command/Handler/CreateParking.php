@@ -2,12 +2,12 @@
 
 namespace Jmj\Parking\Application\Command\Handler;
 
-use Jmj\Parking\Application\Command\CreateParking as CreatesParkingPayload;
+use Jmj\Parking\Application\Command\CreateParking as CreateParkingPayload;
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
-use Jmj\Parking\Domain\Service\Command\CreateParking as CreatesParkingCommand;
+use Jmj\Parking\Domain\Service\Command\CreateParking as CreateParkingCommand;
 use Jmj\Parking\Domain\Service\Factory\Parking as ParkingFactory;
 
 class CreateParking extends ParkingBaseHandler
@@ -38,17 +38,17 @@ class CreateParking extends ParkingBaseHandler
     }
 
     /**
-     * @param CreatesParkingPayload $payload
+     * @param CreateParkingPayload $payload
      * @return \Jmj\Parking\Domain\Aggregate\Parking
      * @throws Exception\UserNotFound
      * @throws ParkingException
      */
-    public function execute(CreatesParkingPayload $payload) : Parking
+    public function execute(CreateParkingPayload $payload) : Parking
     {
         $loggedInUser = $this->userRepository->findByUuid($payload->loggedUserUuid());
         $this->validateUser($loggedInUser);
 
-        $command = new CreatesParkingCommand($this->parkingFactory, $this->parkingRepository);
+        $command = new CreateParkingCommand($this->parkingFactory, $this->parkingRepository);
 
         $parking = $command->execute($loggedInUser, $payload->description());
 

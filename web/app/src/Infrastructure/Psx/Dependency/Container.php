@@ -6,6 +6,7 @@ use Jmj\Parking\Application\Command\Handler\CreateParkingSlot;
 use Jmj\Parking\Application\Command\Handler\AssignAdministratorRightsToUserForParking;
 use Jmj\Parking\Application\Command\Handler\AssignUserToParking;
 use Jmj\Parking\Application\Command\Handler\CreateParking;
+use Jmj\Parking\Application\Command\Handler\DeleteParking;
 use Jmj\Parking\Common\Pdo\PdoProxy;
 use Jmj\Parking\Infrastructure\Repository\Pdo\User as PdoUserRepository;
 use Jmj\Parking\Infrastructure\Repository\Pdo\Parking as PdoParkingRepository;
@@ -144,6 +145,26 @@ class Container extends DefaultContainer
         }
 
         $command = new CreateParkingSlot(
+            $this->getUserRepository(),
+            $this->getParkingRepository()
+        );
+
+        return $command;
+    }
+
+    /**
+     * @return DeleteParking
+     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
+     */
+    public function getDeleteParkingCommandHandler() : DeleteParking
+    {
+        static $command = null;
+
+        if ($command !== null) {
+            return $command;
+        }
+
+        $command = new DeleteParking(
             $this->getUserRepository(),
             $this->getParkingRepository()
         );

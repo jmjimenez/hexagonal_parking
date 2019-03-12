@@ -407,6 +407,8 @@ abstract class Parking extends BaseAggregate
      */
     public function delete()
     {
+        //TODO: mark the parking as deleted
+        //TODO: if a parking is deleted, it cannot be operated
         foreach ($this->_getParkingSlots() as $parkingSlot) {
             $parkingSlot->delete();
         }

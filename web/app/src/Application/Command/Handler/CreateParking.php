@@ -22,7 +22,6 @@ class CreateParking extends ParkingBaseHandler
     protected $parkingFactory;
 
     /**
-     * AssignAdministratorRightsToUserForParking constructor.
      * @param UserRepository $userRepository
      * @param ParkingFactory $parkingFactory
      * @param ParkingRepository $parkingRepository

@@ -6,7 +6,6 @@ use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\ParkingException;
-use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class DeleteParking extends ParkingBaseCommand
 {
@@ -19,16 +18,6 @@ class DeleteParking extends ParkingBaseCommand
      * @var Parking
      */
     protected $parking;
-
-    /**
-     * @var ParkingRepositoryInterface
-     */
-    protected $parkingRepository;
-
-    public function __construct(ParkingRepositoryInterface $parkingRepository)
-    {
-        $this->parkingRepository = $parkingRepository;
-    }
 
     /**
      * @param  User    $loggedInUser
@@ -53,7 +42,5 @@ class DeleteParking extends ParkingBaseCommand
         }
 
         $this->parking->delete();
-
-        $this->parkingRepository->delete($this->parking);
     }
 }

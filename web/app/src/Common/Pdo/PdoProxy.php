@@ -201,6 +201,7 @@ class PdoProxy
      */
     protected function executeStatement(PDOStatement $statement, array $params = null)
     {
+        //TODO: it would be nice to have a hook here to publish the executed sql
         $result = $statement->execute($params);
 
         if (in_array($statement->errorCode(), [ '00000' ]) === false) {
@@ -218,6 +219,7 @@ class PdoProxy
     protected function executeSql(string $sql) : int
     {
         try {
+            //TODO: it would be nice to have a hook here to publish the executed sql
             $result = $this->pdo->exec($sql);
 
             $errorInfo = $this->pdo->errorInfo();

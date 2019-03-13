@@ -42,6 +42,16 @@ return [
         '/updateparkingslotinformation',
         \Jmj\Parking\Infrastructure\Psx\Controllers\UpdateParkingSlotInformation::class
     ],
+    [
+        ['POST'],
+        '/updateparkingslotinformation',
+        \Jmj\Parking\Infrastructure\Psx\Controllers\UpdateParkingSlotInformation::class
+    ],
+    [
+        ['POST'],
+        '/assignparkingslottouserforperiod',
+        \Jmj\Parking\Infrastructure\Psx\Controllers\AssignParkingSlotToUserForPeriod::class
+    ],
 
     # tool controller
     [['ANY'], '/tool/discovery', \PSX\Framework\Controller\Tool\DiscoveryController::class],

@@ -57,7 +57,8 @@ class DeleteParkingSlot extends ParkingBaseCommand
      */
     protected function process()
     {
-        if (!$this->parking->isAdministeredByUser($this->loggedInUser)) {
+        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
+            && !$this->loggedInUser->isAdministrator()) {
             throw new NotAuthorizedOperation('User cannot do this operation');
         }
 

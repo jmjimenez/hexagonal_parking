@@ -2,6 +2,7 @@
 
 namespace Jmj\Parking\Infrastructure\Psx\Dependency;
 
+use Jmj\Parking\Application\Command\Handler\DeleteParkingSlot;
 use Jmj\Parking\Application\Command\Handler\CreateParkingSlot;
 use Jmj\Parking\Application\Command\Handler\AssignAdministratorRightsToUserForParking;
 use Jmj\Parking\Application\Command\Handler\AssignUserToParking;
@@ -165,6 +166,26 @@ class Container extends DefaultContainer
         }
 
         $command = new DeleteParking(
+            $this->getUserRepository(),
+            $this->getParkingRepository()
+        );
+
+        return $command;
+    }
+
+    /**
+     * @return DeleteParkingSlot
+     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
+     */
+    public function getDeleteParkingSlotCommandHandler() : DeleteParkingSlot
+    {
+        static $command = null;
+
+        if ($command !== null) {
+            return $command;
+        }
+
+        $command = new DeleteParkingSlot(
             $this->getUserRepository(),
             $this->getParkingRepository()
         );

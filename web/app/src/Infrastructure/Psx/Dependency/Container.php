@@ -2,6 +2,7 @@
 
 namespace Jmj\Parking\Infrastructure\Psx\Dependency;
 
+use Jmj\Parking\Application\Command\Handler\AssignParkingSlotToUserForPeriod;
 use Jmj\Parking\Application\Command\Handler\CreateUserForParking;
 use Jmj\Parking\Application\Command\Handler\DeleteParkingSlot;
 use Jmj\Parking\Application\Command\Handler\CreateParkingSlot;
@@ -232,6 +233,26 @@ class Container extends DefaultContainer
         $command = new UpdateParkingSlotInformation(
             $this->getUserRepository(),
             $this->getParkingRepository()
+        );
+
+        return $command;
+    }
+
+    /**
+     * @return AssignParkingSlotToUserForPeriod
+     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
+     */
+    public function getAssignParkingSlotToUserForPeriodCommandHandler() : AssignParkingSlotToUserForPeriod
+    {
+        static $command = null;
+
+        if ($command !== null) {
+            return $command;
+        }
+
+        $command = new AssignParkingSlotToUserForPeriod(
+            $this->getParkingRepository(),
+            $this->getUserRepository()
         );
 
         return $command;

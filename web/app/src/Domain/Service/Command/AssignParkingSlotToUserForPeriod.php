@@ -98,7 +98,8 @@ class AssignParkingSlotToUserForPeriod extends ParkingBaseCommand
      */
     protected function process()
     {
-        if (!$this->parking->isAdministeredByUser($this->loggedInUser)) {
+        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
+            && !$this->loggedInUser->isAdministrator()) {
             throw new NotAuthorizedOperation('User cannot do this operation');
         }
 
@@ -116,7 +117,5 @@ class AssignParkingSlotToUserForPeriod extends ParkingBaseCommand
         }
 
         $parkingSlot->assignToUserForPeriod($this->user, $this->fromDate, $this->toDate, $this->exclusive);
-
-        $this->parkingRepository->save($this->parking);
     }
 }

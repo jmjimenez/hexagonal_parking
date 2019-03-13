@@ -121,7 +121,8 @@ class CreateUserForParking extends ParkingBaseCommand
      */
     protected function process()
     {
-        if (!$this->parking->isAdministeredByUser($this->loggedInUser)) {
+        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
+            && !$this->loggedInUser->isAdministrator()) {
             throw new NotAuthorizedOperation();
         }
 
@@ -140,8 +141,6 @@ class CreateUserForParking extends ParkingBaseCommand
             $this->userPassword,
             $this->userIsAdministrator
         );
-
-        $this->userRepository->save($user);
 
         $this->parking->addUser($user, $this->userIsAdministratorForParking);
 

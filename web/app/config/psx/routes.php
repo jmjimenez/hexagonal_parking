@@ -32,6 +32,11 @@ return [
         '/deleteparkingslot',
         \Jmj\Parking\Infrastructure\Psx\Controllers\DeleteParkingSlot::class
     ],
+    [
+        ['POST'],
+        '/createuserforparking',
+        \Jmj\Parking\Infrastructure\Psx\Controllers\CreateUserForParking::class
+    ],
 
     # tool controller
     [['ANY'], '/tool/discovery', \PSX\Framework\Controller\Tool\DiscoveryController::class],

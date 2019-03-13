@@ -69,10 +69,5 @@ class CreateUserForParkingTest extends TestCase
         $this->assertEquals($userEmail, $user->email());
         $this->assertEquals($userIsAdministrator, $user->isAdministrator());
         $this->assertEquals($this->parking->isAdministeredByUser($user), $userIsAdministratorForParking);
-
-        $userFromRepository = $this->userRepository->findByEmail($userEmail);
-
-        $this->assertInstanceOf(User::class, $userFromRepository);
-        $this->assertEquals($user->uuid(), $userFromRepository->uuid());
     }
 }

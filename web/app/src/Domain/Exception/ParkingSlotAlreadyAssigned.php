@@ -24,8 +24,6 @@ class ParkingSlotAlreadyAssigned extends \Exception
     private $exclusive;
 
     /**
-     * ParkingSlotAlreadyAssigned constructor.
-     *
      * @param DateTimeInterface $day
      * @param User              $user
      * @param bool              $exclusive

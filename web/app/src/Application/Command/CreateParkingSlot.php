@@ -17,7 +17,6 @@ class CreateParkingSlot
     private $parkingDescription;
 
     /**
-     * AdministratorCreatesParkingSlot constructor.
      * @param string $loggedInUserUuid
      * @param string $parkingUuid
      * @param string $parkingNumber

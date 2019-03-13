@@ -127,8 +127,6 @@ abstract class ParkingSlot extends BaseAggregate
     abstract protected function _delete();
 
     /**
-     * ParkingSlot constructor.
-     *
      * @param  Parking $parking
      * @param  string  $number
      * @param  string  $description

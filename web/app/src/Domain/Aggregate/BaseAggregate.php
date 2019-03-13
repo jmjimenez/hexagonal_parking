@@ -27,8 +27,6 @@ abstract class BaseAggregate
     abstract protected function getClassName() : string;
 
     /**
-     * BaseAggregate constructor.
-     *
      * @throws ExceptionGeneratingUuid
      */
     public function __construct()

@@ -53,8 +53,6 @@ class User extends BaseAggregate
     private $isAdministrator;
 
     /**
-     * User constructor.
-     *
      * @param  string $name
      * @param  string $email
      * @param  string $password

@@ -37,8 +37,6 @@ class CreateParking extends ParkingBaseCommand
     protected $parkingRepository;
 
     /**
-     * CreateParking constructor.
-     *
      * @param ParkingFactory             $parkingFactory
      * @param ParkingRepositoryInterface $parkingRepository
      */

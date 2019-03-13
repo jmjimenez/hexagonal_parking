@@ -24,8 +24,6 @@ class Reservation
     private $date;
 
     /**
-     * Reservation constructor.
-     *
      * @param ParkingSlot       $parkingSlot
      * @param User              $user
      * @param DateTimeImmutable $day

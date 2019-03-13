@@ -18,7 +18,7 @@ class SynchronousEventsBroker implements DomainEventsBrokerInterface
     protected $allEventsSubscriptions = [];
 
     /**
-     * DomainEventsBroker constructor.
+     *
      */
     protected function __construct()
     {

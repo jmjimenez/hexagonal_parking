@@ -68,8 +68,6 @@ class CreateUserForParking extends ParkingBaseCommand
     private $userFactory;
 
     /**
-     * CreateUserForParking constructor.
-     *
      * @param UserRepositoryInterface $userRepository
      * @param UserFactory             $userFactory
      */

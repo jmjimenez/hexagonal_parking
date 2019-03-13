@@ -22,7 +22,6 @@ class GetParkingSlotReservationsForPeriod
     private $toDate;
 
     /**
-     * AdministratorCreatesParkingSlot constructor.
      * @param int $parkingId
      * @param int $userId
      * @param int $parkingSlotId

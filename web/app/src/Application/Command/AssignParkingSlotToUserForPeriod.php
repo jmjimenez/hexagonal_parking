@@ -28,7 +28,6 @@ class AssignParkingSlotToUserForPeriod
     private $exclusive;
 
     /**
-     * AdministratorCreatesParkingSlot constructor.
      * @param string $loggedUserUuid
      * @param string $userUuid
      * @param string $parkingUuid

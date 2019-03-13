@@ -111,8 +111,6 @@ abstract class Parking extends BaseAggregate
     abstract protected function _removeAdministrator(User $user);
 
     /**
-     * Parking constructor.
-     *
      * @param  string $description
      * @throws ExceptionGeneratingUuid
      */

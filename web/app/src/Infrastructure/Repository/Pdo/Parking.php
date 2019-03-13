@@ -14,7 +14,6 @@ class Parking extends PdoObjectRepository implements DomainParkingRepository
     private $tableName = 'Parking';
 
     /**
-     * Parking constructor.
      * @param string $tableName
      * @param PdoProxy $pdoProxy
      */

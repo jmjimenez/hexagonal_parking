@@ -23,7 +23,6 @@ class UserReservesParkingSlotForPeriod
     private $userReservesParkingSlotForPeriodService;
 
     /**
-     * UserReservesParkingSlotForDate constructor.
      * @param User $userRepository
      * @param Parking $parkingRepository
      * @param UserReservesParkingSlotForPeriodService $userReservesParkingSlotForDateSevice

@@ -19,7 +19,6 @@ abstract class PdoObjectRepository
     abstract protected function tableName() : string;
 
     /**
-     * Parking constructor.
      * @param PdoProxy $pdo
      */
     public function __construct(PdoProxy $pdo)

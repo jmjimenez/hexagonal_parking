@@ -17,7 +17,6 @@ class AssignUserToParking
     private $isAdministrator;
 
     /**
-     * AdministratorCreatesParkingSlot constructor.
      * @param string $loggedUserUuid
      * @param string $userUuid
      * @param string $parkingUuid

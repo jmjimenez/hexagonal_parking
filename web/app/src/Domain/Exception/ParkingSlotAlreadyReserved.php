@@ -18,8 +18,6 @@ class ParkingSlotAlreadyReserved extends \Exception
     private $user;
 
     /**
-     * ParkingSlotAlreadyReserved constructor.
-     *
      * @param DateTimeInterface $day
      * @param User              $user
      */

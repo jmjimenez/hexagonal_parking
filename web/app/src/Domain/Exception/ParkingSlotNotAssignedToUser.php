@@ -18,8 +18,6 @@ class ParkingSlotNotAssignedToUser extends \Exception
     private $user;
 
     /**
-     * ParkingSlotNotAssignedToUser constructor.
-     *
      * @param DateTimeImmutable $day
      * @param User              $user
      */

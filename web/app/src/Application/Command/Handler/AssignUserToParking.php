@@ -17,7 +17,6 @@ class AssignUserToParking extends ParkingBaseHandler
     protected $userRepository;
 
     /**
-     * AssignAdministratorRightsToUserForParking constructor.
      * @param ParkingRepository $parkingRepository
      * @param UserRepository $userRepository
      */

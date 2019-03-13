@@ -18,7 +18,6 @@ class CreateParkingSlot extends ParkingBaseHandler
     protected $userRepository;
 
     /**
-     * AssignAdministratorRightsToUserForParking constructor.
      * @param UserRepository $userRepository
      * @param ParkingRepository $parkingRepository
      */

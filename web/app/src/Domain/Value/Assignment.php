@@ -31,8 +31,6 @@ class Assignment
     private $isExclusive;
 
     /**
-     * Assignment constructor.
-     *
      * @param  ParkingSlot       $parkingSlot
      * @param  User              $user
      * @param  DateTimeInterface $day

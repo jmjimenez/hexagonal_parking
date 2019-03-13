@@ -52,6 +52,9 @@ class User extends BaseAggregate
      */
     private $isAdministrator;
 
+    //TODO: implement deleteUser use case
+    //TODO: implement createUser use case
+
     /**
      * @param  string $name
      * @param  string $email

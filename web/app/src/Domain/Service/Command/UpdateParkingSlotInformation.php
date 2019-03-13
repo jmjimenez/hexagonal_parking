@@ -83,7 +83,8 @@ class UpdateParkingSlotInformation extends ParkingBaseCommand
      */
     protected function process()
     {
-        if (!$this->parking->isAdministeredByUser($this->loggedInUser)) {
+        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
+            && !$this->loggedInUser->isAdministrator()) {
             throw new NotAuthorizedOperation('operation not allowed');
         }
 

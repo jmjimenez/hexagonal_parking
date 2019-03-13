@@ -37,6 +37,11 @@ return [
         '/createuserforparking',
         \Jmj\Parking\Infrastructure\Psx\Controllers\CreateUserForParking::class
     ],
+    [
+        ['POST'],
+        '/updateparkingslotinformation',
+        \Jmj\Parking\Infrastructure\Psx\Controllers\UpdateParkingSlotInformation::class
+    ],
 
     # tool controller
     [['ANY'], '/tool/discovery', \PSX\Framework\Controller\Tool\DiscoveryController::class],

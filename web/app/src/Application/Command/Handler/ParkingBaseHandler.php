@@ -7,6 +7,7 @@ use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
 
+//TODO: rename to BaseHandler
 class ParkingBaseHandler
 {
     /**

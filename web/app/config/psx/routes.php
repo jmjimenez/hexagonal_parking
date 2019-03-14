@@ -57,6 +57,11 @@ return [
         '/assignparkingslottouserforperiod',
         \Jmj\Parking\Infrastructure\Psx\Controllers\AssignParkingSlotToUserForPeriod::class
     ],
+    [
+        ['POST'],
+        '/freeassignedparkingslotforuserandperiod',
+        \Jmj\Parking\Infrastructure\Psx\Controllers\FreeAssignedParkingSlotForUserAndPeriod::class
+    ],
 
     # tool controller
     [['ANY'], '/tool/discovery', \PSX\Framework\Controller\Tool\DiscoveryController::class],

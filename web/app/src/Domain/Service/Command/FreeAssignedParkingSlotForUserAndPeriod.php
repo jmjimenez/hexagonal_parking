@@ -93,6 +93,7 @@ class FreeAssignedParkingSlotForUserAndPeriod extends ParkingBaseCommand
         }
 
         if (!$this->parking->isAdministeredByUser($this->loggedInUser)
+            && !$this->loggedInUser->isAdministrator()
             && $this->loggedInUser->uuid() != $this->user->uuid()
         ) {
             throw new NotAuthorizedOperation('cannot perform this operation');
@@ -105,7 +106,5 @@ class FreeAssignedParkingSlotForUserAndPeriod extends ParkingBaseCommand
         }
 
         $parkingSlot->markAsFreeFromUserAndPeriod($this->user, $this->fromDate, $this->toDate);
-
-        $this->parkingRepository->save($this->parking);
     }
 }

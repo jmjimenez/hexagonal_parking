@@ -8,6 +8,7 @@ use Jmj\Parking\Application\Command\Handler\DeleteParkingSlot;
 use Jmj\Parking\Application\Command\Handler\CreateParkingSlot;
 use Jmj\Parking\Application\Command\Handler\AssignAdministratorRightsToUserForParking;
 use Jmj\Parking\Application\Command\Handler\AssignUserToParking;
+use Jmj\Parking\Application\Command\Handler\DeassignUserFromParking;
 use Jmj\Parking\Application\Command\Handler\CreateParking;
 use Jmj\Parking\Application\Command\Handler\DeleteParking;
 use Jmj\Parking\Application\Command\Handler\UpdateParkingSlotInformation;
@@ -109,6 +110,26 @@ class Container extends DefaultContainer
         }
 
         $command = new AssignUserToParking(
+            $this->getParkingRepository(),
+            $this->getUserRepository()
+        );
+
+        return $command;
+    }
+
+    /**
+     * @return DeassignUserFromParking
+     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
+     */
+    public function getDeassignUserFromParkingCommandHandler() : DeassignUserFromParking
+    {
+        static $command = null;
+
+        if ($command !== null) {
+            return $command;
+        }
+
+        $command = new DeassignUserFromParking(
             $this->getParkingRepository(),
             $this->getUserRepository()
         );

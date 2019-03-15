@@ -51,6 +51,8 @@ abstract class ParkingSlot extends BaseAggregate
      */
     abstract protected function _isFreeForUserAndDay(User $user, DateTimeImmutable $date): bool;
 
+    //TODO: create new method removeFreeMarkForUserAndPeriod
+
     /**
      * @param User              $user
      * @param DateTimeImmutable $fromDate
@@ -211,7 +213,8 @@ abstract class ParkingSlot extends BaseAggregate
         if ($fromDate > $toDate) {
             throw new InvalidDateRange();
         }
-
+        //TODO: if there is an assigment BUT there is also a free mark then the state is broken
+        //TODO: create a new method to remove a free mark
         $dateRangeProcessor = new DateRangeProcessor();
 
         $dateRangeProcessor->process(
@@ -261,6 +264,8 @@ abstract class ParkingSlot extends BaseAggregate
      */
     public function getAssignmentsForPeriod(DateTimeImmutable $fromDate, DateTimeImmutable $toDate)
     {
+        //TODO: right now if an assigment is marked as free, it is not returned it may be misleading
+        //      perhaps it should return both the real assigment and the free marks
         $regularAssigments = $this->_getAssignmentsForPeriod($fromDate, $toDate);
 
         $definiteAssignments = [];

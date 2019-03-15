@@ -2,82 +2,75 @@
 
 namespace Jmj\Parking\Application\Command;
 
-use DateTime;
+use DateTimeImmutable;
 
 class GetParkingSlotReservationsForPeriod
 {
-    /** @var int  */
-    private $userId;
+    /** @var string  */
+    private $loggedInUserUuiid;
 
-    /** @var int  */
-    private $parkingId;
+    /** @var string  */
+    private $parkingUuid;
 
-    /** @var int  */
-    private $parkingSlotId;
+    /** @var string  */
+    private $parkingSlotUuid;
 
-    /** @var DateTime  */
+    /** @var DateTimeImmutable  */
     private $fromDate;
 
-    /** @var DateTime  */
+    /** @var DateTimeImmutable  */
     private $toDate;
 
-    /**
-     * @param int $parkingId
-     * @param int $userId
-     * @param int $parkingSlotId
-     * @param DateTime $fromDate
-     * @param DateTime $toDate
-     */
     public function __construct(
-        int $parkingId,
-        int $userId,
-        int $parkingSlotId,
-        DateTime $fromDate,
-        DateTime $toDate
+        string $loggedInUserUuid,
+        string $parkingUuid,
+        string $parkingSlotUuid,
+        DateTimeImmutable $fromDate,
+        DateTimeImmutable $toDate
     ) {
-        $this->parkingId = $parkingId;
-        $this->userId = $userId;
-        $this->parkingSlotId = $parkingSlotId;
+        $this->parkingUuid = $parkingUuid;
+        $this->loggedInUserUuiid = $loggedInUserUuid;
+        $this->parkingSlotUuid = $parkingSlotUuid;
         $this->fromDate = $fromDate;
         $this->toDate = $toDate;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function userId(): int
+    public function loggedInUserUuid(): string
     {
-        return $this->userId;
+        return $this->loggedInUserUuiid;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function parkingId(): int
+    public function parkingUuid(): string
     {
-        return $this->parkingId;
+        return $this->parkingUuid;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function parkingSlotId(): int
+    public function parkingSlotUuid(): string
     {
-        return $this->parkingSlotId;
+        return $this->parkingSlotUuid;
     }
 
     /**
-     * @return DateTime
+     * @return DateTimeImmutable
      */
-    public function fromDate(): DateTime
+    public function fromDate(): DateTimeImmutable
     {
         return $this->fromDate;
     }
 
     /**
-     * @return DateTime
+     * @return DateTimeImmutable
      */
-    public function toDate(): DateTime
+    public function toDate(): DateTimeImmutable
     {
         return $this->toDate;
     }

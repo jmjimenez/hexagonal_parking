@@ -14,6 +14,7 @@ use Jmj\Parking\Application\Command\Handler\DeleteParking;
 use Jmj\Parking\Application\Command\Handler\FreeAssignedParkingSlotForUserAndPeriod;
 use Jmj\Parking\Application\Command\Handler\UpdateParkingSlotInformation;
 use Jmj\Parking\Application\Command\Handler\GetParkingInformationForUserAndPeriod;
+use Jmj\Parking\Application\Command\Handler\GetParkingSlotReservationsForPeriod;
 use Jmj\Parking\Common\Pdo\PdoProxy;
 use Jmj\Parking\Infrastructure\Repository\Pdo\User as PdoUserRepository;
 use Jmj\Parking\Infrastructure\Repository\Pdo\Parking as PdoParkingRepository;
@@ -23,6 +24,8 @@ use PSX\Framework\Dependency\DefaultContainer;
 
 class Container extends DefaultContainer
 {
+    //TODO: this class can be refactored to read dependencies from a conf file
+
     /**
      * @return PdoUserRepository
      * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
@@ -316,6 +319,26 @@ class Container extends DefaultContainer
         $command = new GetParkingInformationForUserAndPeriod(
             $this->getParkingRepository(),
             $this->getUserRepository()
+        );
+
+        return $command;
+    }
+
+    /**
+     * @return GetParkingSlotReservationsForPeriod
+     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
+     */
+    public function getGetParkingSlotReservationsForPeriodCommandHandler() : GetParkingSlotReservationsForPeriod
+    {
+        static $command = null;
+
+        if ($command !== null) {
+            return $command;
+        }
+
+        $command = new GetParkingSlotReservationsForPeriod(
+            $this->getUserRepository(),
+            $this->getParkingRepository()
         );
 
         return $command;

@@ -74,7 +74,8 @@ class GetParkingSlotReservationsForPeriod extends ParkingBaseCommand
      */
     protected function process()
     {
-        if (!$this->parking->isUserAssigned($this->loggedInUser)) {
+        if (!$this->parking->isUserAssigned($this->loggedInUser)
+            && !$this->loggedInUser->isAdministrator()) {
             throw new UserNotAssigned('User is not registered in parking');
         }
 

@@ -14,6 +14,7 @@ use Jmj\Parking\Application\Command\Handler\DeleteParking;
 use Jmj\Parking\Application\Command\Handler\FreeAssignedParkingSlotForUserAndPeriod;
 use Jmj\Parking\Application\Command\Handler\GetParkingReservationsForDate;
 use Jmj\Parking\Application\Command\Handler\GetUserInformation;
+use Jmj\Parking\Application\Command\Handler\RemoveAssignmentFromParkingSlotForUserAndDate;
 use Jmj\Parking\Application\Command\Handler\UpdateParkingSlotInformation;
 use Jmj\Parking\Application\Command\Handler\GetParkingInformationForUserAndPeriod;
 use Jmj\Parking\Application\Command\Handler\GetParkingSlotReservationsForPeriod;
@@ -361,6 +362,27 @@ class Container extends DefaultContainer
         $command = new GetParkingReservationsForDate(
             $this->getUserRepository(),
             $this->getParkingRepository()
+        );
+
+        return $command;
+    }
+
+    /**
+     * @return RemoveAssignmentFromParkingSlotForUserAndDate
+     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
+     */
+    public function getRemoveAssignmentFromParkingSlotFromUserAndDateCommandHandler()
+    : RemoveAssignmentFromParkingSlotForUserAndDate
+    {
+        static $command = null;
+
+        if ($command !== null) {
+            return $command;
+        }
+
+        $command = new RemoveAssignmentFromParkingSlotForUserAndDate(
+            $this->getParkingRepository(),
+            $this->getUserRepository()
         );
 
         return $command;

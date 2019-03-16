@@ -82,6 +82,11 @@ return [
         '/getuserinformation',
         \Jmj\Parking\Infrastructure\Psx\Controllers\GetUserInformation::class
     ],
+    [
+        ['POST'],
+        '/removeassignmentfromparkingslotforuseranddate',
+        \Jmj\Parking\Infrastructure\Psx\Controllers\RemoveAssignmentFromParkingSlotForUserAndDate::class
+    ],
 
     # tool controller
     [['ANY'], '/tool/discovery', \PSX\Framework\Controller\Tool\DiscoveryController::class],

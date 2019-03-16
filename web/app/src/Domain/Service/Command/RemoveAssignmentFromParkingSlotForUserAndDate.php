@@ -12,6 +12,7 @@ use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
 use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
+//TODO: rename this use case to RemoveParkingSlotAssignmentToUserFromDate
 class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseCommand
 {
     /**
@@ -85,7 +86,8 @@ class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseCommand
          * TODO: perhaps these checking methods should be in the parent class
          */
         if (!$this->parking->isAdministeredByUser($this->loggedInUser)
-            && ($this->user->uuid() !== $this->loggedInUser->uuid())
+            && ($this->user->uuid() !== $this->loggedInUser->uuid()
+            && !$this->loggedInUser->isAdministrator())
         ) {
             throw new NotAuthorizedOperation('Operation not allowed');
         }
@@ -101,7 +103,5 @@ class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseCommand
         }
 
         $parkingSlot->removeAssigment($this->user, $this->fromDate);
-
-        $this->parkingRepository->save($this->parking);
     }
 }

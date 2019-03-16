@@ -126,6 +126,7 @@ class ParkingSlot extends DomainParkingSlot
             if ($this->dateGreaterThanOrEqual($assignment['fromDate'], $date)
                 && $this->dateGreaterThanOrEqual($assignment['toDate'], $date)) {
                 unset($this->assignments[$index]);
+                continue;
             }
 
             if ($this->dateLessThanOrEqual($assignment['fromDate'], $date)

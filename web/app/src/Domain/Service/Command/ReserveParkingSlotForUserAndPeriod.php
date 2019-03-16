@@ -8,7 +8,6 @@ use Jmj\Parking\Domain\Exception\ParkingSlotNotFound;
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
-use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class ReserveParkingSlotForUserAndPeriod extends ParkingBaseCommand
 {
@@ -36,16 +35,6 @@ class ReserveParkingSlotForUserAndPeriod extends ParkingBaseCommand
      * @var DateTimeImmutable
      */
     protected $toDate;
-
-    /**
-     * @var ParkingRepositoryInterface
-     */
-    protected $parkingRepository;
-
-    public function __construct(ParkingRepositoryInterface $parkingRepository)
-    {
-        $this->parkingRepository = $parkingRepository;
-    }
 
     /**
      * @param  Parking           $parking
@@ -78,6 +67,7 @@ class ReserveParkingSlotForUserAndPeriod extends ParkingBaseCommand
      */
     protected function process()
     {
+        //TODO: this command should also be executed by an admin logged in user
         if (!$this->parking->isUserAssigned($this->user)) {
             throw new UserNotAssigned('User is not registered in parking');
         }
@@ -89,7 +79,5 @@ class ReserveParkingSlotForUserAndPeriod extends ParkingBaseCommand
         }
 
         $parkingSlot->reserveToUserForPeriod($this->user, $this->fromDate, $this->toDate);
-
-        $this->parkingRepository->save($this->parking);
     }
 }

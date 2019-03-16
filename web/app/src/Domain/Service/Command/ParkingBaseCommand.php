@@ -5,6 +5,7 @@ namespace Jmj\Parking\Domain\Service\Command;
 use Exception;
 use Jmj\Parking\Common\Exception\InvalidDateRange;
 use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
+use Jmj\Parking\Domain\Exception\ParkingSlotAlreadyAssigned;
 use Jmj\Parking\Domain\Exception\ParkingSlotDescriptionInvalid;
 use Jmj\Parking\Domain\Exception\ParkingSlotNotFound;
 use Jmj\Parking\Domain\Exception\ParkingSlotNumberInvalid;
@@ -33,6 +34,7 @@ abstract class ParkingBaseCommand
      * @throws UserNameAlreadyExists
      * @throws UserNotAssigned
      * @throws UserPasswordInvalid
+     * @throws ParkingSlotAlreadyAssigned
      */
     abstract protected function process();
 
@@ -68,6 +70,8 @@ abstract class ParkingBaseCommand
             throw new ParkingException('User email not valid', 11, $e);
         } catch (UserPasswordInvalid $e) {
             throw new ParkingException('User password not valid', 12, $e);
+        } catch (ParkingSlotAlreadyAssigned $e) {
+            throw new ParkingException('Parking Slot is already assigned', 13, $e);
         } catch (Exception $e) {
             throw new ParkingException('Unknown exception', 99, $e);
         }

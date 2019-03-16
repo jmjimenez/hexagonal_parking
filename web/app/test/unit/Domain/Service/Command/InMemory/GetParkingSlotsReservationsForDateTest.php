@@ -11,7 +11,7 @@ use Jmj\Parking\Domain\Exception\UserEmailInvalid;
 use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
-use Jmj\Parking\Domain\Service\Command\GetParkingSlotsReservationsForDate;
+use Jmj\Parking\Domain\Service\Command\GetParkingReservationsForDate;
 use Jmj\Parking\Common\DomainEventsRegister;
 use PHPUnit\Framework\TestCase;
 
@@ -48,7 +48,7 @@ class GetParkingSlotsReservationsForDateTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new GetParkingSlotsReservationsForDate();
+        $command = new GetParkingReservationsForDate();
 
         $dateProcesor = new DateRangeProcessor();
 

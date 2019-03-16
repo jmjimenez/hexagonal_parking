@@ -72,6 +72,11 @@ return [
         '/getparkingslotreservationsforperiod',
         \Jmj\Parking\Infrastructure\Psx\Controllers\GetParkingSlotReservationsForPeriod::class
     ],
+    [
+        ['POST'],
+        '/getparkingreservationsfordate',
+        \Jmj\Parking\Infrastructure\Psx\Controllers\GetParkingReservationsForDate::class
+    ],
 
     # tool controller
     [['ANY'], '/tool/discovery', \PSX\Framework\Controller\Tool\DiscoveryController::class],

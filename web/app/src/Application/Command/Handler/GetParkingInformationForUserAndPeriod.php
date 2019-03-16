@@ -45,11 +45,6 @@ class GetParkingInformationForUserAndPeriod extends ParkingBaseHandler
 
         $command = new GetParkingInformationForUserAndPeriodDomainCommand();
 
-        return $command->execute(
-            $parking,
-            $user,
-            $payload->fromDate(),
-            $payload->toDate()
-        );
+        return $command->execute($parking, $user, $payload->fromDate(), $payload->toDate());
     }
 }

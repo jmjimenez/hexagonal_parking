@@ -9,7 +9,7 @@ use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Exception\ParkingSlotReservationsForDateIncorrect;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
 
-class GetParkingSlotsReservationsForDate extends ParkingBaseCommand
+class GetParkingReservationsForDate extends ParkingBaseCommand
 {
     /**
      * @var User
@@ -55,7 +55,8 @@ class GetParkingSlotsReservationsForDate extends ParkingBaseCommand
      */
     protected function process()
     {
-        if (!$this->parking->isUserAssigned($this->loggedInUser)) {
+        if (!$this->parking->isUserAssigned($this->loggedInUser)
+            && !$this->loggedInUser->isAdministrator()) {
             throw new UserNotAssigned('User is not registered in parking');
         }
 

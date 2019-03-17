@@ -16,7 +16,7 @@ class PdoProxy
 
     const EVENT_EXECUTE_STATEMENT = 'PdoStatementExecuted';
     const EVENT_EXECUTE_SQL = 'PdoSqlExecuted';
-    const MAX_LONG_STRING = 100;
+    const MAX_LONG_STRING_FOR_EVENT_PUBLISHING = 100;
 
     /** @var int  */
     private $connection = self::MYSQL;
@@ -239,7 +239,7 @@ class PdoProxy
     protected function replaceParams(string $sqlStatement, array $params): string
     {
         foreach ($params as $param => $value) {
-            if (strlen($value) > self::MAX_LONG_STRING) {
+            if (strlen($value) > self::MAX_LONG_STRING_FOR_EVENT_PUBLISHING) {
                 $value = '{long_string}';
             }
             $sqlStatement = str_replace($param, "'$value'", $sqlStatement);

@@ -268,6 +268,15 @@ abstract class Parking extends BaseAggregate
     }
 
     /**
+     * @param  string $userUuid
+     * @return User|null
+     */
+    public function getUserByUuid(string $userUuid) : ?User
+    {
+        return $this->_getUserByUuid($userUuid);
+    }
+
+    /**
      * @param  string $userName
      * @return User|null
      */

@@ -18,4 +18,19 @@ trait AssertSqlStatements
             $this->assertRegExp("/^.* SET .*`{$field}` = '{$update}' .*$/", $sqlStatement);
         }
     }
+
+    protected function assertInsert(string $sqlStatement, string $table, array $values)
+    {
+        $this->assertRegExp("/^INSERT INTO {$table} (.*) VALUES (.*)$/", $sqlStatement);
+
+        foreach ($values as $field => $value) {
+            $value = $this->normalizeString($value);
+            $this->assertRegExp("/^INSERT INTO {$table} (.*`{$field}`.*) VALUES (.*'{$value}'.*)$/", $sqlStatement);
+        }
+    }
+
+    protected function normalizeString(string $value): string
+    {
+        return str_replace('\\', '\\\\', $value);
+    }
 }

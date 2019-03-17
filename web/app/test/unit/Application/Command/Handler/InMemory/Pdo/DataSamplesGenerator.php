@@ -34,6 +34,8 @@ trait DataSamplesGenerator
     /** @var InMemoryUser */
     protected $userAdmin;
 
+    protected $sqlEvents;
+
     /**
      * @throws PdoConnectionError
      * @throws PdoExecuteError
@@ -44,6 +46,7 @@ trait DataSamplesGenerator
     {
         $pdoProxy = new PdoProxy();
         $pdoProxy->connectToSqlite(':memory:');
+        $this->configureSqlEventsBroker($pdoProxy);
 
         $this->parkingRepository = new ParkingPdoRepository('Parking', $pdoProxy);
         $this->parkingRepository->initializeRepository();
@@ -65,12 +68,21 @@ trait DataSamplesGenerator
     }
 
     /**
+     * @param PdoProxy $pdoProxy
+     */
+    private function configureSqlEventsBroker(PdoProxy $pdoProxy)
+    {
+        $eventsBroker = SynchronousEventsBroker::getInstance();
+        $pdoProxy->setEventsBroker($eventsBroker);
+    }
+
+    /**
      *
      */
     private function configureDomainEventsBroker()
     {
-        $domainEventBroker = SynchronousEventsBroker::getInstance();
-        BaseAggregate::setDomainEventBroker($domainEventBroker);
-        $domainEventBroker->resetSubscriptions();
+        $eventsBroker = SynchronousEventsBroker::getInstance();
+        BaseAggregate::setDomainEventBroker($eventsBroker);
+        $eventsBroker->resetSubscriptions();
     }
 }

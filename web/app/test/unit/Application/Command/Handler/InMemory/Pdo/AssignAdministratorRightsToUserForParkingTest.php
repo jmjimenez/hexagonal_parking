@@ -19,6 +19,7 @@ class AssignAdministratorRightsToUserForParkingTest extends TestCase
 {
     use DomainEventsRegister;
     use DataSamplesGenerator;
+    use AssertSqlStatements;
 
     /**
      * @throws ParkingNotFound
@@ -54,5 +55,8 @@ class AssignAdministratorRightsToUserForParkingTest extends TestCase
         $parkingFound = $this->parkingRepository->findByUuid($this->parking->uuid());
         $userFound = $this->userRepository->findByUuid($this->userOne->uuid());
         $this->assertTrue($parkingFound->isAdministeredByUser($userFound));
+
+        $this->assertEquals(1, count($this->recordedSqlStatements));
+        $this->assertUpdate($this->recordedSqlStatements[0], 'Parking', ['uuid' => $this->parking->uuid()]);
     }
 }

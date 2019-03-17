@@ -4,6 +4,7 @@ namespace Jmj\Parking\Common\Pdo;
 
 use Jmj\Parking\Common\Exception\PdoConnectionError;
 use Jmj\Parking\Common\Exception\PdoExecuteError;
+use Jmj\Parking\Domain\Service\Event\DomainEventsBroker;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -13,6 +14,11 @@ class PdoProxy
     const MYSQL = 1;
     const SQLITE = 2;
 
+    const EVENT_EXECUTE_STATEMENT = 'PdoStatementExecuted';
+    const EVENT_EXECUTE_SQL = 'PdoSqlExecuted';
+    const MAX_LONG_STRING = 100;
+
+    /** @var int  */
     private $connection = self::MYSQL;
 
     /** @var string  */
@@ -20,6 +26,9 @@ class PdoProxy
 
     /** @var PDO */
     private $pdo;
+
+    /** @var DomainEventsBroker */
+    protected $eventsBroker;
 
     /**
      * @param string $host
@@ -59,6 +68,16 @@ class PdoProxy
             throw new PdoConnectionError($e->getMessage());
         }
     }
+
+    /**
+     * @param DomainEventsBroker $eventsBroker
+     */
+    public function setEventsBroker(DomainEventsBroker $eventsBroker)
+    {
+        //TODO: if I am using DomainEventsBroker from several places I should move it to Common
+        $this->eventsBroker = $eventsBroker;
+    }
+
 
     /**
      * @param string $tableName
@@ -201,14 +220,34 @@ class PdoProxy
      */
     protected function executeStatement(PDOStatement $statement, array $params = null)
     {
-        //TODO: it would be nice to have a hook here to publish the executed sql
         $result = $statement->execute($params);
 
         if (in_array($statement->errorCode(), [ '00000' ]) === false) {
             throw new PdoExecuteError($statement->errorInfo()[2]);
         }
 
+        if ($this->eventsBroker !== null) {
+            $this->publishEvent(
+                self::EVENT_EXECUTE_STATEMENT,
+                $this->replaceParams($statement->queryString, $params)
+            );
+        }
+
         return $result;
+    }
+
+    protected function replaceParams(string $sqlStatement, array $params): string
+    {
+        foreach ($params as $param => $value) {
+            if (strlen($value) > self::MAX_LONG_STRING) {
+                $value = '{long_string}';
+            }
+            $sqlStatement = str_replace($param, "'$value'", $sqlStatement);
+        }
+
+        $sqlStatement = preg_replace('/[ ]{2,}/', ' ', $sqlStatement);
+
+        return str_replace("\n", "", $sqlStatement);
     }
 
     /**
@@ -219,7 +258,6 @@ class PdoProxy
     protected function executeSql(string $sql) : int
     {
         try {
-            //TODO: it would be nice to have a hook here to publish the executed sql
             $result = $this->pdo->exec($sql);
 
             $errorInfo = $this->pdo->errorInfo();
@@ -227,10 +265,25 @@ class PdoProxy
             if (in_array($errorInfo[0], [ '00000', '01000' ]) === false) {
                 throw new PdoExecuteError($errorInfo[2]);
             }
+
+            $this->publishEvent(self::EVENT_EXECUTE_SQL, $sql);
         } catch (PDOException $e) {
             throw new PdoExecuteError($e->getMessage());
         }
 
         return $result;
+    }
+
+    /**
+     * @param string $eventName
+     * @param mixed  $payload
+     */
+    protected function publishEvent(string $eventName, $payload = null)
+    {
+        if ($this->eventsBroker == null) {
+            return;
+        }
+
+        $this->eventsBroker->publishEvent(self::class, $eventName, $this, $payload);
     }
 }

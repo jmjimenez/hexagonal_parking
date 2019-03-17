@@ -2,6 +2,7 @@
 
 namespace Jmj\Parking\Common;
 
+use Jmj\Parking\Common\Pdo\PdoProxy;
 use Jmj\Parking\Domain\Service\Event\DomainEventsBroker as DomainEventsBrokerInterface;
 use Jmj\Parking\Infrastructure\Service\Event\InMemory\SynchronousEventsBroker;
 
@@ -18,6 +19,9 @@ trait DomainEventsRegister
 
     /** @var array  */
     private $recordedPayloads = [];
+
+    /** @var array  */
+    private $recordedSqlStatements = [];
 
     /**
      * @return SynchronousEventsBroker
@@ -36,6 +40,7 @@ trait DomainEventsRegister
         $this->recordedClasses = [];
         $this->recordedObjects = [];
         $this->recordedPayloads = [];
+        $this->recordedSqlStatements = [];
 
         $eventBroker = $this->getEventBroker();
         $eventBroker->resetSubscriptions();
@@ -46,10 +51,16 @@ trait DomainEventsRegister
             object $object,
             $payload
         ) {
-            $this->recordedClasses[] = $className;
-            $this->recordedEventNames[] = $eventName;
-            $this->recordedObjects[] = $object;
-            $this->recordedPayloads[] = $payload;
+            if ($className === PdoProxy::class) {
+                if (preg_match('/^SELECT .*$/', $payload) === 0) {
+                    $this->recordedSqlStatements[] = $payload;
+                }
+            } else {
+                $this->recordedClasses[] = $className;
+                $this->recordedEventNames[] = $eventName;
+                $this->recordedObjects[] = $object;
+                $this->recordedPayloads[] = $payload;
+            }
         });
     }
 }

@@ -22,6 +22,7 @@ class AssignParkingSlotToUserForPeriodTest extends TestCase
     use DomainEventsRegister;
     use DataSamplesGenerator;
     use NormalizeDate;
+    use AssertSqlStatements;
 
     /**
      * @throws ParkingNotFound
@@ -91,5 +92,8 @@ class AssignParkingSlotToUserForPeriodTest extends TestCase
                 }
             }
         );
+
+        $this->assertEquals(1, count($this->recordedSqlStatements));
+        $this->assertUpdate($this->recordedSqlStatements[0], 'Parking', ['uuid' => $this->parking->uuid()]);
     }
 }

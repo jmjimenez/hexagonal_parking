@@ -11,7 +11,7 @@ use Jmj\Parking\Domain\Exception\UserEmailInvalid;
 use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
-use Jmj\Parking\Domain\Service\Command\ResetPasswordForUser;
+use Jmj\Parking\Domain\Service\Command\ResetUserPassword;
 use Jmj\Parking\Common\DomainEventsRegister;
 use PHPUnit\Framework\TestCase;
 
@@ -43,7 +43,7 @@ class ResetPasswordForUserTest extends TestCase
         $this->userOne->requestResetPassword($passwordToken, $passwordTimeout);
 
         $this->startRecordingEvents();
-        $command = new ResetPasswordForUser($this->userRepository);
+        $command = new ResetUserPassword();
         $command->execute(
             $this->userOne,
             $password,

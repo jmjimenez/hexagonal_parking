@@ -97,6 +97,11 @@ return [
         '/requestresetuserpassword',
         \Jmj\Parking\Infrastructure\Psx\Controllers\RequestResetUserPassword::class
     ],
+    [
+        ['POST'],
+        '/resetuserpassword',
+        \Jmj\Parking\Infrastructure\Psx\Controllers\ResetUserPassword::class
+    ],
 
     # tool controller
     [['ANY'], '/tool/discovery', \PSX\Framework\Controller\Tool\DiscoveryController::class],

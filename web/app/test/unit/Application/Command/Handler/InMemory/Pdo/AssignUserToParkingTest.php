@@ -22,6 +22,7 @@ class AssignUserToParkingTest extends TestCase
 {
     use DomainEventsRegister;
     use DataSamplesGenerator;
+    use AssertSqlStatements;
 
     /**
      * @throws ExceptionGeneratingUuid
@@ -68,5 +69,8 @@ class AssignUserToParkingTest extends TestCase
 
         $parkingFound = $this->parkingRepository->findByUuid($this->parking->uuid());
         $this->assertEquals($isAdministrator, $parkingFound->isAdministeredByUser($newUser));
+
+        $this->assertEquals(1, count($this->recordedSqlStatements));
+        $this->assertUpdate($this->recordedSqlStatements[0], 'Parking', ['uuid' => $this->parking->uuid()]);
     }
 }

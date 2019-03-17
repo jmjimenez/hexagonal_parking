@@ -39,7 +39,7 @@ class RequestResetUserPassword extends ParkingBaseHandler
         $this->validateUser($user);
 
         //TODO: perhaps inject an infrastructure service to create the token
-        $resetPasswordToken = md5($user->email() . self::SECRET);
+        $resetPasswordToken = md5($user->email() . date('YmdHis') . self::SECRET);
         //TODO: perhaps inject an infrastructure service to configure the time limit
         $resetPasswordTokenTimeout = new DateTimeImmutable(sprintf('+%s days', self::TOKEN_DAYS_TIMEOUT));
 

@@ -33,6 +33,7 @@ class RequestResetUserPassword extends ParkingBaseCommand
     {
         $this->user = $user;
         $this->resetPasswordToken = $resetPasswordToken;
+        //TODO: this property should be called expirationDate
         $this->resetPasswordTokenTimeout = $resetPasswordTokenTimeout;
 
         $this->processCatchingDomainEvents();

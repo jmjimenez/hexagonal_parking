@@ -54,7 +54,7 @@ class RequestResetUserPassword extends ParkingBaseHandler
         return [
             'email' => $user->email(),
             'token' => $resetPasswordToken,
-            'validUntil' => $resetPasswordTokenTimeout->format('Y-m-d')
+            'expirationDate' => $resetPasswordTokenTimeout->format('Y-m-d')
         ];
     }
 }

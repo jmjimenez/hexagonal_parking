@@ -92,6 +92,11 @@ return [
         '/reserveparkingslotforuserandperiod',
         \Jmj\Parking\Infrastructure\Psx\Controllers\ReserveParkingSlotForUserAndPeriod::class
     ],
+    [
+        ['POST'],
+        '/requestresetuserpassword',
+        \Jmj\Parking\Infrastructure\Psx\Controllers\RequestResetUserPassword::class
+    ],
 
     # tool controller
     [['ANY'], '/tool/discovery', \PSX\Framework\Controller\Tool\DiscoveryController::class],

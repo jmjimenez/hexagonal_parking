@@ -15,6 +15,7 @@ use Jmj\Parking\Application\Command\Handler\FreeAssignedParkingSlotForUserAndPer
 use Jmj\Parking\Application\Command\Handler\GetParkingReservationsForDate;
 use Jmj\Parking\Application\Command\Handler\GetUserInformation;
 use Jmj\Parking\Application\Command\Handler\RemoveAssignmentFromParkingSlotForUserAndDate;
+use Jmj\Parking\Application\Command\Handler\RequestResetUserPassword;
 use Jmj\Parking\Application\Command\Handler\ReserveParkingSlotForUserAndPeriod;
 use Jmj\Parking\Application\Command\Handler\UpdateParkingSlotInformation;
 use Jmj\Parking\Application\Command\Handler\GetParkingInformationForUserAndPeriod;
@@ -422,6 +423,25 @@ class Container extends DefaultContainer
 
         $command = new ReserveParkingSlotForUserAndPeriod(
             $this->getParkingRepository(),
+            $this->getUserRepository()
+        );
+
+        return $command;
+    }
+
+    /**
+     * @return RequestResetUserPassword
+     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
+     */
+    public function getRequestResetUserPasswordCommandHandler() : RequestResetUserPassword
+    {
+        static $command = null;
+
+        if ($command !== null) {
+            return $command;
+        }
+
+        $command = new RequestResetUserPassword(
             $this->getUserRepository()
         );
 

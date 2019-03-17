@@ -54,7 +54,7 @@ class CreateParkingSlotTest extends TestCase
             $this->userRepository,
             $this->parkingRepository
         );
-        $command->execute($payload);
+        $newParkingSlot = $command->execute($payload);
 
         $this->assertEquals(
             [ ParkingSlot::EVENT_PARKING_SLOT_CREATED, Parking::EVENT_PARKING_SLOT_ADDED_TO_PARKING ],
@@ -66,6 +66,7 @@ class CreateParkingSlotTest extends TestCase
 
         $this->assertInstanceOf(ParkingSlot::class, $parkingSlotFound);
         $this->assertEquals($parkingSlotDescription, $parkingSlotFound->description());
+        $this->assertEquals($newParkingSlot->uuid(), $parkingSlotFound->uuid());
 
         $this->assertEquals(1, count($this->recordedSqlStatements));
         $this->assertUpdate($this->recordedSqlStatements[0], 'Parking', ['uuid' => $this->parking->uuid()]);

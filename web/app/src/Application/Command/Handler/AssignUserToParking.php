@@ -43,7 +43,7 @@ class AssignUserToParking extends ParkingBaseHandler
         $parking = $this->parkingRepository->findByUuid($payload->parkingUuid());
         $this->validateParking($parking);
 
-        $command = new AssignUserToParkingDomainCommand($this->parkingRepository);
+        $command = new AssignUserToParkingDomainCommand();
 
         $command->execute($loggedInUser, $user, $parking, $payload->isAdministrator());
 

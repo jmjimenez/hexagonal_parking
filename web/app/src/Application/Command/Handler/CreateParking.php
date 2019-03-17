@@ -47,7 +47,7 @@ class CreateParking extends ParkingBaseHandler
         $loggedInUser = $this->userRepository->findByUuid($payload->loggedUserUuid());
         $this->validateUser($loggedInUser);
 
-        $command = new CreateParkingCommand($this->parkingFactory, $this->parkingRepository);
+        $command = new CreateParkingCommand($this->parkingFactory);
 
         $parking = $command->execute($loggedInUser, $payload->description());
 

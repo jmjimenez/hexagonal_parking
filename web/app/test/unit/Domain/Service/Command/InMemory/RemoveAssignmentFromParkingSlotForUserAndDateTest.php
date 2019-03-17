@@ -46,7 +46,7 @@ class RemoveAssignmentFromParkingSlotForUserAndDateTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new RemoveAssignmentFromParkingSlotForUserAndDate($this->parkingRepository);
+        $command = new RemoveAssignmentFromParkingSlotForUserAndDate();
         $command->execute(
             $this->loggedInUser,
             $this->parking,

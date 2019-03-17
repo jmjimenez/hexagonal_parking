@@ -8,7 +8,6 @@ use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Exception\ParkingSlotNumberAlreadyExists;
-use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class CreateParkingSlot extends ParkingBaseCommand
 {
@@ -33,19 +32,9 @@ class CreateParkingSlot extends ParkingBaseCommand
     protected $parkingSlotDescription;
 
     /**
-     * @var ParkingRepositoryInterface
-     */
-    protected $parkingRepository;
-
-    /**
      * @var ParkingSlot
      */
     protected $parkingSlot;
-
-    public function __construct(ParkingRepositoryInterface $parkingRepository)
-    {
-        $this->parkingRepository = $parkingRepository;
-    }
 
     /**
      * @param  User    $loggedInUser
@@ -91,7 +80,5 @@ class CreateParkingSlot extends ParkingBaseCommand
         }
 
         $this->parkingSlot = $this->parking->createParkingSlot($this->parkingSlotNumber, $this->parkingSlotDescription);
-
-        $this->parkingRepository->save($this->parking);
     }
 }

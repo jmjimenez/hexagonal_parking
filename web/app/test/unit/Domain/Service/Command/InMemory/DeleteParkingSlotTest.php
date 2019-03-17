@@ -37,7 +37,7 @@ class DeleteParkingSlotTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new DeleteParkingSlot($this->parkingRepository);
+        $command = new DeleteParkingSlot();
         $command->execute($this->loggedInUser, $this->parking, $parkingSlotUuid);
 
         $this->assertEquals(

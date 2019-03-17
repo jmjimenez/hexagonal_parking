@@ -39,7 +39,7 @@ class CreateParkingSlotTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new CreateParkingSlot($this->parkingRepository);
+        $command = new CreateParkingSlot();
         $parkingSlot = $command->execute($this->loggedInUser, $this->parking, $number, $description);
 
         $this->assertEquals(

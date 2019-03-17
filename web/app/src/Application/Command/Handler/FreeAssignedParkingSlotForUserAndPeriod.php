@@ -44,7 +44,7 @@ class FreeAssignedParkingSlotForUserAndPeriod extends ParkingBaseHandler
         $parking = $this->parkingRepository->findByUuid($payload->parkingUuid());
         $this->validateParking($parking);
 
-        $command = new FreeAssignedParkingSlotForUserAndPeriodDomainCommand($this->parkingRepository);
+        $command = new FreeAssignedParkingSlotForUserAndPeriodDomainCommand();
 
         $command->execute(
             $loggedInUser,

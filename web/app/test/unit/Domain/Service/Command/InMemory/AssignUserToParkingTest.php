@@ -39,7 +39,7 @@ class AssignUserToParkingTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new AssignUserToParking($this->parkingRepository);
+        $command = new AssignUserToParking();
         $command->execute(
             $this->loggedInUser,
             $user,

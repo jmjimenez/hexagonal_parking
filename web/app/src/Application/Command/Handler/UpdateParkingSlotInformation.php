@@ -41,7 +41,7 @@ class UpdateParkingSlotInformation extends ParkingBaseHandler
         $parking = $this->parkingRepository->findByUuid($payload->parkingUuid());
         $this->validateParking($parking);
 
-        $command = new UpdateParkingSlotInformationCommand($this->parkingRepository);
+        $command = new UpdateParkingSlotInformationCommand();
 
         $command->execute(
             $loggedInUser,

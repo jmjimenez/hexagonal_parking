@@ -43,7 +43,7 @@ class DeassignUserFromParking extends ParkingBaseHandler
         $parking = $this->parkingRepository->findByUuid($payload->parkingUuid());
         $this->validateParking($parking);
 
-        $command = new DeassignUserFromParkingDomainCommand($this->parkingRepository);
+        $command = new DeassignUserFromParkingDomainCommand();
 
         $command->execute($loggedInUser, $parking, $user);
 

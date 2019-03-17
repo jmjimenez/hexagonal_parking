@@ -39,7 +39,7 @@ class UpdateParkingSlotInformationTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new UpdateParkingSlotInformation($this->parkingRepository);
+        $command = new UpdateParkingSlotInformation();
         $command->execute(
             $this->loggedInUser,
             $this->parking,

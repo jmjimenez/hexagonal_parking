@@ -41,10 +41,10 @@ class DeleteParkingSlot extends ParkingBaseHandler
         $parking = $this->parkingRepository->findByUuid($payload->parkingUuid());
         $this->validateParking($parking);
 
-        $command = new DeleteParkingSlotCommand($this->parkingRepository);
+        $command = new DeleteParkingSlotCommand();
 
         $command->execute($loggedInUser, $parking, $payload->parkingSlotUuid());
 
-        $this->parkingRepository->delete($parking);
+        $this->parkingRepository->save($parking);
     }
 }

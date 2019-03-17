@@ -43,7 +43,7 @@ class AssignParkingSlotToUserForPeriodTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new AssignParkingSlotToUserForPeriod($this->parkingRepository);
+        $command = new AssignParkingSlotToUserForPeriod();
         $command->execute(
             $this->loggedInUser,
             $this->userOne,

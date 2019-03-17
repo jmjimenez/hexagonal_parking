@@ -36,7 +36,7 @@ class DeassignUserFromParkingTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new DeassignUserFromParking($this->parkingRepository);
+        $command = new DeassignUserFromParking();
         $command->execute($this->loggedInUser, $this->parking, $this->userOne);
 
         $this->assertEquals(false, $this->parking->isUserAssigned($this->userOne));

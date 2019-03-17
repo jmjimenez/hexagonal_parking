@@ -11,7 +11,6 @@ use Jmj\Parking\Domain\Exception\ParkingSlotDescriptionInvalid;
 use Jmj\Parking\Domain\Exception\ParkingSlotNotFound;
 use Jmj\Parking\Domain\Exception\ParkingSlotNumberAlreadyExists;
 use Jmj\Parking\Domain\Exception\ParkingSlotNumberInvalid;
-use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class UpdateParkingSlotInformation extends ParkingBaseCommand
 {
@@ -39,16 +38,6 @@ class UpdateParkingSlotInformation extends ParkingBaseCommand
      * @var string
      */
     protected $description;
-
-    /**
-     * @var ParkingRepositoryInterface
-     */
-    protected $parkingRepository;
-
-    public function __construct(ParkingRepositoryInterface $parkingRepository)
-    {
-        $this->parkingRepository = $parkingRepository;
-    }
 
     /**
      * @param  User    $loggedInUser
@@ -104,7 +93,5 @@ class UpdateParkingSlotInformation extends ParkingBaseCommand
         }
 
         $parkingSlot->updateInformation($this->number, $this->description);
-
-        $this->parkingRepository->save($this->parking);
     }
 }

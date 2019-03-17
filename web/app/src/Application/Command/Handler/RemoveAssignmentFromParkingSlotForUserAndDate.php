@@ -45,7 +45,7 @@ class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseHandler
         $parking = $this->parkingRepository->findByUuid($payload->parkingUuid());
         $this->validateParking($parking);
 
-        $command = new RemoveAssignmentFromParkingSlotForUserAndDateDomainCommand($this->parkingRepository);
+        $command = new RemoveAssignmentFromParkingSlotForUserAndDateDomainCommand();
 
         $command->execute(
             $loggedInUser,

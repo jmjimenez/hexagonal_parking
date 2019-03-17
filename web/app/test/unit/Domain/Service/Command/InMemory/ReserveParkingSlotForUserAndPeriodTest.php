@@ -46,7 +46,7 @@ class ReserveParkingSlotForUserAndPeriodTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new ReserveParkingSlotForUserAndPeriod($this->parkingRepository);
+        $command = new ReserveParkingSlotForUserAndPeriod();
         $command->execute(
             $this->parking,
             $this->loggedInUser,

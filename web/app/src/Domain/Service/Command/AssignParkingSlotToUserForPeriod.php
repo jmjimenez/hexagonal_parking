@@ -11,7 +11,6 @@ use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
-use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class AssignParkingSlotToUserForPeriod extends ParkingBaseCommand
 {
@@ -49,16 +48,6 @@ class AssignParkingSlotToUserForPeriod extends ParkingBaseCommand
      * @var bool
      */
     protected $exclusive;
-
-    /**
-     * @var ParkingRepositoryInterface
-     */
-    protected $parkingRepository;
-
-    public function __construct(ParkingRepositoryInterface $parkingRepository)
-    {
-        $this->parkingRepository = $parkingRepository;
-    }
 
     /**
      * @param  User              $loggedInUser

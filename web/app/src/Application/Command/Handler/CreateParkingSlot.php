@@ -44,7 +44,7 @@ class CreateParkingSlot extends ParkingBaseHandler
         $parking = $this->parkingRepository->findByUuid($payload->parkingUuid());
         $this->validateParking($parking);
 
-        $command = new CreateParkingSlotCommand($this->parkingRepository);
+        $command = new CreateParkingSlotCommand();
 
         $parkingSlot = $command->execute(
             $loggedInUser,

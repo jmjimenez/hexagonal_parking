@@ -10,7 +10,6 @@ use Jmj\Parking\Domain\Aggregate\ParkingSlot;
 use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
-use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 //TODO: rename this use case to RemoveParkingSlotAssignmentToUserFromDate
 class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseCommand
@@ -39,16 +38,6 @@ class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseCommand
      * @var DateTimeImmutable
      */
     protected $fromDate;
-
-    /**
-     * @var ParkingRepositoryInterface
-     */
-    protected $parkingRepository;
-
-    public function __construct(ParkingRepositoryInterface $parkingRepository)
-    {
-        $this->parkingRepository = $parkingRepository;
-    }
 
     /**
      * @param  User              $loggedInUser

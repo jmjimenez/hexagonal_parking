@@ -7,7 +7,6 @@ use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Exception\ParkingSlotNotFound;
-use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class DeleteParkingSlot extends ParkingBaseCommand
 {
@@ -25,16 +24,6 @@ class DeleteParkingSlot extends ParkingBaseCommand
      * @var string
      */
     protected $parkingSlotUuid;
-
-    /**
-     * @var ParkingRepositoryInterface
-     */
-    protected $parkingRepository;
-
-    public function __construct(ParkingRepositoryInterface $parkingRepository)
-    {
-        $this->parkingRepository = $parkingRepository;
-    }
 
     /**
      * @param  User    $loggedInUser
@@ -63,7 +52,5 @@ class DeleteParkingSlot extends ParkingBaseCommand
         }
 
         $this->parking->deleteParkingSlotByUuid($this->parkingSlotUuid);
-
-        $this->parkingRepository->save($this->parking);
     }
 }

@@ -7,7 +7,6 @@ use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Service\Factory\Parking as ParkingFactory;
-use Jmj\Parking\Domain\Repository\Parking as ParkingRepositoryInterface;
 
 class CreateParking extends ParkingBaseCommand
 {
@@ -32,20 +31,11 @@ class CreateParking extends ParkingBaseCommand
     private $parkingFactory;
 
     /**
-     * @var ParkingRepositoryInterface
+     * @param ParkingFactory $parkingFactory
      */
-    protected $parkingRepository;
-
-    /**
-     * @param ParkingFactory             $parkingFactory
-     * @param ParkingRepositoryInterface $parkingRepository
-     */
-    public function __construct(
-        ParkingFactory $parkingFactory,
-        ParkingRepositoryInterface $parkingRepository
-    ) {
+    public function __construct(ParkingFactory $parkingFactory)
+    {
         $this->parkingFactory = $parkingFactory;
-        $this->parkingRepository = $parkingRepository;
     }
 
     /**
@@ -60,8 +50,6 @@ class CreateParking extends ParkingBaseCommand
         $this->parkingName = $description;
 
         $this->processCatchingDomainEvents();
-
-        $this->parkingRepository->save($this->parking);
 
         return $this->parking;
     }

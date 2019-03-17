@@ -38,15 +38,10 @@ class CreateParkingTest extends TestCase
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
-        $command = new CreateParking(new InMemoryParkingFactory(), $this->parkingRepository);
+        $command = new CreateParking(new InMemoryParkingFactory());
         $parking = $command->execute($this->loggedInUser, $description);
 
         $this->assertEquals([ Parking::EVENT_PARKING_CREATED ], $this->recordedEventNames);
-
-        $this->assertInstanceOf(Parking::class, $parking);
-        $this->assertEquals($parking->description(), $description);
-
-        $parking = $this->parkingRepository->findByUuid($parking->uuid());
 
         $this->assertInstanceOf(Parking::class, $parking);
         $this->assertEquals($parking->description(), $description);

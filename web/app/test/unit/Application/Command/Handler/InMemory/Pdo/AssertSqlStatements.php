@@ -29,6 +29,16 @@ trait AssertSqlStatements
         }
     }
 
+    protected function assertDelete(string $sqlStatement, string $table, array $values)
+    {
+        $this->assertRegExp("/^DELETE FROM {$table} WHERE .*$/", $sqlStatement);
+
+        foreach ($values as $field => $value) {
+            $value = $this->normalizeString($value);
+            $this->assertRegExp("/^DELETE FROM {$table} WHERE .*`{$field}` = '{$value}'.*$/", $sqlStatement);
+        }
+    }
+
     protected function normalizeString(string $value): string
     {
         return str_replace('\\', '\\\\', $value);

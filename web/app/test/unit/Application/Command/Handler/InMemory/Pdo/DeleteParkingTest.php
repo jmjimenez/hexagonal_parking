@@ -61,7 +61,6 @@ class DeleteParkingTest extends TestCase
 
         $this->assertEquals(1, count($this->recordedSqlStatements));
 
-        var_dump($this->recordedSqlStatements);
         $this->assertDelete(
             $this->recordedSqlStatements[0],
             'Parking',

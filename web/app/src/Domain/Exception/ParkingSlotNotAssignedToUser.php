@@ -26,6 +26,6 @@ class ParkingSlotNotAssignedToUser extends \Exception
         $this->day = $day;
         $this->user = $user;
 
-        parent::__construct('Parking is not assigned to user', 0, null);
+        parent::__construct('Parking Slot is not assigned to user', 0, null);
     }
 }

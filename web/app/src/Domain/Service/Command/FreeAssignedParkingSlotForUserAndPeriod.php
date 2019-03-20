@@ -15,16 +15,6 @@ class FreeAssignedParkingSlotForUserAndPeriod extends BaseCommand
     /**
      * @var User
      */
-    protected $loggedInUser;
-
-    /**
-     * @var Parking
-     */
-    protected $parking;
-
-    /**
-     * @var User
-     */
     protected $user;
 
     /**
@@ -81,10 +71,7 @@ class FreeAssignedParkingSlotForUserAndPeriod extends BaseCommand
             throw new UserNotAssigned('User is not registered in parking');
         }
 
-        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
-            && !$this->loggedInUser->isAdministrator()
-            && $this->loggedInUser->uuid() != $this->user->uuid()
-        ) {
+        if (!$this->loggedInUserIsAdministrator() && $this->loggedInUser->uuid() != $this->user->uuid()) {
             throw new NotAuthorizedOperation('cannot perform this operation');
         }
 

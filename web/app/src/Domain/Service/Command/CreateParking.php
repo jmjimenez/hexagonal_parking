@@ -11,19 +11,9 @@ use Jmj\Parking\Domain\Service\Factory\Parking as ParkingFactory;
 class CreateParking extends BaseCommand
 {
     /**
-     * @var User
-     */
-    protected $loggedInUser;
-
-    /**
      * @var string
      */
     protected $parkingName;
-
-    /**
-     * @var Parking
-     */
-    private $parking;
 
     /**
      * @var ParkingFactory

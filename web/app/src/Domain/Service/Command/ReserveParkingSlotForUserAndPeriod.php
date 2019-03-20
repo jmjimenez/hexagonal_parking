@@ -12,16 +12,6 @@ use Jmj\Parking\Domain\Exception\UserNotAssigned;
 class ReserveParkingSlotForUserAndPeriod extends BaseCommand
 {
     /**
-     * @var Parking
-     */
-    protected $parking;
-
-    /**
-     * @var User
-     */
-    protected $user;
-
-    /**
      * @var string
      */
     protected $parkingSlotUuid;
@@ -38,7 +28,7 @@ class ReserveParkingSlotForUserAndPeriod extends BaseCommand
 
     /**
      * @param  Parking           $parking
-     * @param  User              $user
+     * @param  User              $loggedInUser
      * @param  string            $parkingSlotUuid
      * @param  DateTimeImmutable $fromDate
      * @param  DateTimeImmutable $toDate
@@ -46,13 +36,13 @@ class ReserveParkingSlotForUserAndPeriod extends BaseCommand
      */
     public function execute(
         Parking $parking,
-        User $user,
+        User $loggedInUser,
         string $parkingSlotUuid,
         DateTimeImmutable $fromDate,
         DateTimeImmutable $toDate
     ) {
         $this->parking = $parking;
-        $this->user = $user;
+        $this->loggedInUser = $loggedInUser;
         $this->parkingSlotUuid = $parkingSlotUuid;
         $this->fromDate = $fromDate;
         $this->toDate = $toDate;
@@ -68,7 +58,7 @@ class ReserveParkingSlotForUserAndPeriod extends BaseCommand
     protected function process()
     {
         //TODO: this command should also be executed by an admin logged in user
-        if (!$this->parking->isUserAssigned($this->user)) {
+        if (!$this->loggedInUserIsAdministrator() && !$this->parking->isUserAssigned($this->loggedInUser)) {
             throw new UserNotAssigned('User is not registered in parking');
         }
 
@@ -78,6 +68,6 @@ class ReserveParkingSlotForUserAndPeriod extends BaseCommand
             throw new ParkingSlotNotFound('parking slot not found');
         }
 
-        $parkingSlot->reserveToUserForPeriod($this->user, $this->fromDate, $this->toDate);
+        $parkingSlot->reserveToUserForPeriod($this->loggedInUser, $this->fromDate, $this->toDate);
     }
 }

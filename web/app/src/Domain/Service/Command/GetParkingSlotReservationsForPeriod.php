@@ -12,16 +12,6 @@ use Jmj\Parking\Domain\Exception\UserNotAssigned;
 class GetParkingSlotReservationsForPeriod extends BaseCommand
 {
     /**
-     * @var User
-     */
-    protected $loggedInUser;
-
-    /**
-     * @var Parking
-     */
-    protected $parking;
-
-    /**
      * @var string
      */
     protected $parkingSlotUuidd;
@@ -74,8 +64,7 @@ class GetParkingSlotReservationsForPeriod extends BaseCommand
      */
     protected function process()
     {
-        if (!$this->parking->isUserAssigned($this->loggedInUser)
-            && !$this->loggedInUser->isAdministrator()) {
+        if (!$this->loggedInUserIsAdministrator() && !$this->parking->isUserAssigned($this->loggedInUser)) {
             throw new UserNotAssigned('User is not registered in parking');
         }
 

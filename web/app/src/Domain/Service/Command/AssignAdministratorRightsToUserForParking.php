@@ -13,17 +13,7 @@ class AssignAdministratorRightsToUserForParking extends BaseCommand
     /**
      * @var User
      */
-    protected $loggedInUser;
-
-    /**
-     * @var User
-     */
     protected $user;
-
-    /**
-     * @var Parking
-     */
-    protected $parking;
 
     /**
      * @param  User    $loggedInUser
@@ -47,10 +37,7 @@ class AssignAdministratorRightsToUserForParking extends BaseCommand
     protected function process()
     {
         //TODO: implement phpunit for wrong paths
-        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
-            && !$this->loggedInUser->isAdministrator()) {
-            throw new NotAuthorizedOperation('User is not administrator');
-        }
+        $this->checkAdministrationRights();
 
         $this->parking->addAdministrator($this->user);
     }

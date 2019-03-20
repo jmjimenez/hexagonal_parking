@@ -15,16 +15,6 @@ use Jmj\Parking\Domain\Exception\UserNotAssigned;
 class RemoveAssignmentFromParkingSlotForUserAndDate extends BaseCommand
 {
     /**
-     * @var User
-     */
-    protected $loggedInUser;
-
-    /**
-     * @var Parking
-     */
-    protected $parking;
-
-    /**
      * @var string
      */
     protected $parkingSlotUuid;
@@ -71,13 +61,7 @@ class RemoveAssignmentFromParkingSlotForUserAndDate extends BaseCommand
      */
     protected function process()
     {
-        /**
-         * TODO: perhaps these checking methods should be in the parent class
-         */
-        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
-            && ($this->user->uuid() !== $this->loggedInUser->uuid()
-            && !$this->loggedInUser->isAdministrator())
-        ) {
+        if (!$this->loggedInUserIsAdministrator() && $this->user->uuid() !== $this->loggedInUser->uuid()) {
             throw new NotAuthorizedOperation('Operation not allowed');
         }
 

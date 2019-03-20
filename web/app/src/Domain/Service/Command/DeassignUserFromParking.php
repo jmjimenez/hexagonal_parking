@@ -13,16 +13,6 @@ class DeassignUserFromParking extends BaseCommand
     /**
      * @var User
      */
-    protected $loggedInUser;
-
-    /**
-     * @var Parking
-     */
-    protected $parking;
-
-    /**
-     * @var User
-     */
     protected $user;
 
     /**
@@ -46,10 +36,7 @@ class DeassignUserFromParking extends BaseCommand
      */
     protected function process()
     {
-        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
-            && !$this->loggedInUser->isAdministrator()) {
-            throw new NotAuthorizedOperation('User cannot do this operation');
-        }
+        $this->checkAdministrationRights();
 
         if (!$this->parking->isUserAssigned($this->user)) {
             throw new UserNotAssigned('User is not assigned to this parking');

@@ -10,16 +10,6 @@ use Jmj\Parking\Domain\Exception\ParkingException;
 class DeleteParking extends BaseCommand
 {
     /**
-     * @var User
-     */
-    protected $loggedInUser;
-
-    /**
-     * @var Parking
-     */
-    protected $parking;
-
-    /**
      * @param  User    $loggedInUser
      * @param  Parking $parking
      * @throws ParkingException

@@ -12,16 +12,6 @@ use Jmj\Parking\Domain\Exception\ParkingSlotNumberAlreadyExists;
 class CreateParkingSlot extends BaseCommand
 {
     /**
-     * @var User
-     */
-    protected $loggedInUser;
-
-    /**
-     * @var Parking
-     */
-    protected $parking;
-
-    /**
      * @var string
      */
     protected $parkingSlotNumber;
@@ -67,11 +57,7 @@ class CreateParkingSlot extends BaseCommand
     protected function process()
     {
         //TODO: phpunit that an administrator can perform the operation
-        //TODO: perhaps we may encapsulate this checking
-        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
-            && !$this->loggedInUser->isAdministrator()) {
-            throw new NotAuthorizedOperation('User cannot do this operation');
-        }
+        $this->checkAdministrationRights();
 
         $parkingSlot = $this->parking->getParkingSlotByNumber($this->parkingSlotNumber);
 

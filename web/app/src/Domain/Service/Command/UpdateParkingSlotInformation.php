@@ -15,16 +15,6 @@ use Jmj\Parking\Domain\Exception\ParkingSlotNumberInvalid;
 class UpdateParkingSlotInformation extends BaseCommand
 {
     /**
-     * @var User
-     */
-    protected $loggedInUser;
-    
-    /**
-     * @var Parking
-     */
-    protected $parking;
-    
-    /**
      * @var string
      */
     protected $parkingSlotUuid;
@@ -72,10 +62,7 @@ class UpdateParkingSlotInformation extends BaseCommand
      */
     protected function process()
     {
-        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
-            && !$this->loggedInUser->isAdministrator()) {
-            throw new NotAuthorizedOperation('operation not allowed');
-        }
+        $this->checkAdministrationRights();
 
         /**
          * @var ParkingSlot $parkingSlot

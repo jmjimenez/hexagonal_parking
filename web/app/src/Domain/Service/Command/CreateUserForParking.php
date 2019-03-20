@@ -18,16 +18,6 @@ use Jmj\Parking\Domain\Service\Factory\User as UserFactory;
 class CreateUserForParking extends BaseCommand
 {
     /**
-     * @var User
-     */
-    private $loggedInUser;
-
-    /**
-     * @var Parking
-     */
-    private $parking;
-
-    /**
      * @var string
      */
     private $userName;
@@ -121,10 +111,7 @@ class CreateUserForParking extends BaseCommand
      */
     protected function process()
     {
-        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
-            && !$this->loggedInUser->isAdministrator()) {
-            throw new NotAuthorizedOperation();
-        }
+        $this->checkAdministrationRights();
 
         if (null != $this->userRepository->findByName($this->userName)) {
             throw new UserNameAlreadyExists();

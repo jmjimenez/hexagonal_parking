@@ -11,16 +11,6 @@ use Jmj\Parking\Domain\Exception\UserNotAssigned;
 class GetParkingInformationForUserAndPeriod extends BaseCommand
 {
     /**
-     * @var Parking
-     */
-    protected $parking;
-
-    /**
-     * @var User
-     */
-    protected $user;
-
-    /**
      * @var DateTimeImmutable
      */
     protected $fromDate;
@@ -37,7 +27,7 @@ class GetParkingInformationForUserAndPeriod extends BaseCommand
 
     /**
      * @param  Parking           $parking
-     * @param  User              $user
+     * @param  User              $loggedInUser
      * @param  DateTimeImmutable $fromDate
      * @param  DateTimeImmutable $toDate
      * @return array
@@ -45,12 +35,12 @@ class GetParkingInformationForUserAndPeriod extends BaseCommand
      */
     public function execute(
         Parking $parking,
-        User $user,
+        User $loggedInUser,
         DateTimeImmutable $fromDate,
         DateTimeImmutable $toDate
     ) : array {
         $this->parking = $parking;
-        $this->user = $user;
+        $this->loggedInUser = $loggedInUser;
         $this->fromDate = $fromDate;
         $this->toDate = $toDate;
 
@@ -64,10 +54,14 @@ class GetParkingInformationForUserAndPeriod extends BaseCommand
      */
     protected function process()
     {
-        if (!$this->parking->isUserAssigned($this->user)) {
+        if (!$this->loggedInUserIsAdministrator() && !$this->parking->isUserAssigned($this->loggedInUser)) {
             throw new UserNotAssigned('User is not registered in parking');
         }
 
-        $this->parkingInformation =  $this->parking->getUserInformation($this->user, $this->fromDate, $this->toDate);
+        $this->parkingInformation =  $this->parking->getUserInformation(
+            $this->loggedInUser,
+            $this->fromDate,
+            $this->toDate
+        );
     }
 }

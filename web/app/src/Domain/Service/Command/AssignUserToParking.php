@@ -13,17 +13,7 @@ class AssignUserToParking extends BaseCommand
     /**
      * @var User
      */
-    protected $loggedInUser;
-
-    /**
-     * @var User
-     */
     protected $user;
-
-    /**
-     * @var Parking
-     */
-    protected $parking;
 
     /**
      * @var bool
@@ -53,10 +43,7 @@ class AssignUserToParking extends BaseCommand
      */
     protected function process()
     {
-        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
-            && !$this->loggedInUser->isAdministrator()) {
-            throw new NotAuthorizedOperation('User is not administrator');
-        }
+        $this->checkAdministrationRights();
 
         $this->parking->addUser($this->user, $this->isAdministrator);
     }

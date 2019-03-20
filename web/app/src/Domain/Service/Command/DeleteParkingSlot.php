@@ -11,16 +11,6 @@ use Jmj\Parking\Domain\Exception\ParkingSlotNotFound;
 class DeleteParkingSlot extends BaseCommand
 {
     /**
-     * @var User
-     */
-    protected $loggedInUser;
-
-    /**
-     * @var Parking
-     */
-    protected $parking;
-
-    /**
      * @var string
      */
     protected $parkingSlotUuid;
@@ -46,10 +36,7 @@ class DeleteParkingSlot extends BaseCommand
      */
     protected function process()
     {
-        if (!$this->parking->isAdministeredByUser($this->loggedInUser)
-            && !$this->loggedInUser->isAdministrator()) {
-            throw new NotAuthorizedOperation('User cannot do this operation');
-        }
+        $this->checkAdministrationRights();
 
         $this->parking->deleteParkingSlotByUuid($this->parkingSlotUuid);
     }

@@ -11,11 +11,6 @@ class GetUserInformation extends BaseCommand
     /**
      * @var User
      */
-    protected $loggedInUser;
-
-    /**
-     * @var User
-     */
     protected $user;
 
     /**

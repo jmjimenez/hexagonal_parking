@@ -4,6 +4,8 @@ namespace Jmj\Parking\Domain\Service\Command;
 
 use Exception;
 use Jmj\Parking\Common\Exception\InvalidDateRange;
+use Jmj\Parking\Domain\Aggregate\Parking;
+use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Domain\Exception\ParkingSlotAlreadyAssigned;
 use Jmj\Parking\Domain\Exception\ParkingSlotDescriptionInvalid;
@@ -21,6 +23,16 @@ use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
 abstract class BaseCommand
 {
     /**
+     * @var User
+     */
+    protected $loggedInUser;
+
+    /**
+     * @var Parking
+     */
+    protected $parking;
+
+    /**
      * @throws ExceptionGeneratingUuid
      * @throws InvalidDateRange
      * @throws NotAuthorizedOperation
@@ -36,6 +48,26 @@ abstract class BaseCommand
      * @throws ParkingSlotAlreadyAssigned
      */
     abstract protected function process();
+
+
+    /**
+     * @throws NotAuthorizedOperation
+     */
+    protected function checkAdministrationRights()
+    {
+        if (!$this->loggedInUserIsAdministrator()) {
+            throw new NotAuthorizedOperation('User cannot do this operation');
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function loggedInUserIsAdministrator() : bool
+    {
+        return $this->parking->isAdministeredByUser($this->loggedInUser)
+            || $this->loggedInUser->isAdministrator();
+    }
 
     /**
      * @throws ParkingException

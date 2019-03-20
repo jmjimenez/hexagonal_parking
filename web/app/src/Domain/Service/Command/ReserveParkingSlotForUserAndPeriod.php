@@ -57,7 +57,6 @@ class ReserveParkingSlotForUserAndPeriod extends BaseCommand
      */
     protected function process()
     {
-        //TODO: this command should also be executed by an admin logged in user
         if (!$this->loggedInUserIsAdministrator() && !$this->parking->isUserAssigned($this->loggedInUser)) {
             throw new UserNotAssigned('User is not registered in parking');
         }

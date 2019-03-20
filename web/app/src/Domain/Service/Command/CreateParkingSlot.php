@@ -56,7 +56,6 @@ class CreateParkingSlot extends BaseCommand
      */
     protected function process()
     {
-        //TODO: phpunit that an administrator can perform the operation
         $this->checkAdministrationRights();
 
         $parkingSlot = $this->parking->getParkingSlotByNumber($this->parkingSlotNumber);

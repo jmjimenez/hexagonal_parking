@@ -4,6 +4,7 @@ namespace Jmj\Test\Unit\Domain\Service\Command\InMemory;
 
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\ParkingSlot;
+use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Exception\ParkingSlotNumberAlreadyExists;
@@ -21,6 +22,10 @@ class CreateParkingSlotTest extends TestCase
     use DomainEventsRegister;
 
     /**
+     * @param string $parkingSlotNumber
+     * @param string $parkingSlotDescription
+     * @param User $user
+     * @param string $testDescription
      * @throws ExceptionGeneratingUuid
      * @throws ParkingException
      * @throws ParkingSlotNumberAlreadyExists
@@ -28,19 +33,21 @@ class CreateParkingSlotTest extends TestCase
      * @throws UserNameAlreadyExists
      * @throws UserNameInvalid
      * @throws UserPasswordInvalid
+     * @dataProvider executeDataProvider
      */
-    public function testExecute()
-    {
-        $number = '101';
-        $description = 'Parking 101';
-
+    public function testExecute(
+        string $parkingSlotNumber,
+        string $parkingSlotDescription,
+        User $user,
+        string $testDescription
+    ) {
         $this->createTestCase();
 
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
         $command = new CreateParkingSlot();
-        $parkingSlot = $command->execute($this->loggedInUser, $this->parking, $number, $description);
+        $parkingSlot = $command->execute($user, $this->parking, $parkingSlotNumber, $parkingSlotDescription);
 
         $this->assertEquals(
             [ ParkingSlot::EVENT_PARKING_SLOT_CREATED, Parking::EVENT_PARKING_SLOT_ADDED_TO_PARKING ],
@@ -48,9 +55,57 @@ class CreateParkingSlotTest extends TestCase
         );
 
         $parking = $this->parkingRepository->findByUuid($this->parking->uuid());
-        $parkingSlotFromRepository = $parking->getParkingSlotByNumber($number);
+        $parkingSlotFromRepository = $parking->getParkingSlotByNumber($parkingSlotNumber);
 
         $this->assertInstanceOf(ParkingSlot::class, $parkingSlotFromRepository);
-        $this->assertEquals($parkingSlot->uuid(), $parkingSlotFromRepository->uuid());
+        $this->assertEquals($parkingSlot->uuid(), $parkingSlotFromRepository->uuid(), $testDescription);
+    }
+
+    /**
+     * @throws ExceptionGeneratingUuid
+     * @throws ParkingException
+     * @throws ParkingSlotNumberAlreadyExists
+     * @throws UserEmailInvalid
+     * @throws UserNameAlreadyExists
+     * @throws UserNameInvalid
+     * @throws UserPasswordInvalid
+     *
+     * @expectedException \Jmj\Parking\Domain\Exception\ParkingException
+     */
+    public function testExecuteErrorWhenUserIsNotAdministrator()
+    {
+        $parkingSlotNumber = '101';
+        $parkingSlotDescription = 'Parking Slot 101';
+
+        $this->createTestCase();
+
+        $this->configureDomainEventsBroker();
+
+        $this->startRecordingEvents();
+        $command = new CreateParkingSlot();
+        $command->execute($this->userOne, $this->parking, $parkingSlotNumber, $parkingSlotDescription);
+    }
+
+    /**
+     * @return array
+     * @throws ExceptionGeneratingUuid
+     * @throws UserEmailInvalid
+     * @throws UserNameAlreadyExists
+     * @throws UserNameInvalid
+     * @throws UserPasswordInvalid
+     */
+    public function executeDataProvider(): array
+    {
+        $number = '101';
+        $description = 'Parking 101';
+
+        $user = new User('newUser', 'newuser@test.com', 'password', false);
+        $this->parking->addUser($user, true);
+
+
+        return [
+            [ $number, $description, $this->loggedInUser, 'User is Administrator' ],
+            [ $number, $description, $user, 'User is Parking Administrator' ],
+        ];
     }
 }

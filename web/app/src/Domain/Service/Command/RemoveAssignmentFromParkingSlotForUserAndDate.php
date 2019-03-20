@@ -12,7 +12,7 @@ use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
 
 //TODO: rename this use case to RemoveParkingSlotAssignmentToUserFromDate
-class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseCommand
+class RemoveAssignmentFromParkingSlotForUserAndDate extends BaseCommand
 {
     /**
      * @var User

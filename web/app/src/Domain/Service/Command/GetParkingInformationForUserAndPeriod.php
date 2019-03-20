@@ -8,7 +8,7 @@ use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
 
-class GetParkingInformationForUserAndPeriod extends ParkingBaseCommand
+class GetParkingInformationForUserAndPeriod extends BaseCommand
 {
     /**
      * @var Parking

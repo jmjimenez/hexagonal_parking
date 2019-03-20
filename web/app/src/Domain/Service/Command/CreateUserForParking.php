@@ -15,7 +15,7 @@ use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
 use Jmj\Parking\Domain\Repository\User as UserRepositoryInterface;
 use Jmj\Parking\Domain\Service\Factory\User as UserFactory;
 
-class CreateUserForParking extends ParkingBaseCommand
+class CreateUserForParking extends BaseCommand
 {
     /**
      * @var User

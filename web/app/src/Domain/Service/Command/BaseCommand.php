@@ -18,8 +18,7 @@ use Jmj\Parking\Domain\Exception\ParkingSlotNumberAlreadyExists;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
 
-//TODO: rename to BaseCommand
-abstract class ParkingBaseCommand
+abstract class BaseCommand
 {
     /**
      * @throws ExceptionGeneratingUuid

@@ -12,7 +12,7 @@ use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
 
-class AssignParkingSlotToUserForPeriod extends ParkingBaseCommand
+class AssignParkingSlotToUserForPeriod extends BaseCommand
 {
     /**
      * @var User

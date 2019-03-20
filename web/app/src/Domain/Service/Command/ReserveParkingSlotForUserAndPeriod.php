@@ -9,7 +9,7 @@ use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
 
-class ReserveParkingSlotForUserAndPeriod extends ParkingBaseCommand
+class ReserveParkingSlotForUserAndPeriod extends BaseCommand
 {
     /**
      * @var Parking

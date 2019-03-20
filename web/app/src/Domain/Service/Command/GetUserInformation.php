@@ -6,7 +6,7 @@ use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\ParkingException;
 
-class GetUserInformation extends ParkingBaseCommand
+class GetUserInformation extends BaseCommand
 {
     /**
      * @var User

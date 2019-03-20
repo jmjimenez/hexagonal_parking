@@ -8,7 +8,7 @@ use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 
-class AssignAdministratorRightsToUserForParking extends ParkingBaseCommand
+class AssignAdministratorRightsToUserForParking extends BaseCommand
 {
     /**
      * @var User

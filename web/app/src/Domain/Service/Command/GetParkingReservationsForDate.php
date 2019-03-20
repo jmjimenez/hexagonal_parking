@@ -9,7 +9,7 @@ use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Exception\ParkingSlotReservationsForDateIncorrect;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
 
-class GetParkingReservationsForDate extends ParkingBaseCommand
+class GetParkingReservationsForDate extends BaseCommand
 {
     /**
      * @var User

@@ -22,10 +22,6 @@ class CreateParkingSlotTest extends TestCase
     use DomainEventsRegister;
 
     /**
-     * @param string $parkingSlotNumber
-     * @param string $parkingSlotDescription
-     * @param User $user
-     * @param string $testDescription
      * @throws ExceptionGeneratingUuid
      * @throws ParkingException
      * @throws ParkingSlotNumberAlreadyExists
@@ -33,21 +29,19 @@ class CreateParkingSlotTest extends TestCase
      * @throws UserNameAlreadyExists
      * @throws UserNameInvalid
      * @throws UserPasswordInvalid
-     * @dataProvider executeDataProvider
      */
-    public function testExecute(
-        string $parkingSlotNumber,
-        string $parkingSlotDescription,
-        User $user,
-        string $testDescription
-    ) {
+    public function testExecuteWhenUserIsAdministrator()
+    {
+        $number = '101';
+        $description = 'Parking 101';
+
         $this->createTestCase();
 
         $this->configureDomainEventsBroker();
 
         $this->startRecordingEvents();
         $command = new CreateParkingSlot();
-        $parkingSlot = $command->execute($user, $this->parking, $parkingSlotNumber, $parkingSlotDescription);
+        $parkingSlot = $command->execute($this->loggedInUser, $this->parking, $number, $description);
 
         $this->assertEquals(
             [ ParkingSlot::EVENT_PARKING_SLOT_CREATED, Parking::EVENT_PARKING_SLOT_ADDED_TO_PARKING ],
@@ -55,10 +49,47 @@ class CreateParkingSlotTest extends TestCase
         );
 
         $parking = $this->parkingRepository->findByUuid($this->parking->uuid());
-        $parkingSlotFromRepository = $parking->getParkingSlotByNumber($parkingSlotNumber);
+        $parkingSlotFromRepository = $parking->getParkingSlotByNumber($number);
 
         $this->assertInstanceOf(ParkingSlot::class, $parkingSlotFromRepository);
-        $this->assertEquals($parkingSlot->uuid(), $parkingSlotFromRepository->uuid(), $testDescription);
+        $this->assertEquals($parkingSlot->uuid(), $parkingSlotFromRepository->uuid());
+    }
+
+    /**
+     * @throws ExceptionGeneratingUuid
+     * @throws ParkingException
+     * @throws ParkingSlotNumberAlreadyExists
+     * @throws UserEmailInvalid
+     * @throws UserNameAlreadyExists
+     * @throws UserNameInvalid
+     * @throws UserPasswordInvalid
+     */
+    public function testExecuteWhenUserIsParkingAdministrator()
+    {
+        $number = '101';
+        $description = 'Parking 101';
+
+        $this->createTestCase();
+
+        $user = new User('newUser', 'newuser@test.com', 'password', false);
+        $this->parking->addUser($user, true);
+
+        $this->configureDomainEventsBroker();
+
+        $this->startRecordingEvents();
+        $command = new CreateParkingSlot();
+        $parkingSlot = $command->execute($user, $this->parking, $number, $description);
+
+        $this->assertEquals(
+            [ ParkingSlot::EVENT_PARKING_SLOT_CREATED, Parking::EVENT_PARKING_SLOT_ADDED_TO_PARKING ],
+            $this->recordedEventNames
+        );
+
+        $parking = $this->parkingRepository->findByUuid($this->parking->uuid());
+        $parkingSlotFromRepository = $parking->getParkingSlotByNumber($number);
+
+        $this->assertInstanceOf(ParkingSlot::class, $parkingSlotFromRepository);
+        $this->assertEquals($parkingSlot->uuid(), $parkingSlotFromRepository->uuid());
     }
 
     /**
@@ -84,28 +115,5 @@ class CreateParkingSlotTest extends TestCase
         $this->startRecordingEvents();
         $command = new CreateParkingSlot();
         $command->execute($this->userOne, $this->parking, $parkingSlotNumber, $parkingSlotDescription);
-    }
-
-    /**
-     * @return array
-     * @throws ExceptionGeneratingUuid
-     * @throws UserEmailInvalid
-     * @throws UserNameAlreadyExists
-     * @throws UserNameInvalid
-     * @throws UserPasswordInvalid
-     */
-    public function executeDataProvider(): array
-    {
-        $number = '101';
-        $description = 'Parking 101';
-
-        $user = new User('newUser', 'newuser@test.com', 'password', false);
-        $this->parking->addUser($user, true);
-
-
-        return [
-            [ $number, $description, $this->loggedInUser, 'User is Administrator' ],
-            [ $number, $description, $user, 'User is Parking Administrator' ],
-        ];
     }
 }

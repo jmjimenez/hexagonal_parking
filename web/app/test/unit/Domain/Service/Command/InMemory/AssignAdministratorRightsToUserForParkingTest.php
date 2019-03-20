@@ -42,4 +42,26 @@ class AssignAdministratorRightsToUserForParkingTest extends TestCase
 
         $this->assertTrue($this->parking->isAdministeredByUser($this->userOne));
     }
+
+    /**
+     * @throws ExceptionGeneratingUuid
+     * @throws ParkingException
+     * @throws ParkingSlotNumberAlreadyExists
+     * @throws UserEmailInvalid
+     * @throws UserNameAlreadyExists
+     * @throws UserNameInvalid
+     * @throws UserPasswordInvalid
+     *
+     * @expectedException \Jmj\Parking\Domain\Exception\ParkingException
+     */
+    public function testExecuteErrorWhenUserNotAuthorized()
+    {
+        $this->createTestCase();
+
+        $this->configureDomainEventsBroker();
+
+        $this->startRecordingEvents();
+        $command = new AssignAdministratorRightsToUserForParking();
+        $command->execute($this->userOne, $this->userTwo, $this->parking);
+    }
 }

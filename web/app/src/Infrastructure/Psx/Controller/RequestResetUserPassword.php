@@ -1,37 +1,39 @@
 <?php
 
-namespace Jmj\Parking\Infrastructure\Psx\Controllers;
+namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
-use Jmj\Parking\Application\Command\CreateParking as CreateParkingCommand;
+use Jmj\Parking\Application\Command\RequestResetUserPassword as RequestResetUserPasswordCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
+use PSX\Framework\Controller\ControllerAbstract;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class CreateParking extends BaseController
+class RequestResetUserPassword extends ControllerAbstract
 {
+    //TODO: instead of injecting the dependencies via comments perhaps there may be another way by code
     /**
-     * @Inject("CreateParkingCommandHandler")
-     * @var \Jmj\Parking\Application\Command\Handler\CreateParking
+     * @Inject("RequestResetUserPasswordCommandHandler")
+     * @var \Jmj\Parking\Application\Command\Handler\RequestResetUserPassword
      */
     protected $commandHandler;
 
     /**
      * @param RequestInterface $request
      * @param ResponseInterface $response
+     * @throws \Exception
      */
     public function onPost(RequestInterface $request, ResponseInterface $response)
     {
         $postData = $this->requestReader->getBody($request);
 
-        $command = new CreateParkingCommand(
-            $this->loggedInUser->uuid(),
-            $postData->description
+        $command = new RequestResetUserPasswordCommand(
+            $postData->userEmail
         );
 
         try {
-            $parking = $this->commandHandler->execute($command);
-            $data = [ 'result' => 'ok', 'parkingUuid' => $parking->uuid() ];
+            $result = $this->commandHandler->execute($command);
+            $data = [ 'result' => $result ];
         } catch (UserNotFound $e) {
             $data = [ 'result' => 'error', 'message' => 'User not found' ];
         } catch (ParkingException $e) {

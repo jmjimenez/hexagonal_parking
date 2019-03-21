@@ -1,20 +1,18 @@
 <?php
 
-namespace Jmj\Parking\Infrastructure\Psx\Controllers;
+namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
-use DateTimeImmutable;
-use Jmj\Parking\Application\Command\FreeAssignedParkingSlotForUserAndPeriod
-    as FreeAssignedParkingSlotForUserAndPeriodCommand;
+use Jmj\Parking\Application\Command\UpdateParkingSlotInformation as UpdateParkingSlotInformationCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class FreeAssignedParkingSlotForUserAndPeriod extends BaseController
+class UpdateParkingSlotInformation extends BaseController
 {
     /**
-     * @Inject("FreeAssignedParkingSlotForUserAndPeriodCommandHandler")
-     * @var \Jmj\Parking\Application\Command\Handler\FreeAssignedParkingSlotForUserAndPeriod
+     * @Inject("UpdateParkingSlotInformationCommandHandler")
+     * @var \Jmj\Parking\Application\Command\Handler\UpdateParkingSlotInformation
      */
     protected $commandHandler;
 
@@ -22,19 +20,17 @@ class FreeAssignedParkingSlotForUserAndPeriod extends BaseController
      * @param RequestInterface $request
      * @param ResponseInterface $response
      * @throws \Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound
-     * @throws \Exception
      */
     public function onPost(RequestInterface $request, ResponseInterface $response)
     {
         $postData = $this->requestReader->getBody($request);
 
-        $command = new FreeAssignedParkingSlotForUserAndPeriodCommand(
+        $command = new UpdateParkingSlotInformationCommand(
             $this->loggedInUser->uuid(),
-            $postData->userUuid,
             $postData->parkingUuid,
             $postData->parkingSlotUuid,
-            new DateTimeImmutable($postData->fromDate),
-            new DateTimeImmutable($postData->toDate)
+            $postData->number,
+            $postData->description
         );
 
         try {

@@ -1,33 +1,40 @@
 <?php
 
-namespace Jmj\Parking\Infrastructure\Psx\Controllers;
+namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
-use Jmj\Parking\Application\Command\GetUserInformation as GetUserInformationCommand;
+use Jmj\Parking\Application\Command\DeleteParkingSlot as DeleteParkingSlotCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class GetUserInformation extends BaseController
+class DeleteParkingSlot extends BaseController
 {
     /**
-     * @Inject("GetUserInformationCommandHandler")
-     * @var \Jmj\Parking\Application\Command\Handler\GetUserInformation
+     * @Inject("DeleteParkingSlotCommandHandler")
+     * @var \Jmj\Parking\Application\Command\Handler\DeleteParkingSlot
      */
     protected $commandHandler;
 
+    /**
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @throws \Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound
+     */
     public function onPost(RequestInterface $request, ResponseInterface $response)
     {
         $postData = $this->requestReader->getBody($request);
 
-        $command = new GetUserInformationCommand(
+        //TODO: how to check the payload is correct
+        $command = new DeleteParkingSlotCommand(
             $this->loggedInUser->uuid(),
-            $postData->userUuid
+            $postData->parkingUuid,
+            $postData->parkingSlotUuid
         );
 
         try {
-            $result = $this->commandHandler->execute($command);
-            $data = [ 'result' => $result ];
+            $this->commandHandler->execute($command);
+            $data = [ 'result' => 'ok' ];
         } catch (UserNotFound $e) {
             $data = [ 'result' => 'error', 'message' => 'User not found' ];
         } catch (ParkingException $e) {

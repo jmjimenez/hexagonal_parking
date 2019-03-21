@@ -1,38 +1,38 @@
 <?php
 
-namespace Jmj\Parking\Infrastructure\Psx\Controllers;
+namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
-use Jmj\Parking\Application\Command\AssignAdministratorRightsToUserForParking
-    as AssignAdministratorRightsToUserForParkingCommand;
-use Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound;
+use Jmj\Parking\Application\Command\DeleteParking as DeleteParkingCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class AssignAdministratorRightsToUserForParking extends BaseController
+class DeleteParking extends BaseController
 {
     /**
-     * @Inject("AssignAdministratorRightsToUserForParkingCommandHandler")
-     * @var \Jmj\Parking\Application\Command\Handler\AssignAdministratorRightsToUserForParking
+     * @Inject("DeleteParkingCommandHandler")
+     * @var \Jmj\Parking\Application\Command\Handler\DeleteParking
      */
     protected $commandHandler;
 
+    /**
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @throws \Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound
+     */
     public function onPost(RequestInterface $request, ResponseInterface $response)
     {
         $postData = $this->requestReader->getBody($request);
 
-        $command = new AssignAdministratorRightsToUserForParkingCommand(
+        $command = new DeleteParkingCommand(
             $this->loggedInUser->uuid(),
-            $postData->userUuid,
             $postData->parkingUuid
         );
 
         try {
             $this->commandHandler->execute($command);
             $data = [ 'result' => 'ok' ];
-        } catch (ParkingNotFound $e) {
-            $data = [ 'result' => 'error', 'message' => 'Parking not found' ];
         } catch (UserNotFound $e) {
             $data = [ 'result' => 'error', 'message' => 'User not found' ];
         } catch (ParkingException $e) {

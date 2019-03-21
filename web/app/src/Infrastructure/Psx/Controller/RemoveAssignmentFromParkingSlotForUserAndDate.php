@@ -1,35 +1,39 @@
 <?php
 
-namespace Jmj\Parking\Infrastructure\Psx\Controllers;
+namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
-use Jmj\Parking\Application\Command\ResetUserPassword as ResetUserPasswordCommand;
+use DateTimeImmutable;
+use Jmj\Parking\Application\Command\RemoveAssignmentFromParkingSlotForUserAndDate
+    as RemoveAssignmentFromParkingSlotFromUserAndDateCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
-use PSX\Framework\Controller\ControllerAbstract;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class ResetUserPassword extends ControllerAbstract
+class RemoveAssignmentFromParkingSlotForUserAndDate extends BaseController
 {
     /**
-     * @Inject("ResetUserPasswordCommandHandler")
-     * @var \Jmj\Parking\Application\Command\Handler\ResetUserPassword
+     * @Inject("RemoveAssignmentFromParkingSlotFromUserAndDateCommandHandler")
+     * @var \Jmj\Parking\Application\Command\Handler\RemoveAssignmentFromParkingSlotForUserAndDate
      */
     protected $commandHandler;
 
     /**
      * @param RequestInterface $request
      * @param ResponseInterface $response
+     * @throws \Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound
      * @throws \Exception
      */
     public function onPost(RequestInterface $request, ResponseInterface $response)
     {
         $postData = $this->requestReader->getBody($request);
 
-        $command = new ResetUserPasswordCommand(
-            $postData->userEmail,
-            $postData->passwordToken,
-            $postData->userPassword
+        $command = new RemoveAssignmentFromParkingSlotFromUserAndDateCommand(
+            $this->loggedInUser->uuid(),
+            $postData->userUuid,
+            $postData->parkingUuid,
+            $postData->parkingSlotUuid,
+            new DateTimeImmutable($postData->date)
         );
 
         try {

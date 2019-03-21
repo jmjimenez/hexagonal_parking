@@ -1,18 +1,19 @@
 <?php
 
-namespace Jmj\Parking\Infrastructure\Psx\Controllers;
+namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
-use Jmj\Parking\Application\Command\CreateParkingSlot as CreateParkingSlotCommand;
+use DateTimeImmutable;
+use Jmj\Parking\Application\Command\AssignParkingSlotToUserForPeriod as AssignParkingSlotToUserForPeriodCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class CreateParkingSlot extends BaseController
+class AssignParkingSlotToUserForPeriod extends BaseController
 {
     /**
-     * @Inject("CreateParkingSlotCommandHandler")
-     * @var \Jmj\Parking\Application\Command\Handler\CreateParkingSlot
+     * @Inject("AssignParkingSlotToUserForPeriodCommandHandler")
+     * @var \Jmj\Parking\Application\Command\Handler\AssignParkingSlotToUserForPeriod
      */
     protected $commandHandler;
 
@@ -20,21 +21,25 @@ class CreateParkingSlot extends BaseController
      * @param RequestInterface $request
      * @param ResponseInterface $response
      * @throws \Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound
+     * @throws \Exception
      */
     public function onPost(RequestInterface $request, ResponseInterface $response)
     {
         $postData = $this->requestReader->getBody($request);
 
-        $command = new CreateParkingSlotCommand(
+        $command = new AssignParkingSlotToUserForPeriodCommand(
             $this->loggedInUser->uuid(),
+            $postData->userUuid,
             $postData->parkingUuid,
-            $postData->parkingSlotNumber,
-            $postData->parkingSlotDescription
+            $postData->parkingSlotUuid,
+            new DateTimeImmutable($postData->fromDate),
+            new DateTimeImmutable($postData->toDate),
+            $postData->exclusive === 'true'
         );
 
         try {
-            $parkingSlot = $this->commandHandler->execute($command);
-            $data = [ 'result' => 'ok', 'parkingSlotUuid' => $parkingSlot->uuid() ];
+            $this->commandHandler->execute($command);
+            $data = [ 'result' => 'ok' ];
         } catch (UserNotFound $e) {
             $data = [ 'result' => 'error', 'message' => 'User not found' ];
         } catch (ParkingException $e) {

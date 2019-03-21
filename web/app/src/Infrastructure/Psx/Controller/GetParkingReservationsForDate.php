@@ -1,20 +1,20 @@
 <?php
 
-namespace Jmj\Parking\Infrastructure\Psx\Controllers;
+namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
 use DateTimeImmutable;
-use Jmj\Parking\Application\Command\GetParkingSlotReservationsForPeriod
-    as GetParkingSlotReservationsForPeriodCommand;
+use Jmj\Parking\Application\Command\GetParkingReservationsForDate
+    as GetParkingReservationsForDateCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class GetParkingSlotReservationsForPeriod extends BaseController
+class GetParkingReservationsForDate extends BaseController
 {
     /**
-     * @Inject("GetParkingSlotReservationsForPeriodCommandHandler")
-     * @var \Jmj\Parking\Application\Command\Handler\GetParkingSlotReservationsForPeriod
+     * @Inject("GetParkingReservationsForDateCommandHandler")
+     * @var \Jmj\Parking\Application\Command\Handler\GetParkingReservationsForDate
      */
     protected $commandHandler;
 
@@ -28,12 +28,10 @@ class GetParkingSlotReservationsForPeriod extends BaseController
     {
         $postData = $this->requestReader->getBody($request);
 
-        $command = new GetParkingSlotReservationsForPeriodCommand(
+        $command = new GetParkingReservationsForDateCommand(
             $this->loggedInUser->uuid(),
             $postData->parkingUuid,
-            $postData->parkingSlotUuid,
-            new DateTimeImmutable($postData->fromDate),
-            new DateTimeImmutable($postData->toDate)
+            new DateTimeImmutable($postData->date)
         );
 
         try {

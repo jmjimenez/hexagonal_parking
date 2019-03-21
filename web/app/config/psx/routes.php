@@ -5,102 +5,102 @@ return [
     [
         ['POST'],
         '/assignusertoparking',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\AssignUserToParking::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\AssignUserToParking::class
     ],
     [
         ['POST'],
         '/deassignuserfromparking',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\DeassignUserFromParking::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\DeassignUserFromParking::class
     ],
     [
         ['POST'],
         '/assignadministratorrightstouserforparking',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\AssignAdministratorRightsToUserForParking::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\AssignAdministratorRightsToUserForParking::class
     ],
     [
         ['POST'],
         '/createparking',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\CreateParking::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\CreateParking::class
     ],
     [
         ['POST'],
         '/createparkingslot',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\CreateParkingSlot::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\CreateParkingSlot::class
     ],
     [
         ['POST'],
         '/deleteparking',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\DeleteParking::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\DeleteParking::class
     ],
     [
         ['POST'],
         '/deleteparkingslot',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\DeleteParkingSlot::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\DeleteParkingSlot::class
     ],
     [
         ['POST'],
         '/createuserforparking',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\CreateUserForParking::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\CreateUserForParking::class
     ],
     [
         ['POST'],
         '/updateparkingslotinformation',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\UpdateParkingSlotInformation::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\UpdateParkingSlotInformation::class
     ],
     [
         ['POST'],
         '/updateparkingslotinformation',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\UpdateParkingSlotInformation::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\UpdateParkingSlotInformation::class
     ],
     [
         ['POST'],
         '/assignparkingslottouserforperiod',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\AssignParkingSlotToUserForPeriod::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\AssignParkingSlotToUserForPeriod::class
     ],
     [
         ['POST'],
         '/freeassignedparkingslotforuserandperiod',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\FreeAssignedParkingSlotForUserAndPeriod::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\FreeAssignedParkingSlotForUserAndPeriod::class
     ],
     [
         ['POST'],
         '/getparkinginformationforuserandperiod',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\GetParkingInformationForUserAndPeriod::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\GetParkingInformationForUserAndPeriod::class
     ],
     [
         ['POST'],
         '/getparkingslotreservationsforperiod',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\GetParkingSlotReservationsForPeriod::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\GetParkingSlotReservationsForPeriod::class
     ],
     [
         ['POST'],
         '/getparkingreservationsfordate',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\GetParkingReservationsForDate::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\GetParkingReservationsForDate::class
     ],
     [
         ['POST'],
         '/getuserinformation',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\GetUserInformation::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\GetUserInformation::class
     ],
     [
         ['POST'],
         '/removeassignmentfromparkingslotforuseranddate',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\RemoveAssignmentFromParkingSlotForUserAndDate::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\RemoveAssignmentFromParkingSlotForUserAndDate::class
     ],
     [
         ['POST'],
         '/reserveparkingslotforuserandperiod',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\ReserveParkingSlotForUserAndPeriod::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\ReserveParkingSlotForUserAndPeriod::class
     ],
     [
         ['POST'],
         '/requestresetuserpassword',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\RequestResetUserPassword::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\RequestResetUserPassword::class
     ],
     [
         ['POST'],
         '/resetuserpassword',
-        \Jmj\Parking\Infrastructure\Psx\Controllers\ResetUserPassword::class
+        \Jmj\Parking\Infrastructure\Psx\Controller\ResetUserPassword::class
     ],
 
     # tool controller

@@ -1,35 +1,35 @@
 <?php
 
-namespace Jmj\Parking\Infrastructure\Psx\Controllers;
+namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
-use Jmj\Parking\Application\Command\DeleteParkingSlot as DeleteParkingSlotCommand;
+use Jmj\Parking\Application\Command\ResetUserPassword as ResetUserPasswordCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
+use PSX\Framework\Controller\ControllerAbstract;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class DeleteParkingSlot extends BaseController
+class ResetUserPassword extends ControllerAbstract
 {
     /**
-     * @Inject("DeleteParkingSlotCommandHandler")
-     * @var \Jmj\Parking\Application\Command\Handler\DeleteParkingSlot
+     * @Inject("ResetUserPasswordCommandHandler")
+     * @var \Jmj\Parking\Application\Command\Handler\ResetUserPassword
      */
     protected $commandHandler;
 
     /**
      * @param RequestInterface $request
      * @param ResponseInterface $response
-     * @throws \Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound
+     * @throws \Exception
      */
     public function onPost(RequestInterface $request, ResponseInterface $response)
     {
         $postData = $this->requestReader->getBody($request);
 
-        //TODO: how to check the payload is correct
-        $command = new DeleteParkingSlotCommand(
-            $this->loggedInUser->uuid(),
-            $postData->parkingUuid,
-            $postData->parkingSlotUuid
+        $command = new ResetUserPasswordCommand(
+            $postData->userEmail,
+            $postData->passwordToken,
+            $postData->userPassword
         );
 
         try {

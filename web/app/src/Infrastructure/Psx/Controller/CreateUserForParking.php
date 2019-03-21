@@ -1,19 +1,18 @@
 <?php
 
-namespace Jmj\Parking\Infrastructure\Psx\Controllers;
+namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
-use DateTimeImmutable;
-use Jmj\Parking\Application\Command\ReserveParkingSlotForUserAndPeriod as ReserveParkingSlotForUserAndPeriodCommand;
+use Jmj\Parking\Application\Command\CreateUserForParking as CreateUserForParkingCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class ReserveParkingSlotForUserAndPeriod extends BaseController
+class CreateUserForParking extends BaseController
 {
     /**
-     * @Inject("ReserveParkingSlotForUserAndPeriodCommandHandler")
-     * @var \Jmj\Parking\Application\Command\Handler\ReserveParkingSlotForUserAndPeriod
+     * @Inject("CreateUserForParkingCommandHandler")
+     * @var \Jmj\Parking\Application\Command\Handler\CreateUserForParking
      */
     protected $commandHandler;
 
@@ -21,24 +20,27 @@ class ReserveParkingSlotForUserAndPeriod extends BaseController
      * @param RequestInterface $request
      * @param ResponseInterface $response
      * @throws \Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound
-     * @throws \Exception
+     *
+     * TODO: review all throws in declarations and catch them
      */
     public function onPost(RequestInterface $request, ResponseInterface $response)
     {
         $postData = $this->requestReader->getBody($request);
 
-        $command = new ReserveParkingSlotForUserAndPeriodCommand(
+        $command = new CreateUserForParkingCommand(
             $this->loggedInUser->uuid(),
-            $postData->userUuid,
             $postData->parkingUuid,
-            $postData->parkingSlotUuid,
-            new DateTimeImmutable($postData->fromDate),
-            new DateTimeImmutable($postData->toDate)
+            $postData->userName,
+            $postData->userEmail,
+            $postData->userPassword,
+            $postData->isAdministrator === 'true',
+            $postData->isAdministratorForParking === 'true'
         );
 
+        //TODO: the catch part may be common for all controllers
         try {
-            $this->commandHandler->execute($command);
-            $data = [ 'result' => 'ok' ];
+            $user = $this->commandHandler->execute($command);
+            $data = [ 'result' => 'ok', 'userUuid' => $user->uuid() ];
         } catch (UserNotFound $e) {
             $data = [ 'result' => 'error', 'message' => 'User not found' ];
         } catch (ParkingException $e) {

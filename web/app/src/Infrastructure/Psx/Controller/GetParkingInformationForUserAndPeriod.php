@@ -1,19 +1,20 @@
 <?php
 
-namespace Jmj\Parking\Infrastructure\Psx\Controllers;
+namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
 use DateTimeImmutable;
-use Jmj\Parking\Application\Command\AssignParkingSlotToUserForPeriod as AssignParkingSlotToUserForPeriodCommand;
+use Jmj\Parking\Application\Command\GetParkingInformationForUserAndPeriod
+    as GetParkingInformationForUserAndPeriodCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class AssignParkingSlotToUserForPeriod extends BaseController
+class GetParkingInformationForUserAndPeriod extends BaseController
 {
     /**
-     * @Inject("AssignParkingSlotToUserForPeriodCommandHandler")
-     * @var \Jmj\Parking\Application\Command\Handler\AssignParkingSlotToUserForPeriod
+     * @Inject("GetParkingInformationForUserAndPeriodCommandHandler")
+     * @var \Jmj\Parking\Application\Command\Handler\GetParkingInformationForUserAndPeriod
      */
     protected $commandHandler;
 
@@ -27,19 +28,16 @@ class AssignParkingSlotToUserForPeriod extends BaseController
     {
         $postData = $this->requestReader->getBody($request);
 
-        $command = new AssignParkingSlotToUserForPeriodCommand(
-            $this->loggedInUser->uuid(),
+        $command = new GetParkingInformationForUserAndPeriodCommand(
             $postData->userUuid,
             $postData->parkingUuid,
-            $postData->parkingSlotUuid,
             new DateTimeImmutable($postData->fromDate),
-            new DateTimeImmutable($postData->toDate),
-            $postData->exclusive === 'true'
+            new DateTimeImmutable($postData->toDate)
         );
 
         try {
-            $this->commandHandler->execute($command);
-            $data = [ 'result' => 'ok' ];
+            $result = $this->commandHandler->execute($command);
+            $data = [ 'result' => $result ];
         } catch (UserNotFound $e) {
             $data = [ 'result' => 'error', 'message' => 'User not found' ];
         } catch (ParkingException $e) {

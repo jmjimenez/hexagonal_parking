@@ -1,38 +1,45 @@
 <?php
 
-namespace Jmj\Parking\Infrastructure\Psx\Controllers;
+namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
-use Jmj\Parking\Application\Command\AssignUserToParking as AssignUserToParkingCommand;
-use Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound;
+use DateTimeImmutable;
+use Jmj\Parking\Application\Command\FreeAssignedParkingSlotForUserAndPeriod
+    as FreeAssignedParkingSlotForUserAndPeriodCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class AssignUserToParking extends BaseController
+class FreeAssignedParkingSlotForUserAndPeriod extends BaseController
 {
     /**
-     * @Inject("AssignUserToParkingCommandHandler")
-     * @var \Jmj\Parking\Application\Command\Handler\AssignUserToParking
+     * @Inject("FreeAssignedParkingSlotForUserAndPeriodCommandHandler")
+     * @var \Jmj\Parking\Application\Command\Handler\FreeAssignedParkingSlotForUserAndPeriod
      */
     protected $commandHandler;
 
+    /**
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @throws \Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound
+     * @throws \Exception
+     */
     public function onPost(RequestInterface $request, ResponseInterface $response)
     {
         $postData = $this->requestReader->getBody($request);
 
-        $command = new AssignUserToParkingCommand(
+        $command = new FreeAssignedParkingSlotForUserAndPeriodCommand(
             $this->loggedInUser->uuid(),
             $postData->userUuid,
             $postData->parkingUuid,
-            $postData->isAdministrator === 'true'
+            $postData->parkingSlotUuid,
+            new DateTimeImmutable($postData->fromDate),
+            new DateTimeImmutable($postData->toDate)
         );
 
         try {
             $this->commandHandler->execute($command);
             $data = [ 'result' => 'ok' ];
-        } catch (ParkingNotFound $e) {
-            $data = [ 'result' => 'error', 'message' => 'Parking not found' ];
         } catch (UserNotFound $e) {
             $data = [ 'result' => 'error', 'message' => 'User not found' ];
         } catch (ParkingException $e) {

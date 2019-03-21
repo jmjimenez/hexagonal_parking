@@ -1,19 +1,19 @@
 <?php
 
-namespace Jmj\Parking\Infrastructure\Psx\Controllers;
+namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
-use Jmj\Parking\Application\Command\DeassignUserFromParking as DeassignUserFromParkingCommand;
+use Jmj\Parking\Application\Command\AssignUserToParking as AssignUserToParkingCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class DeassignUserFromParking extends BaseController
+class AssignUserToParking extends BaseController
 {
     /**
-     * @Inject("DeassignUserFromParkingCommandHandler")
-     * @var \Jmj\Parking\Application\Command\Handler\DeassignUserFromParking
+     * @Inject("AssignUserToParkingCommandHandler")
+     * @var \Jmj\Parking\Application\Command\Handler\AssignUserToParking
      */
     protected $commandHandler;
 
@@ -21,10 +21,11 @@ class DeassignUserFromParking extends BaseController
     {
         $postData = $this->requestReader->getBody($request);
 
-        $command = new DeassignUserFromParkingCommand(
+        $command = new AssignUserToParkingCommand(
             $this->loggedInUser->uuid(),
             $postData->userUuid,
-            $postData->parkingUuid
+            $postData->parkingUuid,
+            $postData->isAdministrator === 'true'
         );
 
         try {

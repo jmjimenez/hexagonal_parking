@@ -8,7 +8,7 @@ use Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common\AssertSqlSta
 use Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common\TestBase;
 use Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common\TestRequest;
 
-class CreateParkingTestBase extends TestBase
+class CreateParkingTest extends TestBase
 {
     use AssertSqlStatements;
 

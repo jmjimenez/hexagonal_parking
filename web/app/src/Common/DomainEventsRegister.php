@@ -21,7 +21,7 @@ trait DomainEventsRegister
     private $recordedPayloads = [];
 
     /** @var array  */
-    private $recordedSqlStatements = [];
+    protected $recordedSqlStatements = [];
 
     /**
      * @return SynchronousEventsBroker

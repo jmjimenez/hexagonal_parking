@@ -31,35 +31,22 @@ use PSX\Framework\Dependency\DefaultContainer;
 class Container extends DefaultContainer
 {
     //TODO: this class can be refactored to read dependencies from a conf file
+    //TODO: I might fill the parent::factories array with all these methods
 
     /**
      * @return PdoUserRepository
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getUserRepository() : PdoUserRepository
     {
-        static $repository = null;
-
-        if ($repository !== null) {
-            return $repository;
-        }
-
-        return $repository = new PdoUserRepository('users', $this->getPdoProxy());
+        return new PdoUserRepository('users', $this->get('PdoProxy'));
     }
 
     /**
      * @return PdoParkingRepository
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getParkingRepository() : PdoParkingRepository
     {
-        static $repository = null;
-
-        if ($repository !== null) {
-            return $repository;
-        }
-
-        return $repository = new PdoParkingRepository('parkings', $this->getPdoProxy());
+        return new PdoParkingRepository('parkings', $this->get('PdoProxy'));
     }
 
     /**
@@ -68,12 +55,6 @@ class Container extends DefaultContainer
      */
     public function getPdoProxy() : PdoProxy
     {
-        static $pdoProxy = null;
-
-        if ($pdoProxy !== null) {
-            return $pdoProxy;
-        }
-
         $parkingDbConf = $this->getConfig()->get('parking_db_conf');
 
         $pdoProxy = new PdoProxy();
@@ -89,383 +70,212 @@ class Container extends DefaultContainer
 
     /**
      * @return AssignAdministratorRightsToUserForParking
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getAssignAdministratorRightsToUserForParkingCommandHandler()
         : AssignAdministratorRightsToUserForParking
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new AssignAdministratorRightsToUserForParking(
-            $this->getParkingRepository(),
-            $this->getUserRepository()
+        return new AssignAdministratorRightsToUserForParking(
+            $this->get('ParkingRepository'),
+            $this->get('UserRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return AssignUserToParking
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getAssignUserToParkingCommandHandler() : AssignUserToParking
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new AssignUserToParking(
-            $this->getParkingRepository(),
-            $this->getUserRepository()
+        return new AssignUserToParking(
+            $this->get('ParkingRepository'),
+            $this->get('UserRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return DeassignUserFromParking
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getDeassignUserFromParkingCommandHandler() : DeassignUserFromParking
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new DeassignUserFromParking(
-            $this->getParkingRepository(),
-            $this->getUserRepository()
+        return new DeassignUserFromParking(
+            $this->get('ParkingRepository'),
+            $this->get('UserRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return CreateParking
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getCreateParkingCommandHandler() : CreateParking
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new CreateParking(
-            $this->getUserRepository(),
-            $this->getParkingFactory(),
-            $this->getParkingRepository()
+        return new CreateParking(
+            $this->get('UserRepository'),
+            $this->get('ParkingFactory'),
+            $this->get('ParkingRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return CreateParkingSlot
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getCreateParkingSlotCommandHandler() : CreateParkingSlot
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new CreateParkingSlot(
-            $this->getUserRepository(),
-            $this->getParkingRepository()
+        return new CreateParkingSlot(
+            $this->get('UserRepository'),
+            $this->get('ParkingRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return DeleteParking
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getDeleteParkingCommandHandler() : DeleteParking
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new DeleteParking(
-            $this->getUserRepository(),
-            $this->getParkingRepository()
+        return new DeleteParking(
+            $this->get('UserRepository'),
+            $this->get('ParkingRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return DeleteParkingSlot
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getDeleteParkingSlotCommandHandler() : DeleteParkingSlot
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new DeleteParkingSlot(
-            $this->getUserRepository(),
-            $this->getParkingRepository()
+        return new DeleteParkingSlot(
+            $this->get('UserRepository'),
+            $this->get('ParkingRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return CreateUserForParking
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getCreateUserForParkingCommandHandler() : CreateUserForParking
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new CreateUserForParking(
-            $this->getUserRepository(),
+        return new CreateUserForParking(
+            $this->get('UserRepository'),
             $this->getUserFactory(),
-            $this->getParkingRepository()
+            $this->get('ParkingRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return UpdateParkingSlotInformation
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getUpdateParkingSlotInformationCommandHandler() : UpdateParkingSlotInformation
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new UpdateParkingSlotInformation(
-            $this->getUserRepository(),
-            $this->getParkingRepository()
+        return new UpdateParkingSlotInformation(
+            $this->get('UserRepository'),
+            $this->get('ParkingRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return AssignParkingSlotToUserForPeriod
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getAssignParkingSlotToUserForPeriodCommandHandler() : AssignParkingSlotToUserForPeriod
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new AssignParkingSlotToUserForPeriod(
-            $this->getParkingRepository(),
-            $this->getUserRepository()
+        return new AssignParkingSlotToUserForPeriod(
+            $this->get('ParkingRepository'),
+            $this->get('UserRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return FreeAssignedParkingSlotForUserAndPeriod
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getFreeAssignedParkingSlotForUserAndPeriodCommandHandler() : FreeAssignedParkingSlotForUserAndPeriod
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new FreeAssignedParkingSlotForUserAndPeriod(
-            $this->getParkingRepository(),
-            $this->getUserRepository()
+        return new FreeAssignedParkingSlotForUserAndPeriod(
+            $this->get('ParkingRepository'),
+            $this->get('UserRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return GetParkingInformationForUserAndPeriod
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getGetParkingInformationForUserAndPeriodCommandHandler() : GetParkingInformationForUserAndPeriod
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new GetParkingInformationForUserAndPeriod(
-            $this->getParkingRepository(),
-            $this->getUserRepository()
+        return new GetParkingInformationForUserAndPeriod(
+            $this->get('ParkingRepository'),
+            $this->get('UserRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return GetParkingSlotReservationsForPeriod
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getGetParkingSlotReservationsForPeriodCommandHandler() : GetParkingSlotReservationsForPeriod
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new GetParkingSlotReservationsForPeriod(
-            $this->getUserRepository(),
-            $this->getParkingRepository()
+        return new GetParkingSlotReservationsForPeriod(
+            $this->get('UserRepository'),
+            $this->get('ParkingRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return GetParkingReservationsForDate
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getGetParkingReservationsForDateCommandHandler() : GetParkingReservationsForDate
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new GetParkingReservationsForDate(
-            $this->getUserRepository(),
-            $this->getParkingRepository()
+        return new GetParkingReservationsForDate(
+            $this->get('UserRepository'),
+            $this->get('ParkingRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return RemoveAssignmentFromParkingSlotForUserAndDate
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getRemoveAssignmentFromParkingSlotFromUserAndDateCommandHandler()
     : RemoveAssignmentFromParkingSlotForUserAndDate
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new RemoveAssignmentFromParkingSlotForUserAndDate(
-            $this->getParkingRepository(),
-            $this->getUserRepository()
+        return new RemoveAssignmentFromParkingSlotForUserAndDate(
+            $this->get('ParkingRepository'),
+            $this->get('UserRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return GetUserInformation
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getGetUserInformationCommandHandler() : GetUserInformation
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new GetUserInformation(
-            $this->getUserRepository()
+        return new GetUserInformation(
+            $this->get('UserRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return ReserveParkingSlotForUserAndPeriod
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getReserveParkingSlotForUserAndPeriodCommandHandler() : ReserveParkingSlotForUserAndPeriod
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new ReserveParkingSlotForUserAndPeriod(
-            $this->getParkingRepository(),
-            $this->getUserRepository()
+        return new ReserveParkingSlotForUserAndPeriod(
+            $this->get('ParkingRepository'),
+            $this->get('UserRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return RequestResetUserPassword
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getRequestResetUserPasswordCommandHandler() : RequestResetUserPassword
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new RequestResetUserPassword(
-            $this->getUserRepository()
+        return new RequestResetUserPassword(
+            $this->get('UserRepository')
         );
-
-        return $command;
     }
 
     /**
      * @return ResetUserPassword
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
      */
     public function getResetUserPasswordCommandHandler() : ResetUserPassword
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new ResetUserPassword(
-            $this->getUserRepository()
+        return new ResetUserPassword(
+            $this->get('UserRepository')
         );
-
-        return $command;
     }
 
     /**
@@ -473,15 +283,7 @@ class Container extends DefaultContainer
      */
     public function getParkingFactory() : ParkingFactory
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new ParkingFactory();
-
-        return $command;
+        return new ParkingFactory();
     }
 
     /**
@@ -489,14 +291,6 @@ class Container extends DefaultContainer
      */
     public function getUserFactory() : UserFactory
     {
-        static $command = null;
-
-        if ($command !== null) {
-            return $command;
-        }
-
-        $command = new UserFactory();
-
-        return $command;
+        return new UserFactory();
     }
 }

@@ -8,7 +8,6 @@ use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Repository\Parking;
 use Jmj\Parking\Domain\Repository\User;
 use Jmj\Parking\Domain\Service\Command\GetParkingReservationsForDate as GetParkingReservationsForDateDomainCommand;
-use Jmj\Parking\Domain\Value\Reservation;
 
 class GetParkingReservationsForDate extends ParkingBaseHandler
 {
@@ -47,14 +46,8 @@ class GetParkingReservationsForDate extends ParkingBaseHandler
 
         $result = [];
 
-        /** @var Reservation $parkingReservation */
         foreach ($parkingReservations as $parkingReservation) {
-            $result[] = [
-                'parkingUuid' => $parkingReservation->parkingSlot()->parking()->uuid(),
-                'parkingSlotUuid' => $parkingReservation->parkingSlot()->uuid(),
-                'userUuid' => $parkingReservation->user()->uuid(),
-                'date' => $parkingReservation->date()->format('Y-m-d'),
-            ];
+            $result[] = $this->reservationToArray($parkingReservation);
         }
 
         return $result;

@@ -41,12 +41,19 @@ class GetParkingSlotReservationsForPeriod extends ParkingBaseHandler
 
         $command = new GetParkingSlotReservationsForPeriodDomainCommand();
 
-        return $command->execute(
+        $parkingSlotReservations = $command->execute(
             $loggedInUser,
             $parking,
             $payload->parkingSlotUuid(),
             $payload->fromDate(),
             $payload->toDate()
         );
+
+        $result = [];
+        foreach ($parkingSlotReservations as $reservation) {
+            $result[] = $this->reservationToArray($reservation);
+        }
+
+        return $result;
     }
 }

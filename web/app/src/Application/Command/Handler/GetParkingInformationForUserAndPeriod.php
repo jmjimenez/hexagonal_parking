@@ -9,8 +9,6 @@ use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\GetParkingInformationForUserAndPeriod
     as GetParkingInformationForUserAndPeriodDomainCommand;
-use Jmj\Parking\Domain\Value\Assignment;
-use Jmj\Parking\Domain\Value\Reservation;
 
 class GetParkingInformationForUserAndPeriod extends ParkingBaseHandler
 {
@@ -54,25 +52,12 @@ class GetParkingInformationForUserAndPeriod extends ParkingBaseHandler
             'assignments' => []
         ];
 
-        /** @var Reservation $reservation */
         foreach ($parkingInformation['reservations'] as $reservation) {
-            $result['reservations'][] = [
-                'parkingUuid' => $reservation->parkingSlot()->parking()->uuid(),
-                'parkingSlotUuid' => $reservation->parkingSlot()->uuid(),
-                'userUuid' => $reservation->user()->uuid(),
-                'date' => $reservation->date()->format('Y-m-d'),
-            ];
+            $result['reservations'][] = $this->reservationToArray($reservation);
         }
 
-        /** @var Assignment $assignment */
         foreach ($parkingInformation['assignments'] as $assignment) {
-            $result['assignments'][] = [
-                'parkingUuid' => $assignment->parkingSlot()->parking()->uuid(),
-                'parkingSlotUuid' => $assignment->parkingSlot()->uuid(),
-                'userUuid' => $assignment->user()->uuid(),
-                'date' => $assignment->date()->format('Y-m-d'),
-                'exclusive' => $assignment->isExclusive() ? 'true' : 'false',
-            ];
+            $result['assignments'][] = $this->assignmentToArray($assignment);
         }
 
         return $result;

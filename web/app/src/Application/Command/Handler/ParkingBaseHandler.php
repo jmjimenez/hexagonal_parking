@@ -6,6 +6,8 @@ use Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\User;
+use Jmj\Parking\Domain\Value\Assignment;
+use Jmj\Parking\Domain\Value\Reservation;
 
 //TODO: rename to BaseHandler
 class ParkingBaseHandler
@@ -30,5 +32,26 @@ class ParkingBaseHandler
         if (!$parking instanceof Parking) {
             throw new ParkingNotFound();
         }
+    }
+
+    protected function reservationToArray(Reservation $reservation): array
+    {
+        return [
+            'parkingUuid' => $reservation->parkingSlot()->parking()->uuid(),
+            'parkingSlotUuid' => $reservation->parkingSlot()->uuid(),
+            'userUuid' => $reservation->user()->uuid(),
+            'date' => $reservation->date()->format('Y-m-d'),
+        ];
+    }
+
+    protected function assignmentToArray(Assignment $assignment): array
+    {
+        return [
+            'parkingUuid' => $assignment->parkingSlot()->parking()->uuid(),
+            'parkingSlotUuid' => $assignment->parkingSlot()->uuid(),
+            'userUuid' => $assignment->user()->uuid(),
+            'date' => $assignment->date()->format('Y-m-d'),
+            'exclusive' => $assignment->isExclusive() ? 'true' : 'false',
+        ];
     }
 }

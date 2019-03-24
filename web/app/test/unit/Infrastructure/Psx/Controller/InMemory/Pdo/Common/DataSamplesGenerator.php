@@ -2,6 +2,7 @@
 
 namespace Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common;
 
+use DateTimeImmutable;
 use Jmj\Parking\Common\Pdo\PdoProxy;
 use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
@@ -29,6 +30,42 @@ trait DataSamplesGenerator
 
     /** @var InMemoryUser */
     protected $userAdmin;
+
+    /** @var DateTimeImmutable */
+    protected $checkFromDate;
+
+    /** @var DateTimeImmutable */
+    protected $checkToDate;
+
+    /** @var DateTimeImmutable */
+    protected $assignFromDate;
+
+    /** @var DateTimeImmutable */
+    protected $assignToDate;
+
+    /** @var DateTimeImmutable */
+    protected $freeFromDate;
+
+    /** @var DateTimeImmutable */
+    protected $freeToDate;
+
+    /** @var DateTimeImmutable */
+    protected $reserveFromDate;
+
+    /** @var DateTimeImmutable */
+    protected $reserveToDate;
+
+    /** @var string */
+    protected $parkingUuid;
+
+    /** @var string */
+    protected $parkingSlotUuid;
+
+    /** @var string */
+    protected $userUuid;
+
+    /** @var bool */
+    protected $exclusive;
 
     /**
      * @param PdoProxy $pdoProxy
@@ -66,6 +103,40 @@ trait DataSamplesGenerator
         $this->parking->addUser($this->userOne);
         $this->parkingSlotOne = $this->parking->createParkingSlot('1', 'Parking Slot 1');
         $this->parkingRepository->save($this->parking);
+    }
+
+    /**
+     * @throws \Jmj\Parking\Common\Exception\InvalidDateRange
+     * @throws \Exception
+     */
+    protected function generateParkingSlotOneReservations()
+    {
+        $this->checkFromDate = new DateTimeImmutable('+1 days');
+        $this->checkToDate = new DateTimeImmutable('+25 days');
+
+        $this->assignFromDate = new DateTimeImmutable('+3 days');
+        $this->assignToDate = new DateTimeImmutable('+13 days');
+
+        $this->freeFromDate = new DateTimeImmutable('+5 days');
+        $this->freeToDate = new DateTimeImmutable('+10 days');
+
+        $this->reserveFromDate = new DateTimeImmutable('+19 days');
+        $this->reserveToDate = new DateTimeImmutable('+22 days');
+
+        $this->parkingUuid = $this->parking->uuid();
+        $this->parkingSlotUuid = $this->parkingSlotOne->uuid();
+        $this->userUuid = $this->userOne->uuid();
+
+        $this->exclusive = true;
+
+        $this->parkingSlotOne
+            ->assignToUserForPeriod($this->userOne, $this->assignFromDate, $this->assignToDate, $this->exclusive);
+        $this->parkingSlotOne
+            ->markAsFreeFromUserAndPeriod($this->userOne, $this->freeFromDate, $this->freeToDate);
+        $this->parkingSlotOne
+            ->reserveToUserForPeriod($this->userOne, $this->reserveFromDate, $this->reserveToDate);
+        $this->parkingRepository
+            ->save($this->parking);
     }
 
     /**

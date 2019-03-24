@@ -7,7 +7,7 @@ use Jmj\Parking\Common\NormalizeDate;
 use Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common\TestBase;
 use Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common\TestRequest;
 
-class GetParkingInformationForUserAndPeriodTest extends TestBase
+class GetParkingSlotReservationsForPeriodTest extends TestBase
 {
     use NormalizeDate;
 
@@ -19,7 +19,6 @@ class GetParkingInformationForUserAndPeriodTest extends TestBase
         $this->generateParkingSlotOneReservations();
 
         $params = [
-            'userUuid' => $this->userUuid,
             'parkingUuid' => $this->parkingUuid,
             'parkingSlotUuid' => $this->parkingSlotUuid,
             'fromDate' => $this->checkFromDate->format('Y-m-d'),
@@ -28,7 +27,7 @@ class GetParkingInformationForUserAndPeriodTest extends TestBase
 
         $request = new TestRequest(
             'POST',
-            '/getparkinginformationforuserandperiod',
+            '/getparkingslotreservationsforperiod',
             $this->generateAuthorizationKey(),
             json_encode($params)
         );
@@ -38,41 +37,19 @@ class GetParkingInformationForUserAndPeriodTest extends TestBase
         $this->assertEquals(0, count($this->recordedSqlStatements));
 
         $this->assertResponseCount($output, 1);
-        $this->assertResponse(
-            $output,
-            'result',
-            function ($result) {
-                $this->assertResult($result);
-            }
-        );
+
+        $this->assertResponse($output, 'result', function (array $result) {
+            $this->assertResult($result);
+        });
     }
 
     /**
      * @param array $result
      * @throws \Exception
      */
-    public function assertResult(array $result) : void
+    protected function assertResult(array $result): void
     {
-        $this->assertEquals(2, count($result));
-        $this->assertTrue(isset($result['assignments']));
-        $this->assertTrue(isset($result['reservations']));
-
-        foreach ($result['assignments'] as $assignment) {
-            $this->assertTrue(
-                $this->dateInRange(
-                    new DateTimeImmutable($assignment['date']),
-                    $this->assignFromDate,
-                    $this->assignToDate
-                )
-                && !$this->dateInRange(
-                    new DateTimeImmutable($assignment['date']),
-                    $this->freeFromDate,
-                    $this->freeToDate
-                )
-            );
-        }
-
-        foreach ($result['reservations'] as $reservation) {
+        foreach ($result as $reservation) {
             $this->assertTrue(
                 $this->dateInRange(
                     new DateTimeImmutable($reservation['date']),

@@ -15,6 +15,26 @@ class TestBase extends TestCase
     protected $container;
 
     /**
+     * @throws \Jmj\Parking\Common\Exception\PdoExecuteError
+     * @throws \Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid
+     * @throws \Jmj\Parking\Domain\Exception\ParkingSlotNumberAlreadyExists
+     * @throws \Jmj\Parking\Domain\Exception\UserEmailInvalid
+     * @throws \Jmj\Parking\Domain\Exception\UserNameAlreadyExists
+     * @throws \Jmj\Parking\Domain\Exception\UserNameInvalid
+     * @throws \Jmj\Parking\Domain\Exception\UserPasswordInvalid
+     */
+    protected function setUp(): void
+    {
+        $this->createTestContainer();
+
+        $this->createTestCase(
+            $this->container->get('PdoProxy'),
+            $this->container->get('UserRepository'),
+            $this->container->get('ParkingRepository')
+        );
+    }
+
+    /**
      * @param TestRequest $request
      * @return TestOutput
      */
@@ -82,5 +102,14 @@ class TestBase extends TestCase
     {
         $result = json_decode($output->output(), true);
         $this->assertEquals($count, count($result));
+    }
+
+    /**
+     * @param bool $value
+     * @return string
+     */
+    protected function boolToString(bool $value): string
+    {
+        return  $value ? 'true' : 'false';
     }
 }

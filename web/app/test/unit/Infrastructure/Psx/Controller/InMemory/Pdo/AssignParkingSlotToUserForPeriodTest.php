@@ -13,25 +13,10 @@ class AssignParkingSlotToUserForPeriodTest extends TestBase
     use NormalizeDate;
 
     /**
-     * @throws \Jmj\Parking\Common\Exception\PdoExecuteError
-     * @throws \Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid
-     * @throws \Jmj\Parking\Domain\Exception\ParkingSlotNumberAlreadyExists
-     * @throws \Jmj\Parking\Domain\Exception\UserEmailInvalid
-     * @throws \Jmj\Parking\Domain\Exception\UserNameAlreadyExists
-     * @throws \Jmj\Parking\Domain\Exception\UserNameInvalid
-     * @throws \Jmj\Parking\Domain\Exception\UserPasswordInvalid
      * @throws \Exception
      */
     public function testOnPost()
     {
-        $this->createTestContainer();
-
-        $this->createTestCase(
-            $this->container->get('PdoProxy'),
-            $this->container->get('UserRepository'),
-            $this->container->get('ParkingRepository')
-        );
-
         $checkFromDate = new DateTimeImmutable('+1 days');
         $checkToDate = new DateTimeImmutable('+15 days');
 

@@ -10,24 +10,9 @@ use Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common\TestRequest;
 class CreateParkingTest extends TestBase
 {
     /**
-     * @throws \Jmj\Parking\Common\Exception\PdoExecuteError
-     * @throws \Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid
-     * @throws \Jmj\Parking\Domain\Exception\ParkingSlotNumberAlreadyExists
-     * @throws \Jmj\Parking\Domain\Exception\UserEmailInvalid
-     * @throws \Jmj\Parking\Domain\Exception\UserNameAlreadyExists
-     * @throws \Jmj\Parking\Domain\Exception\UserNameInvalid
-     * @throws \Jmj\Parking\Domain\Exception\UserPasswordInvalid
      */
     public function testOnPost()
     {
-        $this->createTestContainer();
-
-        $this->createTestCase(
-            $this->container->get('PdoProxy'),
-            $this->container->get('UserRepository'),
-            $this->container->get('ParkingRepository')
-        );
-
         $parkingDescription = 'Second Parking';
 
         $params = [

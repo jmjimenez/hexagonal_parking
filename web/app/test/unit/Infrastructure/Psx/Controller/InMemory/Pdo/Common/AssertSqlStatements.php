@@ -11,7 +11,7 @@ trait AssertSqlStatements
         $this->assertRegExp("/^UPDATE {$table} SET .*$/", $sqlStatement);
 
         foreach ($conditions as $field => $condition) {
-            $this->assertRegExp("/^.* WHERE .*`{$field}` = '{$condition}' .*$/", $sqlStatement);
+            $this->assertRegExp("/^.* WHERE .*`{$field}` = '{$condition}'.*$/", $sqlStatement);
         }
 
         foreach ($updates as $field => $update) {

@@ -2,13 +2,11 @@
 
 namespace Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo;
 
-use Jmj\Parking\Domain\Aggregate\Parking;
-use Jmj\Parking\Infrastructure\Aggregate\InMemory\Parking as InMemoryParking;
 use Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common\AssertSqlStatements;
 use Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common\TestBase;
 use Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common\TestRequest;
 
-class CreateParkingTest extends TestBase
+class AssignAdministratorRightsToUserForParkingTest extends TestBase
 {
     use AssertSqlStatements;
 
@@ -31,15 +29,17 @@ class CreateParkingTest extends TestBase
             $this->container->get('ParkingRepository')
         );
 
-        $parkingDescription = 'Second Parking';
+        //TODO: check what happens when the body is no correct
+        //TODO: check what happens in wrong path when user or parking don´t exist
 
         $params = [
-            'description' => $parkingDescription
+            'userUuid' => $this->userOne->uuid(),
+            'parkingUuid' => $this->parking->uuid(),
         ];
 
         $request = new TestRequest(
             'POST',
-            '/createparking',
+            '/assignadministratorrightstouserforparking',
             'Bearer '  . $this->generateAuthorizationKey(),
             json_encode($params)
         );
@@ -47,21 +47,14 @@ class CreateParkingTest extends TestBase
         $output = $this->executeRequest($request);
 
         $this->assertEquals(1, count($this->recordedSqlStatements));
-        $this->assertInsert(
-            $this->recordedSqlStatements[0],
-            'parkings',
-            ['version' => '1', 'class' => InMemoryParking::class]
-        );
+        $this->assertUpdate($this->recordedSqlStatements[0], 'parkings', ['uuid' => $this->parking->uuid()]);
 
         $result = json_decode($output->output(), true);
-        $this->assertEquals(2, count($result));
+        $this->assertEquals(1, count($result));
         $this->assertTrue(isset($result['result']));
         $this->assertEquals('ok', $result['result']);
-        $this->assertTrue(isset($result['parkingUuid']));
 
-        $newParkingUuid = $result['parkingUuid'];
-        $parkingFound = $this->parkingRepository->findByUuid($newParkingUuid);
-        $this->assertInstanceOf(Parking::class, $parkingFound);
-        $this->assertEquals($parkingDescription, $parkingFound->description());
+        $parkingFound = $this->parkingRepository->findByUuid($this->parking->uuid());
+        $this->assertTrue($parkingFound->isAdministeredByUser($this->userOne));
     }
 }

@@ -148,6 +148,14 @@ abstract class ParkingSlot extends BaseAggregate
     }
 
     /**
+     * @return Parking
+     */
+    public function parking(): Parking
+    {
+        return $this->parking;
+    }
+
+    /**
      * @return string
      */
     public function number() : string

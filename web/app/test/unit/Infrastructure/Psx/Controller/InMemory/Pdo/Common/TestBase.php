@@ -94,6 +94,14 @@ class TestBase extends TestCase
         $this->assertEquals('ok', $result['result']);
     }
 
+
+    protected function assertResponse(TestOutput $output, string $param, callable $callback)
+    {
+        $result = json_decode($output->output(), true);
+        $this->assertTrue(isset($result[$param]));
+        $callback($result[$param]);
+    }
+
     /**
      * @param TestOutput $output
      * @param int $count

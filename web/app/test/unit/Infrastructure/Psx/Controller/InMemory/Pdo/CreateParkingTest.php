@@ -4,14 +4,11 @@ namespace Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo;
 
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\Parking as InMemoryParking;
-use Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common\AssertSqlStatements;
 use Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common\TestBase;
 use Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common\TestRequest;
 
 class CreateParkingTest extends TestBase
 {
-    use AssertSqlStatements;
-
     /**
      * @throws \Jmj\Parking\Common\Exception\PdoExecuteError
      * @throws \Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid
@@ -40,7 +37,7 @@ class CreateParkingTest extends TestBase
         $request = new TestRequest(
             'POST',
             '/createparking',
-            'Bearer '  . $this->generateAuthorizationKey(),
+            $this->generateAuthorizationKey(),
             json_encode($params)
         );
 
@@ -53,12 +50,11 @@ class CreateParkingTest extends TestBase
             ['version' => '1', 'class' => InMemoryParking::class]
         );
 
-        $result = json_decode($output->output(), true);
-        $this->assertEquals(2, count($result));
-        $this->assertTrue(isset($result['result']));
-        $this->assertEquals('ok', $result['result']);
-        $this->assertTrue(isset($result['parkingUuid']));
+        $this->assertResponseCount($output, 2);
+        $this->assertOkResponse($output);
 
+        $result = json_decode($output->output(), true);
+        $this->assertTrue(isset($result['parkingUuid']));
         $newParkingUuid = $result['parkingUuid'];
         $parkingFound = $this->parkingRepository->findByUuid($newParkingUuid);
         $this->assertInstanceOf(Parking::class, $parkingFound);

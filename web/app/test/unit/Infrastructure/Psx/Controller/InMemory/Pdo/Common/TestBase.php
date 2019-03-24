@@ -9,6 +9,7 @@ class TestBase extends TestCase
 {
     use DataSamplesGenerator;
     use DomainEventsRegister;
+    use AssertSqlStatements;
 
     /** @var TestContainer */
     protected $container;
@@ -60,6 +61,26 @@ class TestBase extends TestCase
             $jwtConfig['secret']
         );
 
-        return $authorizationKey;
+        return 'Bearer '  . $authorizationKey;
+    }
+
+    /**
+     * @param TestOutput $output
+     */
+    protected function assertOkResponse(TestOutput $output) : void
+    {
+        $result = json_decode($output->output(), true);
+        $this->assertTrue(isset($result['result']));
+        $this->assertEquals('ok', $result['result']);
+    }
+
+    /**
+     * @param TestOutput $output
+     * @param int $count
+     */
+    protected function assertResponseCount(TestOutput $output, int $count) : void
+    {
+        $result = json_decode($output->output(), true);
+        $this->assertEquals($count, count($result));
     }
 }

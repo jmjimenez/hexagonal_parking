@@ -2,11 +2,16 @@
 
 namespace Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo;
 
+use DateTimeImmutable;
+use Jmj\Parking\Common\DateRangeProcessor;
+use Jmj\Parking\Common\NormalizeDate;
 use Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common\TestBase;
 use Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common\TestRequest;
 
-class AssignAdministratorRightsToUserForParkingTest extends TestBase
+class AssignParkingSlotToUserForPeriodTest extends TestBase
 {
+    use NormalizeDate;
+
     /**
      * @throws \Jmj\Parking\Common\Exception\PdoExecuteError
      * @throws \Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid
@@ -15,6 +20,7 @@ class AssignAdministratorRightsToUserForParkingTest extends TestBase
      * @throws \Jmj\Parking\Domain\Exception\UserNameAlreadyExists
      * @throws \Jmj\Parking\Domain\Exception\UserNameInvalid
      * @throws \Jmj\Parking\Domain\Exception\UserPasswordInvalid
+     * @throws \Exception
      */
     public function testOnPost()
     {
@@ -26,17 +32,28 @@ class AssignAdministratorRightsToUserForParkingTest extends TestBase
             $this->container->get('ParkingRepository')
         );
 
-        //TODO: check what happens when the body is no correct
-        //TODO: check what happens in wrong path when user or parking don´t exist
+        $checkFromDate = new DateTimeImmutable('+1 days');
+        $checkToDate = new DateTimeImmutable('+15 days');
+
+        $assignFromDate = new DateTimeImmutable('+3 days');
+        $assignToDate = new DateTimeImmutable('+13 days');
+
+        $parkingSlotUuid = $this->parkingSlotOne->uuid();
+
+        $exclusive = true;
 
         $params = [
             'userUuid' => $this->userOne->uuid(),
             'parkingUuid' => $this->parking->uuid(),
+            'parkingSlotUuid' => $parkingSlotUuid,
+            'fromDate' => $assignFromDate->format('Y-m-d'),
+            'toDate' => $assignToDate->format('Y-m-d'),
+            'exclusive' => $exclusive
         ];
 
         $request = new TestRequest(
             'POST',
-            '/assignadministratorrightstouserforparking',
+            '/assignparkingslottouserforperiod',
             $this->generateAuthorizationKey(),
             json_encode($params)
         );
@@ -50,6 +67,26 @@ class AssignAdministratorRightsToUserForParkingTest extends TestBase
         $this->assertOkResponse($output);
 
         $parkingFound = $this->parkingRepository->findByUuid($this->parking->uuid());
-        $this->assertTrue($parkingFound->isAdministeredByUser($this->userOne));
+        $parkingSlotFound = $parkingFound->getParkingSlotByUuid($parkingSlotUuid);
+
+        $dateProcessor = new DateRangeProcessor();
+
+        $dateProcessor->process(
+            $checkFromDate,
+            $checkToDate,
+            function (DateTimeImmutable $date) use (
+                $parkingSlotFound,
+                $checkFromDate,
+                $checkToDate,
+                $assignFromDate,
+                $assignToDate
+            ) {
+                if ($this->dateInRange($date, $assignFromDate, $assignToDate)) {
+                    $this->assertFalse($parkingSlotFound->isFreeForDate($date));
+                } else {
+                    $this->assertTrue($parkingSlotFound->isFreeForDate($date));
+                }
+            }
+        );
     }
 }

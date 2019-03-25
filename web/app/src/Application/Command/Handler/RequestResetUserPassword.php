@@ -7,7 +7,7 @@ use Jmj\Parking\Application\Command\RequestResetUserPassword as RequestResetUser
 use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\RequestResetUserPassword as RequestResetUserPasswordDomainCommand;
 
-class RequestResetUserPassword extends ParkingBaseHandler
+class RequestResetUserPassword extends Common\BaseHandler
 {
     /** @var string */
     const SECRET = 'parkingSecret';

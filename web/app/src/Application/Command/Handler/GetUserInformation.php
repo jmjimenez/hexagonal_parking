@@ -8,7 +8,7 @@ use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\GetUserInformation as GetUserInformationDomainCommand;
 
 //TODO: commands should be splitted into subfolders depending on the main target of the command
-class GetUserInformation extends ParkingBaseHandler
+class GetUserInformation extends Common\BaseHandler
 {
     /** @var UserRepository  */
     protected $userRepository;

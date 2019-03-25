@@ -7,7 +7,7 @@ use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\DeleteParkingSlot as DeleteParkingSlotCommand;
 
-class DeleteParkingSlot extends ParkingBaseHandler
+class DeleteParkingSlot extends Common\BaseHandler
 {
     /** @var ParkingRepository */
     protected $parkingRepository;

@@ -6,7 +6,7 @@ use Jmj\Parking\Application\Command\ResetUserPassword as ResetUserPasswordPayloa
 use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\ResetUserPassword as ResetUserPasswordDomainCommand;
 
-class ResetUserPassword extends ParkingBaseHandler
+class ResetUserPassword extends Common\BaseHandler
 {
     /** @var UserRepository  */
     protected $userRepository;

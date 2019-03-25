@@ -9,7 +9,7 @@ use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\CreateUserForParking as CreateUserForParkingCommand;
 use Jmj\Parking\Domain\Service\Factory\User as UserFactory;
 
-class CreateUserForParking extends ParkingBaseHandler
+class CreateUserForParking extends Common\BaseHandler
 {
     /** @var ParkingRepository */
     protected $parkingRepository;

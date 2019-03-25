@@ -7,7 +7,7 @@ use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\UpdateParkingSlotInformation as UpdateParkingSlotInformationCommand;
 
-class UpdateParkingSlotInformation extends ParkingBaseHandler
+class UpdateParkingSlotInformation extends Common\BaseHandler
 {
     /** @var ParkingRepository */
     protected $parkingRepository;

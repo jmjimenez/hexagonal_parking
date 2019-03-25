@@ -8,7 +8,7 @@ use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\AssignUserToParking as AssignUserToParkingDomainCommand;
 
-class AssignUserToParking extends ParkingBaseHandler
+class AssignUserToParking extends Common\BaseHandler
 {
     /** @var ParkingRepository */
     protected $parkingRepository;

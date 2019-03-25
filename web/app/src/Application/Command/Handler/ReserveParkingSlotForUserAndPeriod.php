@@ -9,7 +9,7 @@ use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\ReserveParkingSlotForUserAndPeriod
     as ReserveParkingSlotForUserAndPeriodDomainCommand;
 
-class ReserveParkingSlotForUserAndPeriod extends ParkingBaseHandler
+class ReserveParkingSlotForUserAndPeriod extends Common\BaseHandler
 {
     /** @var ParkingRepository */
     protected $parkingRepository;

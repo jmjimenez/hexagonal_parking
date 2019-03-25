@@ -10,7 +10,7 @@ use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\AssignAdministratorRightsToUserForParking
     as AssignAdministratorRightsToUserForParkingDomainCommand;
 
-class AssignAdministratorRightsToUserForParking extends ParkingBaseHandler
+class AssignAdministratorRightsToUserForParking extends Common\BaseHandler
 {
     /** @var ParkingRepository */
     protected $parkingRepository;

@@ -8,7 +8,7 @@ use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\DeassignUserFromParking as DeassignUserFromParkingDomainCommand;
 
-class DeassignUserFromParking extends ParkingBaseHandler
+class DeassignUserFromParking extends Common\BaseHandler
 {
     /** @var ParkingRepository */
     protected $parkingRepository;

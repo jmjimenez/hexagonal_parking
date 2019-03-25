@@ -10,7 +10,7 @@ use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\RemoveAssignmentFromParkingSlotForUserAndDate
     as RemoveAssignmentFromParkingSlotForUserAndDateDomainCommand;
 
-class RemoveAssignmentFromParkingSlotForUserAndDate extends ParkingBaseHandler
+class RemoveAssignmentFromParkingSlotForUserAndDate extends Common\BaseHandler
 {
     /** @var ParkingRepository */
     protected $parkingRepository;

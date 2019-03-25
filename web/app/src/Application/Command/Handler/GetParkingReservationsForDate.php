@@ -9,7 +9,7 @@ use Jmj\Parking\Domain\Repository\Parking;
 use Jmj\Parking\Domain\Repository\User;
 use Jmj\Parking\Domain\Service\Command\GetParkingReservationsForDate as GetParkingReservationsForDateDomainCommand;
 
-class GetParkingReservationsForDate extends ParkingBaseHandler
+class GetParkingReservationsForDate extends Common\BaseHandler
 {
     /** @var User  */
     private $userRepository;

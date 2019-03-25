@@ -10,7 +10,7 @@ use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\GetParkingInformationForUserAndPeriod
     as GetParkingInformationForUserAndPeriodDomainCommand;
 
-class GetParkingInformationForUserAndPeriod extends ParkingBaseHandler
+class GetParkingInformationForUserAndPeriod extends Common\BaseHandler
 {
     /** @var ParkingRepository */
     protected $parkingRepository;

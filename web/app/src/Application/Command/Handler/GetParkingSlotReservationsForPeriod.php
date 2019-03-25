@@ -8,7 +8,7 @@ use Jmj\Parking\Domain\Repository\User;
 use Jmj\Parking\Domain\Service\Command\GetParkingSlotReservationsForPeriod
     as GetParkingSlotReservationsForPeriodDomainCommand;
 
-class GetParkingSlotReservationsForPeriod extends ParkingBaseHandler
+class GetParkingSlotReservationsForPeriod extends Common\BaseHandler
 {
     /** @var User  */
     private $userRepository;

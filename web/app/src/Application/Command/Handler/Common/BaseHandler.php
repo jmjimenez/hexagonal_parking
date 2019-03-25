@@ -1,6 +1,6 @@
 <?php
 
-namespace Jmj\Parking\Application\Command\Handler;
+namespace Jmj\Parking\Application\Command\Handler\Common;
 
 use Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
@@ -9,8 +9,7 @@ use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Value\Assignment;
 use Jmj\Parking\Domain\Value\Reservation;
 
-//TODO: rename to BaseHandler
-class ParkingBaseHandler
+class BaseHandler
 {
     /**
      * @param User|null $user

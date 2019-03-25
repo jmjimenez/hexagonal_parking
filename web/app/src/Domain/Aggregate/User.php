@@ -21,6 +21,8 @@ class User extends Common\BaseAggregate
     const EVENT_USER_PASSWORD_RESETTED = 'UserPasswordResetted';
     const EVENT_USER_PASSWORD_RESET_REQUESTED = 'UserPasswordResetRequested';
     const EVENT_USER_ADMINISTRATOR_RIGHTS_CONFIGURED = 'UserAdministratorRightsConfigured';
+    const EVENT_USER_AUTHENTICATED = 'UserAuthenticated';
+    const EVENT_USER_AUTHENTICATION_ERROR = 'UserNotAuthenticated';
 
     /**
      * @var string
@@ -173,6 +175,18 @@ class User extends Common\BaseAggregate
             self::EVENT_USER_PASSWORD_RESET_REQUESTED,
             [ 'resetPasswordToken' => $resetPasswordToken, 'resetPasswordTokenTimeout' => $resetPasswordTokenTimeout]
         );
+    }
+
+    public function authenticate(string $password): bool
+    {
+        if ($this->checkPassword($password)) {
+            $this->publishEvent(self::EVENT_USER_AUTHENTICATED);
+
+            return true;
+        }
+
+        $this->publishEvent(self::EVENT_USER_AUTHENTICATION_ERROR);
+        return false;
     }
 
     /**

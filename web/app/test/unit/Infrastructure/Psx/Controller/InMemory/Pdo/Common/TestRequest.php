@@ -27,6 +27,7 @@ class TestRequest
      */
     public function __construct(string $method, string $path, string $authorization = null, string $body = null)
     {
+        //TODO: $authorization should be the last parameter
         $this->method = $method;
         $this->path = $path;
         $this->authorization = $authorization;
@@ -41,8 +42,10 @@ class TestRequest
         $headers = [
             'HOST' => 'parking.local:8000',
             'ACCEPT' => 'application/json',
-            'AUTHORIZATION' => $this->authorization,
         ];
+        if ($this->authorization !== null) {
+            $headers['AUTHORIZATION'] = $this->authorization;
+        }
 
         return new Request(
             new Uri($scheme, $host, $this->path, $query),

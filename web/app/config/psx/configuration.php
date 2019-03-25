@@ -44,7 +44,7 @@ return array(
 
     'parking_jwt' => [
         'secret' => 'parkingSecret',
-        'algorithm' => [ 'HS256' ],
+        'algorithm' => 'HS256',
     ],
 
     'parking_db_conf' => [

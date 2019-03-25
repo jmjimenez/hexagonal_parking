@@ -500,6 +500,38 @@ class UserTest extends TestCase
     }
 
     /**
+     * @throws ExceptionGeneratingUuid
+     * @throws UserEmailInvalid
+     * @throws UserNameInvalid
+     * @throws UserPasswordInvalid
+     */
+    public function testAuthenticate()
+    {
+        $user = $this->createUser();
+
+        $this->startRecordingEvents();
+        $this->assertTrue($user->authenticate($this->userPassword));
+
+        $this->assertEquals([ User::EVENT_USER_AUTHENTICATED ], $this->recordedEventNames);
+    }
+
+    /**
+     * @throws ExceptionGeneratingUuid
+     * @throws UserEmailInvalid
+     * @throws UserNameInvalid
+     * @throws UserPasswordInvalid
+     */
+    public function testAuthenticationErrorWhenInvalidPassword()
+    {
+        $user = $this->createUser();
+
+        $this->startRecordingEvents();
+        $this->assertFalse($user->authenticate($this->userPassword . 'sssssss'));
+
+        $this->assertEquals([ User::EVENT_USER_AUTHENTICATION_ERROR ], $this->recordedEventNames);
+    }
+
+    /**
      * @return DomainUser
      * @throws UserEmailInvalid
      * @throws UserNameInvalid

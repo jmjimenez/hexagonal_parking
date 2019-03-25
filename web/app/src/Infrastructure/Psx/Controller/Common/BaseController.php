@@ -37,7 +37,7 @@ class BaseController extends ControllerAbstract
         $jwtConfig = $this->config->get('parking_jwt');
 
         $auth = new Oauth2Authentication(function ($accessToken) use ($jwtConfig) {
-            $authInfo = JWT::decode($accessToken, $jwtConfig['secret'], $jwtConfig['algorithm']);
+            $authInfo = JWT::decode($accessToken, $jwtConfig['secret'], [ $jwtConfig['algorithm'] ]);
 
             $this->loggedInUser = $this->userRepository->findByEmail($authInfo->email);
 

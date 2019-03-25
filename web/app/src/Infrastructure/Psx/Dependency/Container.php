@@ -21,6 +21,7 @@ use Jmj\Parking\Application\Command\Handler\ResetUserPassword;
 use Jmj\Parking\Application\Command\Handler\UpdateParkingSlotInformation;
 use Jmj\Parking\Application\Command\Handler\GetParkingInformationForUserAndPeriod;
 use Jmj\Parking\Application\Command\Handler\GetParkingSlotReservationsForPeriod;
+use Jmj\Parking\Application\Command\Handler\UserLogin;
 use Jmj\Parking\Common\Pdo\PdoProxy;
 use Jmj\Parking\Infrastructure\Repository\Pdo\User as PdoUserRepository;
 use Jmj\Parking\Infrastructure\Repository\Pdo\Parking as PdoParkingRepository;
@@ -275,6 +276,17 @@ class Container extends DefaultContainer
     {
         return new ResetUserPassword(
             $this->get('UserRepository')
+        );
+    }
+
+    public function getUserLoginCommandHandler(): UserLogin
+    {
+        $jwtConfig = $this->getConfig()->get('parking_jwt');
+
+        return new UserLogin(
+            $this->get('UserRepository'),
+            $jwtConfig['secret'],
+            $jwtConfig['algorithm']
         );
     }
 

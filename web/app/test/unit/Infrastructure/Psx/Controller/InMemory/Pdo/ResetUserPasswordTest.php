@@ -29,7 +29,7 @@ class ResetUserPasswordTest extends TestBase
         $request = new TestRequest(
             'POST',
             '/resetuserpassword',
-            $this->generateAuthorizationKey(),
+            null,
             json_encode($params)
         );
 

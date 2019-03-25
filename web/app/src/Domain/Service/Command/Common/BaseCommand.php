@@ -13,6 +13,7 @@ use Jmj\Parking\Domain\Exception\ParkingSlotNotFound;
 use Jmj\Parking\Domain\Exception\ParkingSlotNumberInvalid;
 use Jmj\Parking\Domain\Exception\ParkingSlotReservationsForDateIncorrect;
 use Jmj\Parking\Domain\Exception\UserEmailInvalid;
+use Jmj\Parking\Domain\Exception\UserInvalid;
 use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\ParkingException;
@@ -46,6 +47,7 @@ abstract class BaseCommand
      * @throws UserNotAssigned
      * @throws UserPasswordInvalid
      * @throws ParkingSlotAlreadyAssigned
+     * @throws UserInvalid
      */
     abstract protected function process();
 
@@ -103,6 +105,8 @@ abstract class BaseCommand
             throw new ParkingException('User password not valid', 12, $e);
         } catch (ParkingSlotAlreadyAssigned $e) {
             throw new ParkingException('Parking Slot is already assigned', 13, $e);
+        } catch (UserInvalid $e) {
+            throw new ParkingException('Invalid User or Password', 14, $e);
         } catch (Exception $e) {
             throw new ParkingException('Unknown exception', 99, $e);
         }

@@ -5,7 +5,7 @@ namespace Jmj\Parking\Domain\Service\Command;
 use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\ParkingException;
 
-class ResetUserPassword extends BaseCommand
+class ResetUserPassword extends Common\BaseCommand
 {
     /**
      * @var User

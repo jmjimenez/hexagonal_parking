@@ -6,7 +6,7 @@ use DateTimeImmutable;
 use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\ParkingException;
 
-class RequestResetUserPassword extends BaseCommand
+class RequestResetUserPassword extends Common\BaseCommand
 {
     /**
      * @var User

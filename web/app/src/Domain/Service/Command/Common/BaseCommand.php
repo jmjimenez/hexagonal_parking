@@ -1,6 +1,6 @@
 <?php
 
-namespace Jmj\Parking\Domain\Service\Command;
+namespace Jmj\Parking\Domain\Service\Command\Common;
 
 use Exception;
 use Jmj\Parking\Common\Exception\InvalidDateRange;

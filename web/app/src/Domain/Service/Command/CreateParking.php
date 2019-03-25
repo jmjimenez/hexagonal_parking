@@ -8,7 +8,7 @@ use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Service\Factory\Parking as ParkingFactory;
 
-class CreateParking extends BaseCommand
+class CreateParking extends Common\BaseCommand
 {
     /**
      * @var string

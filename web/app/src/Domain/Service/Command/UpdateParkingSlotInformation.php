@@ -12,7 +12,7 @@ use Jmj\Parking\Domain\Exception\ParkingSlotNotFound;
 use Jmj\Parking\Domain\Exception\ParkingSlotNumberAlreadyExists;
 use Jmj\Parking\Domain\Exception\ParkingSlotNumberInvalid;
 
-class UpdateParkingSlotInformation extends BaseCommand
+class UpdateParkingSlotInformation extends Common\BaseCommand
 {
     /**
      * @var string

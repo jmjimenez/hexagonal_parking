@@ -7,7 +7,7 @@ use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\ParkingException;
 
-class DeleteParking extends BaseCommand
+class DeleteParking extends Common\BaseCommand
 {
     /**
      * @param  User    $loggedInUser

@@ -8,7 +8,7 @@ use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
 
-class DeassignUserFromParking extends BaseCommand
+class DeassignUserFromParking extends Common\BaseCommand
 {
     /**
      * @var User

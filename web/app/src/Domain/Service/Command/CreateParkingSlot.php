@@ -9,7 +9,7 @@ use Jmj\Parking\Domain\Exception\NotAuthorizedOperation;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Exception\ParkingSlotNumberAlreadyExists;
 
-class CreateParkingSlot extends BaseCommand
+class CreateParkingSlot extends Common\BaseCommand
 {
     /**
      * @var string

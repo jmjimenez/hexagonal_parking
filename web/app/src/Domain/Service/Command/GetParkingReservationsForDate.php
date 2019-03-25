@@ -9,7 +9,7 @@ use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Exception\ParkingSlotReservationsForDateIncorrect;
 use Jmj\Parking\Domain\Exception\UserNotAssigned;
 
-class GetParkingReservationsForDate extends BaseCommand
+class GetParkingReservationsForDate extends Common\BaseCommand
 {
     /**
      * @var DateTimeImmutable

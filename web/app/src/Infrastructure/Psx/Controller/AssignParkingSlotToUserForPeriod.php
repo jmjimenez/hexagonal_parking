@@ -9,7 +9,7 @@ use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class AssignParkingSlotToUserForPeriod extends BaseController
+class AssignParkingSlotToUserForPeriod extends Common\BaseController
 {
     /**
      * @Inject("AssignParkingSlotToUserForPeriodCommandHandler")

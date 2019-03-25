@@ -8,7 +8,7 @@ use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class CreateParking extends BaseController
+class CreateParking extends Common\BaseController
 {
     /**
      * @Inject("CreateParkingCommandHandler")

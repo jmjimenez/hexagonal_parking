@@ -10,7 +10,7 @@ use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class RemoveAssignmentFromParkingSlotForUserAndDate extends BaseController
+class RemoveAssignmentFromParkingSlotForUserAndDate extends Common\BaseController
 {
     /**
      * @Inject("RemoveAssignmentFromParkingSlotFromUserAndDateCommandHandler")

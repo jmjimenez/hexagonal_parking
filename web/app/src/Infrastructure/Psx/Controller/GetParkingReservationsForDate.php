@@ -10,7 +10,7 @@ use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class GetParkingReservationsForDate extends BaseController
+class GetParkingReservationsForDate extends Common\BaseController
 {
     /**
      * @Inject("GetParkingReservationsForDateCommandHandler")

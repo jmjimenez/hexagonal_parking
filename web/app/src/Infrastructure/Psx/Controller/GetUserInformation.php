@@ -8,7 +8,7 @@ use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 
-class GetUserInformation extends BaseController
+class GetUserInformation extends Common\BaseController
 {
     /**
      * @Inject("GetUserInformationCommandHandler")

@@ -1,6 +1,6 @@
 <?php
 
-namespace Jmj\Parking\Infrastructure\Psx\Controller;
+namespace Jmj\Parking\Infrastructure\Psx\Controller\Common;
 
 use Firebase\JWT\JWT;
 use Jmj\Parking\Domain\Aggregate\User;

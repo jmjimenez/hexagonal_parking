@@ -11,12 +11,12 @@ use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
 use Jmj\Parking\Domain\Service\Command\AssignAdministratorRightsToUserForParking;
-use Jmj\Parking\Common\DomainEventsRegister;
+use Jmj\Parking\Common\EventsRecorder;
 use PHPUnit\Framework\TestCase;
 
 class AssignAdministratorRightsToUserForParkingTest extends TestCase
 {
-    use DomainEventsRegister;
+    use EventsRecorder;
     use DataSamplesGenerator;
 
     /**

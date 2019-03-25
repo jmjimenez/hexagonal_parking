@@ -2,13 +2,13 @@
 
 namespace Jmj\Test\Unit\Infrastructure\Psx\Controller\InMemory\Pdo\Common;
 
-use Jmj\Parking\Common\DomainEventsRegister;
+use Jmj\Parking\Common\EventsRecorder;
 use PHPUnit\Framework\TestCase;
 
 class TestBase extends TestCase
 {
     use DataSamplesGenerator;
-    use DomainEventsRegister;
+    use EventsRecorder;
     use AssertSqlStatements;
 
     /** @var TestContainer */

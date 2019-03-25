@@ -6,7 +6,7 @@ use Jmj\Parking\Common\Pdo\PdoProxy;
 use Jmj\Parking\Domain\Service\Event\DomainEventsBroker as DomainEventsBrokerInterface;
 use Jmj\Parking\Infrastructure\Service\Event\InMemory\SynchronousEventsBroker;
 
-trait DomainEventsRegister
+trait EventsRecorder
 {
     /** @var string[] */
     private $recordedEventNames = [];

@@ -22,13 +22,13 @@ use Jmj\Parking\Domain\Value\Assignment;
 use Jmj\Parking\Domain\Value\Reservation;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\Parking;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\User;
-use Jmj\Parking\Common\DomainEventsRegister;
+use Jmj\Parking\Common\EventsRecorder;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
 class ParkingTest extends TestCase
 {
-    use DomainEventsRegister;
+    use EventsRecorder;
 
     /**
      *

@@ -11,7 +11,7 @@ use Jmj\Parking\Common\DateRangeProcessor;
 use Jmj\Parking\Common\Exception\PdoConnectionError;
 use Jmj\Parking\Common\Exception\PdoExecuteError;
 use Jmj\Parking\Common\NormalizeDate;
-use Jmj\Parking\Common\DomainEventsRegister;
+use Jmj\Parking\Common\EventsRecorder;
 use Jmj\Parking\Domain\Aggregate\ParkingSlot;
 use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Domain\Exception\ParkingException;
@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 
 class AssignParkingSlotToUserForPeriodTest extends TestCase
 {
-    use DomainEventsRegister;
+    use EventsRecorder;
     use DataSamplesGenerator;
     use NormalizeDate;
     use AssertSqlStatements;

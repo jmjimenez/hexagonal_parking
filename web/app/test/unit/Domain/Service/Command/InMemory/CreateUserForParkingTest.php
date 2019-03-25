@@ -13,13 +13,13 @@ use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
 use Jmj\Parking\Domain\Service\Command\CreateUserForParking;
 use Jmj\Parking\Infrastructure\Service\Factory\InMemory\User as InMemoryUserFactory;
-use Jmj\Parking\Common\DomainEventsRegister;
+use Jmj\Parking\Common\EventsRecorder;
 use PHPUnit\Framework\TestCase;
 
 class CreateUserForParkingTest extends TestCase
 {
     use DataSamplesGenerator;
-    use DomainEventsRegister;
+    use EventsRecorder;
 
     /**
      * @throws ExceptionGeneratingUuid

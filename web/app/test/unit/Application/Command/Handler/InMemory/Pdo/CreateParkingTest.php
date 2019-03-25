@@ -7,7 +7,7 @@ use Jmj\Parking\Application\Command\Handler\CreateParking;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Common\Exception\PdoConnectionError;
 use Jmj\Parking\Common\Exception\PdoExecuteError;
-use Jmj\Parking\Common\DomainEventsRegister;
+use Jmj\Parking\Common\EventsRecorder;
 use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\Parking;
@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class CreateParkingTest extends TestCase
 {
-    use DomainEventsRegister;
+    use EventsRecorder;
     use DataSamplesGenerator;
     use AssertSqlStatements;
 

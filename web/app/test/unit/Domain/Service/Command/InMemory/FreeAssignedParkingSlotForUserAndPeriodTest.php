@@ -13,12 +13,12 @@ use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
 use Jmj\Parking\Domain\Service\Command\FreeAssignedParkingSlotForUserAndPeriod;
-use Jmj\Parking\Common\DomainEventsRegister;
+use Jmj\Parking\Common\EventsRecorder;
 use PHPUnit\Framework\TestCase;
 
 class FreeAssignedParkingSlotForUserAndPeriodTest extends TestCase
 {
-    use DomainEventsRegister;
+    use EventsRecorder;
     use DataSamplesGenerator;
 
     /**

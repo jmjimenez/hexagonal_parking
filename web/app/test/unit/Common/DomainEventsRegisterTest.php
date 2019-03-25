@@ -2,13 +2,13 @@
 
 namespace Jmj\Test\Unit\Common;
 
-use Jmj\Parking\Common\DomainEventsRegister;
+use Jmj\Parking\Common\EventsRecorder;
 use Jmj\Parking\Infrastructure\Service\Event\InMemory\SynchronousEventsBroker;
 use PHPUnit\Framework\TestCase;
 
 class DomainEventsRegisterTest extends TestCase
 {
-    use DomainEventsRegister;
+    use EventsRecorder;
 
     public function testStartRecordingEvents()
     {

@@ -10,14 +10,14 @@ use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Common\Exception\PdoConnectionError;
 use Jmj\Parking\Common\Exception\PdoExecuteError;
 use Jmj\Parking\Domain\Aggregate\Parking;
-use Jmj\Parking\Common\DomainEventsRegister;
+use Jmj\Parking\Common\EventsRecorder;
 use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use PHPUnit\Framework\TestCase;
 
 class AssignAdministratorRightsToUserForParkingTest extends TestCase
 {
-    use DomainEventsRegister;
+    use EventsRecorder;
     use DataSamplesGenerator;
     use AssertSqlStatements;
 

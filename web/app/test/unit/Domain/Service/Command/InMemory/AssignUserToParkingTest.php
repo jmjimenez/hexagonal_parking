@@ -11,13 +11,13 @@ use Jmj\Parking\Domain\Exception\UserNameAlreadyExists;
 use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
 use Jmj\Parking\Domain\Service\Command\AssignUserToParking;
-use Jmj\Parking\Common\DomainEventsRegister;
+use Jmj\Parking\Common\EventsRecorder;
 use PHPUnit\Framework\TestCase;
 
 class AssignUserToParkingTest extends TestCase
 {
     use DataSamplesGenerator;
-    use DomainEventsRegister;
+    use EventsRecorder;
 
     /**
      * @throws ExceptionGeneratingUuid

@@ -1,6 +1,6 @@
 <?php
 
-namespace Jmj\Parking\Domain\Aggregate;
+namespace Jmj\Parking\Domain\Aggregate\Common;
 
 use Exception;
 use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;

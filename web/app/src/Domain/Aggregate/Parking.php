@@ -15,7 +15,7 @@ use Jmj\Parking\Domain\Exception\UserNotAssigned;
 use Jmj\Parking\Domain\Value\Assignment;
 use Jmj\Parking\Domain\Value\Reservation;
 
-abstract class Parking extends BaseAggregate
+abstract class Parking extends Common\BaseAggregate
 {
     const EVENT_PARKING_DELETED = 'ParkingDeleted';
     const EVENT_PARKING_SLOT_ADDED_TO_PARKING = 'ParkingSlotAddedToParking';

@@ -4,7 +4,7 @@ namespace Jmj\Parking\Common\Pdo;
 
 use Jmj\Parking\Common\Exception\PdoExecuteError;
 use Jmj\Parking\Common\Pdo\Exception\DifferentObjectVersions;
-use Jmj\Parking\Domain\Aggregate\BaseAggregate;
+use Jmj\Parking\Domain\Aggregate\Common\BaseAggregate;
 use Jmj\Parking\Common\Pdo\Exception\ObjectNotFound;
 use Jmj\Parking\Common\Pdo\Exception\UpdateError;
 

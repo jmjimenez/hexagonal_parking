@@ -4,7 +4,7 @@ namespace Jmj\Test\Unit\Domain\Service\Command\InMemory;
 
 use DateTimeImmutable;
 use Jmj\Parking\Common\Exception\InvalidDateRange;
-use Jmj\Parking\Domain\Aggregate\BaseAggregate;
+use Jmj\Parking\Domain\Aggregate\Common\BaseAggregate;
 use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Domain\Exception\ParkingSlotNumberAlreadyExists;
 use Jmj\Parking\Domain\Exception\UserEmailInvalid;

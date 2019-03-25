@@ -16,7 +16,7 @@ use Jmj\Parking\Domain\Exception\ParkingSlotNumberInvalid;
 use Jmj\Parking\Domain\Value\Assignment;
 use Jmj\Parking\Domain\Value\Reservation;
 
-abstract class ParkingSlot extends BaseAggregate
+abstract class ParkingSlot extends Common\BaseAggregate
 {
     use NormalizeDate;
 

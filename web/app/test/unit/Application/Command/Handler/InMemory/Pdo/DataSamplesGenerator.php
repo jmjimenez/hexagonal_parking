@@ -5,7 +5,7 @@ namespace Jmj\Test\Unit\Application\Command\Handler\InMemory\Pdo;
 use Jmj\Parking\Common\Exception\PdoConnectionError;
 use Jmj\Parking\Common\Exception\PdoExecuteError;
 use Jmj\Parking\Common\Pdo\PdoProxy;
-use Jmj\Parking\Domain\Aggregate\BaseAggregate;
+use Jmj\Parking\Domain\Aggregate\Common\BaseAggregate;
 use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\Parking as InMemoryParking;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\ParkingSlot as InMemoryParkingSlot;

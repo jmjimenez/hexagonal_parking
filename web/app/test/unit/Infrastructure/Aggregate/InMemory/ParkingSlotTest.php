@@ -6,7 +6,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Jmj\Parking\Common\DateRangeProcessor;
 use Jmj\Parking\Common\Exception\InvalidDateRange;
-use Jmj\Parking\Domain\Aggregate\BaseAggregate;
+use Jmj\Parking\Domain\Aggregate\Common\BaseAggregate;
 use Jmj\Parking\Domain\Aggregate\ParkingSlot as DomainParkingSlot;
 use Jmj\Parking\Domain\Aggregate\User as DomainUser;
 use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;

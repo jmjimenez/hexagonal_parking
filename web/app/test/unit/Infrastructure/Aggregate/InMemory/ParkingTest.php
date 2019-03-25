@@ -5,7 +5,7 @@ namespace Jmj\Test\Unit\Infrastructure\Aggregate\InMemory;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Jmj\Parking\Common\Exception\InvalidDateRange;
-use Jmj\Parking\Domain\Aggregate\BaseAggregate;
+use Jmj\Parking\Domain\Aggregate\Common\BaseAggregate;
 use Jmj\Parking\Domain\Aggregate\Parking as DomainParking;
 use Jmj\Parking\Domain\Aggregate\ParkingSlot;
 use Jmj\Parking\Domain\Aggregate\User as DomainUser;

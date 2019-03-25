@@ -2,7 +2,7 @@
 
 namespace Jmj\Test\Unit\Domain\Aggregate;
 
-use Jmj\Parking\Domain\Aggregate\BaseAggregate;
+use Jmj\Parking\Domain\Aggregate\Common\BaseAggregate;
 
 class BaseAggregateMock extends BaseAggregate
 {

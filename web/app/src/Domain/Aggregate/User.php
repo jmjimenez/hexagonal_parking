@@ -12,7 +12,7 @@ use Jmj\Parking\Domain\Exception\UserResetPasswordTokenExpired;
 use Jmj\Parking\Domain\Exception\UserResetPasswordTokenInvalid;
 use Jmj\Parking\Domain\Exception\UserResetPasswordTokenTimeoutInvalid;
 
-class User extends BaseAggregate
+class User extends Common\BaseAggregate
 {
     const EVENT_USER_CREATED = 'UserCreated';
     const EVENT_USER_NAME_CHANGED = 'UserNameChanged';

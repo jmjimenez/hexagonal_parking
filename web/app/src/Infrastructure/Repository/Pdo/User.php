@@ -5,7 +5,7 @@ namespace Jmj\Parking\Infrastructure\Repository\Pdo;
 use Jmj\Parking\Common\Exception\PdoExecuteError;
 use Jmj\Parking\Common\Pdo\PdoObjectRepository;
 use Jmj\Parking\Common\Pdo\PdoProxy;
-use Jmj\Parking\Domain\Aggregate\BaseAggregate;
+use Jmj\Parking\Domain\Aggregate\Common\BaseAggregate;
 use Jmj\Parking\Domain\Aggregate\User as DomainUser;
 use Jmj\Parking\Domain\Repository\User as DomainUserRepository;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Jmj\Test\Unit\Application\Command\Handler\InMemory\Pdo;
+namespace Jmj\Test\Unit\Application\Command\Handler\InMemory\Pdo\Common;
 
 use Jmj\Parking\Common\Exception\PdoConnectionError;
 use Jmj\Parking\Common\Exception\PdoExecuteError;
@@ -14,7 +14,6 @@ use Jmj\Parking\Infrastructure\Repository\Pdo\Parking as ParkingPdoRepository;
 use Jmj\Parking\Infrastructure\Repository\Pdo\User as UserPdoRepository;
 use Jmj\Parking\Infrastructure\Service\Event\InMemory\SynchronousEventsBroker;
 
-/** TODO: this class should be in a subfolder Common */
 trait DataSamplesGenerator
 {
     /** @var ParkingPdoRepository */

@@ -20,9 +20,9 @@ use PHPUnit\Framework\TestCase;
 class CreateUserForParkingTest extends TestCase
 {
     use EventsRecorder;
-    use DataSamplesGenerator;
+    use Common\DataSamplesGenerator;
     use NormalizeDate;
-    use AssertSqlStatements;
+    use Common\AssertSqlStatements;
 
     /**
      * @throws ParkingNotFound

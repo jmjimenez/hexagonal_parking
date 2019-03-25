@@ -18,8 +18,8 @@ use PHPUnit\Framework\TestCase;
 class AssignAdministratorRightsToUserForParkingTest extends TestCase
 {
     use EventsRecorder;
-    use DataSamplesGenerator;
-    use AssertSqlStatements;
+    use Common\DataSamplesGenerator;
+    use Common\AssertSqlStatements;
 
     /**
      * @throws ParkingNotFound

@@ -1,6 +1,6 @@
 <?php
 
-namespace Jmj\Test\Unit\Application\Command\Handler\InMemory\Pdo;
+namespace Jmj\Test\Unit\Application\Command\Handler\InMemory\Pdo\Common;
 
 trait AssertSqlStatements
 {

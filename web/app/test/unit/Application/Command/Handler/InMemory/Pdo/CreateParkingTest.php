@@ -17,8 +17,8 @@ use PHPUnit\Framework\TestCase;
 class CreateParkingTest extends TestCase
 {
     use EventsRecorder;
-    use DataSamplesGenerator;
-    use AssertSqlStatements;
+    use Common\DataSamplesGenerator;
+    use Common\AssertSqlStatements;
 
     /**
      * @throws ExceptionGeneratingUuid

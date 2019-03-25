@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 class GetParkingSlotsReservationsForDateTest extends TestCase
 {
     use EventsRecorder;
-    use DataSamplesGenerator;
+    use Common\DataSamplesGenerator;
     use NormalizeDate;
 
     /**

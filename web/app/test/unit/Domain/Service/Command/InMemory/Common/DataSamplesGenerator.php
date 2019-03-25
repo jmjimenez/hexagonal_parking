@@ -1,6 +1,6 @@
 <?php
 
-namespace Jmj\Test\Unit\Domain\Service\Command\InMemory;
+namespace Jmj\Test\Unit\Domain\Service\Command\InMemory\Common;
 
 use DateTimeImmutable;
 use Jmj\Parking\Common\Exception\InvalidDateRange;

@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class AssignUserToParkingTest extends TestCase
 {
-    use DataSamplesGenerator;
+    use Common\DataSamplesGenerator;
     use EventsRecorder;
 
     /**

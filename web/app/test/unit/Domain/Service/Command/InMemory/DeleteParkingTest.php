@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 class DeleteParkingTest extends TestCase
 {
     use EventsRecorder;
-    use DataSamplesGenerator;
+    use Common\DataSamplesGenerator;
 
     /**
      * @throws ExceptionGeneratingUuid

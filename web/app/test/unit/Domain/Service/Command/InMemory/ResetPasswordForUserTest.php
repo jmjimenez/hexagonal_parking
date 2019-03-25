@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 class ResetPasswordForUserTest extends TestCase
 {
     use EventsRecorder;
-    use DataSamplesGenerator;
+    use Common\DataSamplesGenerator;
 
     /**
      * @throws ExceptionGeneratingUuid

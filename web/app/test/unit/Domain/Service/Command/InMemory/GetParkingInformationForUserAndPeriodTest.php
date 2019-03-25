@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 class GetParkingInformationForUserAndPeriodTest extends TestCase
 {
     use EventsRecorder;
-    use DataSamplesGenerator;
+    use Common\DataSamplesGenerator;
     use NormalizeDate;
 
     /**

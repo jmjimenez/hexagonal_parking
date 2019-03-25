@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 class AssignAdministratorRightsToUserForParkingTest extends TestCase
 {
     use EventsRecorder;
-    use DataSamplesGenerator;
+    use Common\DataSamplesGenerator;
 
     /**
      * @throws ExceptionGeneratingUuid

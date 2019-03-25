@@ -21,7 +21,7 @@ class RemoveAssignmentFromParkingSlotForUserAndDateTest extends TestCase
 {
     use EventsRecorder;
     use NormalizeDate;
-    use DataSamplesGenerator;
+    use Common\DataSamplesGenerator;
 
     /**
      * @throws ExceptionGeneratingUuid

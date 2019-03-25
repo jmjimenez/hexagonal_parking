@@ -5,7 +5,7 @@ namespace Jmj\Test\Unit\Infrastructure\Service\Event\InMemory;
 use Jmj\Parking\Infrastructure\Service\Event\InMemory\SynchronousEventsBroker;
 use PHPUnit\Framework\TestCase;
 
-class DomainEventsBrokerTest extends TestCase
+class SynchronousEventsBrokerTest extends TestCase
 {
     /** @var SynchronousEventsBroker */
     private $domainEventsBroker;

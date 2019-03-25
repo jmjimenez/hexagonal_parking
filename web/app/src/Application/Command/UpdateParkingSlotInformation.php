@@ -23,15 +23,15 @@ class UpdateParkingSlotInformation
      * @param string $loggedInUserUuid
      * @param string $parkingUuid
      * @param string $parkingSlotUuid
-     * @param string $description
      * @param string $number
+     * @param string $description
      */
     public function __construct(
         string $loggedInUserUuid,
         string $parkingUuid,
         string $parkingSlotUuid,
-        string $description,
-        string $number
+        string $number,
+        string $description
     ) {
         $this->loggedInUserUuid = $loggedInUserUuid;
         $this->parkingUuid = $parkingUuid;

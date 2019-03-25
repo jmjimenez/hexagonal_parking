@@ -46,8 +46,8 @@ class UpdateParkingSlotInformationTest extends TestCase
             $this->userAdmin->uuid(),
             $this->parking->uuid(),
             $this->parkingSlotOne->uuid(),
-            $parkingSlotDescription,
-            $parkingSlotNumber
+            $parkingSlotNumber,
+            $parkingSlotDescription
         );
 
         $command = new UpdateParkingSlotInformation(

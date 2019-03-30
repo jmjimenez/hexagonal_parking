@@ -77,6 +77,7 @@ class Container extends DefaultContainer
         : AssignAdministratorRightsToUserForParking
     {
         return new AssignAdministratorRightsToUserForParking(
+            $this->get('PdoProxy'),
             $this->get('ParkingRepository'),
             $this->get('UserRepository')
         );
@@ -88,6 +89,7 @@ class Container extends DefaultContainer
     public function getAssignUserToParkingCommandHandler() : AssignUserToParking
     {
         return new AssignUserToParking(
+            $this->get('PdoProxy'),
             $this->get('ParkingRepository'),
             $this->get('UserRepository')
         );
@@ -99,6 +101,7 @@ class Container extends DefaultContainer
     public function getDeassignUserFromParkingCommandHandler() : DeassignUserFromParking
     {
         return new DeassignUserFromParking(
+            $this->get('PdoProxy'),
             $this->get('ParkingRepository'),
             $this->get('UserRepository')
         );
@@ -110,6 +113,7 @@ class Container extends DefaultContainer
     public function getCreateParkingCommandHandler() : CreateParking
     {
         return new CreateParking(
+            $this->get('PdoProxy'),
             $this->get('UserRepository'),
             $this->get('ParkingFactory'),
             $this->get('ParkingRepository')
@@ -122,6 +126,7 @@ class Container extends DefaultContainer
     public function getCreateParkingSlotCommandHandler() : CreateParkingSlot
     {
         return new CreateParkingSlot(
+            $this->get('PdoProxy'),
             $this->get('UserRepository'),
             $this->get('ParkingRepository')
         );
@@ -133,6 +138,7 @@ class Container extends DefaultContainer
     public function getDeleteParkingCommandHandler() : DeleteParking
     {
         return new DeleteParking(
+            $this->get('PdoProxy'),
             $this->get('UserRepository'),
             $this->get('ParkingRepository')
         );
@@ -144,6 +150,7 @@ class Container extends DefaultContainer
     public function getDeleteParkingSlotCommandHandler() : DeleteParkingSlot
     {
         return new DeleteParkingSlot(
+            $this->get('PdoProxy'),
             $this->get('UserRepository'),
             $this->get('ParkingRepository')
         );
@@ -155,6 +162,7 @@ class Container extends DefaultContainer
     public function getCreateUserForParkingCommandHandler() : CreateUserForParking
     {
         return new CreateUserForParking(
+            $this->get('PdoProxy'),
             $this->get('UserRepository'),
             $this->getUserFactory(),
             $this->get('ParkingRepository')
@@ -167,6 +175,7 @@ class Container extends DefaultContainer
     public function getUpdateParkingSlotInformationCommandHandler() : UpdateParkingSlotInformation
     {
         return new UpdateParkingSlotInformation(
+            $this->get('PdoProxy'),
             $this->get('UserRepository'),
             $this->get('ParkingRepository')
         );
@@ -178,6 +187,7 @@ class Container extends DefaultContainer
     public function getAssignParkingSlotToUserForPeriodCommandHandler() : AssignParkingSlotToUserForPeriod
     {
         return new AssignParkingSlotToUserForPeriod(
+            $this->get('PdoProxy'),
             $this->get('ParkingRepository'),
             $this->get('UserRepository')
         );
@@ -189,6 +199,7 @@ class Container extends DefaultContainer
     public function getFreeAssignedParkingSlotForUserAndPeriodCommandHandler() : FreeAssignedParkingSlotForUserAndPeriod
     {
         return new FreeAssignedParkingSlotForUserAndPeriod(
+            $this->get('PdoProxy'),
             $this->get('ParkingRepository'),
             $this->get('UserRepository')
         );
@@ -234,6 +245,7 @@ class Container extends DefaultContainer
     : RemoveAssignmentFromParkingSlotForUserAndDate
     {
         return new RemoveAssignmentFromParkingSlotForUserAndDate(
+            $this->get('PdoProxy'),
             $this->get('ParkingRepository'),
             $this->get('UserRepository')
         );
@@ -255,6 +267,7 @@ class Container extends DefaultContainer
     public function getReserveParkingSlotForUserAndPeriodCommandHandler() : ReserveParkingSlotForUserAndPeriod
     {
         return new ReserveParkingSlotForUserAndPeriod(
+            $this->get('PdoProxy'),
             $this->get('ParkingRepository'),
             $this->get('UserRepository')
         );
@@ -266,6 +279,7 @@ class Container extends DefaultContainer
     public function getRequestResetUserPasswordCommandHandler() : RequestResetUserPassword
     {
         return new RequestResetUserPassword(
+            $this->get('PdoProxy'),
             $this->get('UserRepository')
         );
     }
@@ -276,6 +290,7 @@ class Container extends DefaultContainer
     public function getResetUserPasswordCommandHandler() : ResetUserPassword
     {
         return new ResetUserPassword(
+            $this->get('PdoProxy'),
             $this->get('UserRepository')
         );
     }

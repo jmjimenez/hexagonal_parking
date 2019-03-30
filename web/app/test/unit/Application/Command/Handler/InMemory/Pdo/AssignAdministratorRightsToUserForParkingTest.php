@@ -45,6 +45,7 @@ class AssignAdministratorRightsToUserForParkingTest extends TestCase
         );
 
         $command = new AssignAdministratorRightsToUserForParking(
+            $this->pdoProxy,
             $this->parkingRepository,
             $this->userRepository
         );
@@ -58,5 +59,46 @@ class AssignAdministratorRightsToUserForParkingTest extends TestCase
 
         $this->assertEquals(1, count($this->recordedSqlStatements));
         $this->assertUpdate($this->recordedSqlStatements[0], 'Parking', ['uuid' => $this->parking->uuid()]);
+    }
+
+    /**
+     * @throws ExceptionGeneratingUuid
+     * @throws ParkingException
+     * @throws ParkingNotFound
+     * @throws PdoConnectionError
+     * @throws PdoExecuteError
+     * @throws UserNotFound
+     */
+    public function testExecuteErrorWhenUserIsNotAuthorized()
+    {
+        $this->createTestCase();
+
+        $this->configureDomainEventsBroker();
+
+        $this->startRecordingEvents();
+
+        $payload = new AssignAdministratorRightsToUserForParkingPayload(
+            $this->userOne->uuid(),
+            $this->userOne->uuid(),
+            $this->parking->uuid()
+        );
+
+        $this->expectException(ParkingException::class);
+        $this->expectExceptionCode(1);
+
+        $command = new AssignAdministratorRightsToUserForParking(
+            $this->pdoProxy,
+            $this->parkingRepository,
+            $this->userRepository
+        );
+        $command->execute($payload);
+
+        $this->assertEquals([ ], $this->recordedEventNames);
+
+        $parkingFound = $this->parkingRepository->findByUuid($this->parking->uuid());
+        $userFound = $this->userRepository->findByUuid($this->userOne->uuid());
+        $this->assertFalse($parkingFound->isAdministeredByUser($userFound));
+
+        $this->assertEquals(0, count($this->recordedSqlStatements));
     }
 }

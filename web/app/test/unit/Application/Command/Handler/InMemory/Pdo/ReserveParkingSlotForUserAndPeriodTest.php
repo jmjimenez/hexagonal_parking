@@ -60,6 +60,7 @@ class ReserveParkingSlotForUserAndPeriodTest extends TestCase
         );
 
         $command = new ReserveParkingSlotForUserAndPeriod(
+            $this->pdoProxy,
             $this->parkingRepository,
             $this->userRepository
         );

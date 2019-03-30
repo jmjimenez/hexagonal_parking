@@ -60,6 +60,7 @@ class AssignParkingSlotToUserForPeriodTest extends TestCase
         );
 
         $command = new AssignParkingSlotToUserForPeriod(
+            $this->pdoProxy,
             $this->parkingRepository,
             $this->userRepository
         );

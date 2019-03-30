@@ -3,6 +3,7 @@
 namespace Jmj\Parking\Application\Command\Handler;
 
 use Jmj\Parking\Application\Command\CreateParkingSlot as CreateParkingSlotPayload;
+use Jmj\Parking\Common\Pdo\PdoProxy;
 use Jmj\Parking\Domain\Aggregate\ParkingSlot;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
@@ -17,14 +18,20 @@ class CreateParkingSlot extends Common\BaseHandler
     /** @var UserRepository */
     protected $userRepository;
 
+    /** @var PdoProxy */
+    protected $pdoProxy;
+
     /**
+     * @param PdoProxy $pdoProxy
      * @param UserRepository $userRepository
      * @param ParkingRepository $parkingRepository
      */
     public function __construct(
+        PdoProxy $pdoProxy,
         UserRepository $userRepository,
         ParkingRepository $parkingRepository
     ) {
+        $this->pdoProxy = $pdoProxy;
         $this->parkingRepository = $parkingRepository;
         $this->userRepository = $userRepository;
     }
@@ -38,22 +45,31 @@ class CreateParkingSlot extends Common\BaseHandler
      */
     public function execute(CreateParkingSlotPayload $payload) : ParkingSlot
     {
-        $loggedInUser = $this->userRepository->findByUuid($payload->loggedInUserUuid());
-        $this->validateUser($loggedInUser);
+        try {
+            $this->pdoProxy->startTransaction();
 
-        $parking = $this->parkingRepository->findByUuid($payload->parkingUuid());
-        $this->validateParking($parking);
+            $loggedInUser = $this->userRepository->findByUuid($payload->loggedInUserUuid());
+            $this->validateUser($loggedInUser);
 
-        $command = new CreateParkingSlotCommand();
+            $parking = $this->parkingRepository->findByUuid($payload->parkingUuid());
+            $this->validateParking($parking);
 
-        $parkingSlot = $command->execute(
-            $loggedInUser,
-            $parking,
-            $payload->parkingSlotNumber(),
-            $payload->parkingSlotDescription()
-        );
+            $command = new CreateParkingSlotCommand();
 
-        $this->parkingRepository->save($parking);
+            $parkingSlot = $command->execute(
+                $loggedInUser,
+                $parking,
+                $payload->parkingSlotNumber(),
+                $payload->parkingSlotDescription()
+            );
+
+            $this->parkingRepository->save($parking);
+
+            $this->pdoProxy->commitTransaction();
+        } catch (Exception\ParkingNotFound | Exception\UserNotFound | ParkingException $exception) {
+            $this->pdoProxy->rollbackTransaction();
+            throw $exception;
+        }
 
         return $parkingSlot;
     }

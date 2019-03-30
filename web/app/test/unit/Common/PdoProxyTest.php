@@ -170,7 +170,7 @@ class PdoProxyTest extends TestCase
      */
     public function testRollbackTransaction()
     {
-        self::$pdoProxy->startTransacction();
+        self::$pdoProxy->startTransaction();
         $result = self::$pdoProxy->execute("DELETE FROM `{$this->tableName}` WHERE id = :id", [ ':id' => 2 ]);
         $this->assertEquals(1, $result);
         self::$pdoProxy->rollbackTransaction();
@@ -187,16 +187,16 @@ class PdoProxyTest extends TestCase
     {
         self::$pdoProxy->insert($this->tableName, $this->testData[0]);
 
-        self::$pdoProxy->startTransacction();
+        self::$pdoProxy->startTransaction();
         $result = self::$pdoProxy->execute("DELETE FROM `{$this->tableName}` WHERE id = :id", [ ':id' => 1 ]);
         $this->assertEquals(1, $result);
 
-        self::$pdoProxy->startTransacction();
+        self::$pdoProxy->startTransaction();
         $result = self::$pdoProxy->execute("DELETE FROM `{$this->tableName}` WHERE id = :id", [ ':id' => 2 ]);
         $this->assertEquals(1, $result);
         self::$pdoProxy->commitTransaction();
 
-        self::$pdoProxy->startTransacction();
+        self::$pdoProxy->startTransaction();
         $result = self::$pdoProxy->execute("DELETE FROM `{$this->tableName}` WHERE id = :id", [ ':id' => 3 ]);
         $this->assertEquals(1, $result);
         self::$pdoProxy->commitTransaction();

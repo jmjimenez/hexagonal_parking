@@ -58,6 +58,7 @@ class CreateUserForParkingTest extends TestCase
         );
 
         $command = new CreateUserForParking(
+            $this->pdoProxy,
             $this->userRepository,
             new InMemoryUserFactory(),
             $this->parkingRepository

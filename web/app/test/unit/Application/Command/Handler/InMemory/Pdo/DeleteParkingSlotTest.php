@@ -47,6 +47,7 @@ class DeleteParkingSlotTest extends TestCase
         );
 
         $command = new DeleteParkingSlot(
+            $this->pdoProxy,
             $this->userRepository,
             $this->parkingRepository
         );

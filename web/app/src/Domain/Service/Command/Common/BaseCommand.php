@@ -77,6 +77,7 @@ abstract class BaseCommand
     protected function processCatchingDomainEvents()
     {
         //TODO: review all exceptions thrown by all processes
+        //TODO: create const for all exceptions codes
         try {
             $this->process();
         } catch (NotAuthorizedOperation $e) {

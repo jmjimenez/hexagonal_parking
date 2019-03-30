@@ -40,6 +40,7 @@ class CreateParkingTest extends TestCase
         $payload = new CreateParkingPayload($this->userAdmin->uuid(), $newParkingDescription);
 
         $command = new CreateParking(
+            $this->pdoProxy,
             $this->userRepository,
             new InMemoryParkingFactory(),
             $this->parkingRepository

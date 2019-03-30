@@ -51,6 +51,7 @@ class UpdateParkingSlotInformationTest extends TestCase
         );
 
         $command = new UpdateParkingSlotInformation(
+            $this->pdoProxy,
             $this->userRepository,
             $this->parkingRepository
         );

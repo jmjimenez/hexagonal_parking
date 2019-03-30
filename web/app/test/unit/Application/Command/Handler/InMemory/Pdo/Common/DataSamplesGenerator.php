@@ -2,6 +2,7 @@
 
 namespace Jmj\Test\Unit\Application\Command\Handler\InMemory\Pdo\Common;
 
+use Exception;
 use Jmj\Parking\Common\Exception\PdoConnectionError;
 use Jmj\Parking\Common\Exception\PdoExecuteError;
 use Jmj\Parking\Common\Pdo\PdoProxy;
@@ -34,24 +35,28 @@ trait DataSamplesGenerator
     /** @var InMemoryUser */
     protected $userAdmin;
 
+    /** @var PdoProxy */
+    protected $pdoProxy;
+
+    /** @var array */
     protected $sqlEvents;
 
     /**
      * @throws PdoConnectionError
      * @throws PdoExecuteError
      * @throws ExceptionGeneratingUuid
-     * @throws \Exception
+     * @throws Exception
      */
     protected function createTestCase()
     {
-        $pdoProxy = new PdoProxy();
-        $pdoProxy->connectToSqlite(':memory:');
-        $this->configureSqlEventsBroker($pdoProxy);
+        $this->pdoProxy = new PdoProxy();
+        $this->pdoProxy->connectToSqlite(':memory:');
+        $this->configureSqlEventsBroker($this->pdoProxy);
 
-        $this->parkingRepository = new ParkingPdoRepository('Parking', $pdoProxy);
+        $this->parkingRepository = new ParkingPdoRepository('Parking', $this->pdoProxy);
         $this->parkingRepository->initializeRepository();
 
-        $this->userRepository = new UserPdoRepository('User', $pdoProxy);
+        $this->userRepository = new UserPdoRepository('User', $this->pdoProxy);
         $this->userRepository->initializeRepository();
 
         $this->userAdmin = new InMemoryUser('Admin', 'admin@test.com', 'adminpasswd', true);

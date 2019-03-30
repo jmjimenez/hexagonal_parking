@@ -57,6 +57,7 @@ class AssignUserToParkingTest extends TestCase
         );
 
         $command = new AssignUserToParking(
+            $this->pdoProxy,
             $this->parkingRepository,
             $this->userRepository
         );

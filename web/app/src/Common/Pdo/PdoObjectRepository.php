@@ -59,7 +59,7 @@ abstract class PdoObjectRepository
      */
     public function saveObject(BaseAggregate $object): int
     {
-        $this->pdoProxy->startTransacction();
+        $this->pdoProxy->startTransaction();
 
         try {
             $record = $this->findRecordByUuid($object->uuid());
@@ -89,7 +89,7 @@ abstract class PdoObjectRepository
      */
     public function deleteObject(BaseAggregate $object) : int
     {
-        $this->pdoProxy->startTransacction();
+        $this->pdoProxy->startTransaction();
 
         try {
             $record = $this->findRecordByUuid($object->uuid());

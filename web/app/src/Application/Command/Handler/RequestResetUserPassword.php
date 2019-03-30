@@ -6,6 +6,7 @@ use DateTimeImmutable;
 use Exception;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Application\Command\RequestResetUserPassword as RequestResetUserPasswordPayload;
+use Jmj\Parking\Common\Pdo\PdoProxy;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\RequestResetUserPassword as RequestResetUserPasswordDomainCommand;
@@ -21,11 +22,16 @@ class RequestResetUserPassword extends Common\BaseHandler
     /** @var UserRepository  */
     protected $userRepository;
 
+    /** @var PdoProxy */
+    protected $pdoProxy;
+
     /**
+     * @param PdoProxy $pdoProxy
      * @param UserRepository $userRepository
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(PdoProxy $pdoProxy, UserRepository $userRepository)
     {
+        $this->pdoProxy = $pdoProxy;
         $this->userRepository = $userRepository;
     }
 
@@ -38,20 +44,27 @@ class RequestResetUserPassword extends Common\BaseHandler
      */
     public function execute(RequestResetUserPasswordPayload $payload): array
     {
-        $user = $this->userRepository->findByEmail($payload->userEmail());
-        $this->validateUser($user);
+        try {
+            $this->pdoProxy->startTransaction();
 
-        //TODO: perhaps inject an infrastructure service to create the token
-        $resetPasswordToken = md5($user->email() . date('YmdHis') . self::SECRET);
-        //TODO: perhaps inject an infrastructure service to configure the time limit
-        $resetPasswordTokenTimeout = new DateTimeImmutable(sprintf('+%s days', self::TOKEN_DAYS_TIMEOUT));
+            $user = $this->userRepository->findByEmail($payload->userEmail());
+            $this->validateUser($user);
 
-        $command = new RequestResetUserPasswordDomainCommand();
+            //TODO: perhaps inject an infrastructure service to create the token
+            $resetPasswordToken = md5($user->email() . date('YmdHis') . self::SECRET);
+            //TODO: perhaps inject an infrastructure service to configure the time limit
+            $resetPasswordTokenTimeout = new DateTimeImmutable(sprintf('+%s days', self::TOKEN_DAYS_TIMEOUT));
 
-        $command->execute($user, $resetPasswordToken, $resetPasswordTokenTimeout);
+            $command = new RequestResetUserPasswordDomainCommand();
 
-        //TODO: transactions should be dealt with at this level
-        $this->userRepository->save($user);
+            $command->execute($user, $resetPasswordToken, $resetPasswordTokenTimeout);
+            $this->userRepository->save($user);
+
+            $this->pdoProxy->commitTransaction();
+        } catch (UserNotFound | ParkingException | Exception $exception) {
+            $this->pdoProxy->rollbackTransaction();
+            throw $exception;
+        }
 
         //TODO: this command should send an email to the user perhaps by injecting a notifier
         return [

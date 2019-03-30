@@ -5,6 +5,7 @@ namespace Jmj\Parking\Application\Command\Handler;
 use Exception;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Application\Command\ResetUserPassword as ResetUserPasswordPayload;
+use Jmj\Parking\Common\Pdo\PdoProxy;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\ResetUserPassword as ResetUserPasswordDomainCommand;
@@ -14,11 +15,18 @@ class ResetUserPassword extends Common\BaseHandler
     /** @var UserRepository  */
     protected $userRepository;
 
+    /** @var PdoProxy */
+    protected $pdoProxy;
+
     /**
+     * @param PdoProxy $pdoProxy
      * @param UserRepository $userRepository
      */
-    public function __construct(UserRepository $userRepository)
-    {
+    public function __construct(
+        PdoProxy $pdoProxy,
+        UserRepository $userRepository
+    ) {
+        $this->pdoProxy = $pdoProxy;
         $this->userRepository = $userRepository;
     }
 
@@ -30,13 +38,22 @@ class ResetUserPassword extends Common\BaseHandler
      */
     public function execute(ResetUserPasswordPayload $payload)
     {
-        $user = $this->userRepository->findByEmail($payload->userEmail());
-        $this->validateUser($user);
+        try {
+            $this->pdoProxy->startTransaction();
 
-        $command = new ResetUserPasswordDomainCommand();
+            $user = $this->userRepository->findByEmail($payload->userEmail());
+            $this->validateUser($user);
 
-        $command->execute($user, $payload->userPassword(), $payload->passwordToken());
+            $command = new ResetUserPasswordDomainCommand();
 
-        $this->userRepository->save($user);
+            $command->execute($user, $payload->userPassword(), $payload->passwordToken());
+
+            $this->userRepository->save($user);
+
+            $this->pdoProxy->commitTransaction();
+        } catch (UserNotFound | ParkingException $exception) {
+            $this->pdoProxy->rollbackTransaction();
+            throw $exception;
+        }
     }
 }

@@ -34,7 +34,7 @@ class RequestResetUserPasswordTest extends TestCase
 
         $this->startRecordingEvents();
 
-        $command = new RequestResetUserPassword($this->userRepository);
+        $command = new RequestResetUserPassword($this->pdoProxy, $this->userRepository);
 
         $payload = new RequestResetUserPasswordPayload($this->userOne->email());
 

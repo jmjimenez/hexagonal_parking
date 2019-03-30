@@ -60,6 +60,7 @@ class RemoveAssignmentFromParkingSlotForUserAndDateTest extends TestCase
         );
 
         $command = new RemoveAssignmentFromParkingSlotForUserAndDate(
+            $this->pdoProxy,
             $this->parkingRepository,
             $this->userRepository
         );

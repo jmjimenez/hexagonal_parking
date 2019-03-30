@@ -45,6 +45,7 @@ class DeassignUserFromParkingTest extends TestCase
         );
 
         $command = new DeassignUserFromParking(
+            $this->pdoProxy,
             $this->parkingRepository,
             $this->userRepository
         );

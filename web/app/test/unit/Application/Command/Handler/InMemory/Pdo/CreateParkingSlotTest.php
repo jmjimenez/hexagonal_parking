@@ -51,6 +51,7 @@ class CreateParkingSlotTest extends TestCase
         );
 
         $command = new CreateParkingSlot(
+            $this->pdoProxy,
             $this->userRepository,
             $this->parkingRepository
         );

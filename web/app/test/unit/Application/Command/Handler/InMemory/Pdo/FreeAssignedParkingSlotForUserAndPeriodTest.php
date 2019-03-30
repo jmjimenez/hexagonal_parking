@@ -62,6 +62,7 @@ class FreeAssignedParkingSlotForUserAndPeriodTest extends TestCase
         );
 
         $command = new FreeAssignedParkingSlotForUserAndPeriod(
+            $this->pdoProxy,
             $this->parkingRepository,
             $this->userRepository
         );

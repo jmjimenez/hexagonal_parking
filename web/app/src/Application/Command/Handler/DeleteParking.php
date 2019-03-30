@@ -3,6 +3,7 @@
 namespace Jmj\Parking\Application\Command\Handler;
 
 use Jmj\Parking\Application\Command\DeleteParking as DeleteParkingPayload;
+use Jmj\Parking\Common\Pdo\PdoProxy;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
@@ -16,14 +17,20 @@ class DeleteParking extends Common\BaseHandler
     /** @var UserRepository */
     protected $userRepository;
 
+    /** @var PdoProxy */
+    protected $pdoProxy;
+
     /**
+     * @param PdoProxy $pdoProxy
      * @param UserRepository $userRepository
      * @param ParkingRepository $parkingRepository
      */
     public function __construct(
+        PdoProxy $pdoProxy,
         UserRepository $userRepository,
         ParkingRepository $parkingRepository
     ) {
+        $this->pdoProxy = $pdoProxy;
         $this->parkingRepository = $parkingRepository;
         $this->userRepository = $userRepository;
     }
@@ -36,16 +43,25 @@ class DeleteParking extends Common\BaseHandler
      */
     public function execute(DeleteParkingPayload $payload)
     {
-        $loggedInUser = $this->userRepository->findByUuid($payload->loggedInUserUuid());
-        $this->validateUser($loggedInUser);
+        try {
+            $this->pdoProxy->startTransaction();
 
-        $parking = $this->parkingRepository->findByUuid($payload->parkingUuid());
-        $this->validateParking($parking);
+            $loggedInUser = $this->userRepository->findByUuid($payload->loggedInUserUuid());
+            $this->validateUser($loggedInUser);
 
-        $command = new DeleteParkingCommand();
+            $parking = $this->parkingRepository->findByUuid($payload->parkingUuid());
+            $this->validateParking($parking);
 
-        $command->execute($loggedInUser, $parking);
+            $command = new DeleteParkingCommand();
 
-        $this->parkingRepository->delete($parking);
+            $command->execute($loggedInUser, $parking);
+
+            $this->parkingRepository->delete($parking);
+
+            $this->pdoProxy->commitTransaction();
+        } catch (Exception\ParkingNotFound | Exception\UserNotFound | ParkingException $exception) {
+            $this->pdoProxy->rollbackTransaction();
+            throw $exception;
+        }
     }
 }

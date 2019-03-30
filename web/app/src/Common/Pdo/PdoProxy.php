@@ -171,7 +171,7 @@ class PdoProxy
     /**
      * @return bool
      */
-    public function startTransacction() : bool
+    public function startTransaction() : bool
     {
         if (++$this->nestedTransactionCount == 1) {
             return $this->pdo->beginTransaction();

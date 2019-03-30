@@ -3,6 +3,7 @@
 namespace Jmj\Parking\Application\Command\Handler;
 
 use Jmj\Parking\Application\Command\DeleteParkingSlot as DeleteParkingSlotPayload;
+use Jmj\Parking\Common\Pdo\PdoProxy;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
@@ -16,14 +17,20 @@ class DeleteParkingSlot extends Common\BaseHandler
     /** @var UserRepository */
     protected $userRepository;
 
+    /** @var PdoProxy */
+    protected $pdoProxy;
+
     /**
+     * @param PdoProxy $pdoProxy
      * @param UserRepository $userRepository
      * @param ParkingRepository $parkingRepository
      */
     public function __construct(
+        PdoProxy $pdoProxy,
         UserRepository $userRepository,
         ParkingRepository $parkingRepository
     ) {
+        $this->pdoProxy = $pdoProxy;
         $this->parkingRepository = $parkingRepository;
         $this->userRepository = $userRepository;
     }
@@ -36,16 +43,25 @@ class DeleteParkingSlot extends Common\BaseHandler
      */
     public function execute(DeleteParkingSlotPayload $payload)
     {
-        $loggedInUser = $this->userRepository->findByUuid($payload->loggedInUserUuid());
-        $this->validateUser($loggedInUser);
+        try {
+            $this->pdoProxy->startTransaction();
 
-        $parking = $this->parkingRepository->findByUuid($payload->parkingUuid());
-        $this->validateParking($parking);
+            $loggedInUser = $this->userRepository->findByUuid($payload->loggedInUserUuid());
+            $this->validateUser($loggedInUser);
 
-        $command = new DeleteParkingSlotCommand();
+            $parking = $this->parkingRepository->findByUuid($payload->parkingUuid());
+            $this->validateParking($parking);
 
-        $command->execute($loggedInUser, $parking, $payload->parkingSlotUuid());
+            $command = new DeleteParkingSlotCommand();
 
-        $this->parkingRepository->save($parking);
+            $command->execute($loggedInUser, $parking, $payload->parkingSlotUuid());
+
+            $this->parkingRepository->save($parking);
+
+            $this->pdoProxy->commitTransaction();
+        } catch (Exception\ParkingNotFound | Exception\UserNotFound | ParkingException $exception) {
+            $this->pdoProxy->rollbackTransaction();
+            throw $exception;
+        }
     }
 }

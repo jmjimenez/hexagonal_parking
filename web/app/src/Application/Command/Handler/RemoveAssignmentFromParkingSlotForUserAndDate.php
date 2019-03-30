@@ -4,6 +4,7 @@ namespace Jmj\Parking\Application\Command\Handler;
 
 use Jmj\Parking\Application\Command\RemoveAssignmentFromParkingSlotForUserAndDate
     as RemoveAssignmentFromParkingSlotForUserAndDateCommand;
+use Jmj\Parking\Common\Pdo\PdoProxy;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
@@ -18,12 +19,20 @@ class RemoveAssignmentFromParkingSlotForUserAndDate extends Common\BaseHandler
     /** @var UserRepository  */
     protected $userRepository;
 
+    /** @var PdoProxy */
+    protected $pdoProxy;
+
     /**
+     * @param PdoProxy $pdoProxy
      * @param ParkingRepository $parkingRepository
      * @param UserRepository $userRepository
      */
-    public function __construct(ParkingRepository $parkingRepository, UserRepository $userRepository)
-    {
+    public function __construct(
+        PdoProxy $pdoProxy,
+        ParkingRepository $parkingRepository,
+        UserRepository $userRepository
+    ) {
+        $this->pdoProxy = $pdoProxy;
         $this->parkingRepository = $parkingRepository;
         $this->userRepository = $userRepository;
     }
@@ -36,25 +45,34 @@ class RemoveAssignmentFromParkingSlotForUserAndDate extends Common\BaseHandler
      */
     public function execute(RemoveAssignmentFromParkingSlotForUserAndDateCommand $payload)
     {
-        $loggedInUser = $this->userRepository->findByUuid($payload->loggedUserUuid());
-        $this->validateUser($loggedInUser);
+        try {
+            $this->pdoProxy->startTransaction();
 
-        $user = $this->userRepository->findByUuid($payload->userUuid());
-        $this->validateUser($user);
+            $loggedInUser = $this->userRepository->findByUuid($payload->loggedUserUuid());
+            $this->validateUser($loggedInUser);
 
-        $parking = $this->parkingRepository->findByUuid($payload->parkingUuid());
-        $this->validateParking($parking);
+            $user = $this->userRepository->findByUuid($payload->userUuid());
+            $this->validateUser($user);
 
-        $command = new RemoveAssignmentFromParkingSlotForUserAndDateDomainCommand();
+            $parking = $this->parkingRepository->findByUuid($payload->parkingUuid());
+            $this->validateParking($parking);
 
-        $command->execute(
-            $loggedInUser,
-            $parking,
-            $payload->parkingSlotUuid(),
-            $user,
-            $payload->date()
-        );
+            $command = new RemoveAssignmentFromParkingSlotForUserAndDateDomainCommand();
 
-        $this->parkingRepository->save($parking);
+            $command->execute(
+                $loggedInUser,
+                $parking,
+                $payload->parkingSlotUuid(),
+                $user,
+                $payload->date()
+            );
+
+            $this->parkingRepository->save($parking);
+
+            $this->pdoProxy->commitTransaction();
+        } catch (Exception\ParkingNotFound | Exception\UserNotFound | ParkingException $exception) {
+            $this->pdoProxy->rollbackTransaction();
+            throw $exception;
+        }
     }
 }

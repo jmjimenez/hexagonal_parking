@@ -46,6 +46,7 @@ class DeleteParkingTest extends TestCase
         );
 
         $command = new DeleteParking(
+            $this->pdoProxy,
             $this->userRepository,
             $this->parkingRepository
         );

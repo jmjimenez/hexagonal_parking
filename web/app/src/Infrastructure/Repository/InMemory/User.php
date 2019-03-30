@@ -11,7 +11,7 @@ class User implements DomainUserRepository
     protected $users = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function findByUuid(string $uuid) : ?DomainUser
     {
@@ -25,7 +25,7 @@ class User implements DomainUserRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function findByName(string $name) : ?DomainUser
     {
@@ -39,7 +39,7 @@ class User implements DomainUserRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function findByEmail(string $email) : ?DomainUser
     {
@@ -53,10 +53,21 @@ class User implements DomainUserRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function save(DomainUser $user)
     {
         $this->users[$user->uuid()] = $user;
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete(DomainUser $user)
+    {
+        if (isset($this->users[$user->uuid()])) {
+            unset($this->users[$user->uuid()]);
+        }
     }
 }

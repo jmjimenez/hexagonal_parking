@@ -40,7 +40,7 @@ class User extends PdoObjectRepository implements DomainUserRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * @param DomainUser $user
      * @throws Exception
      */

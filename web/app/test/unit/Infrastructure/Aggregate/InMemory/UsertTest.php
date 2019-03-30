@@ -533,6 +533,22 @@ class UserTest extends TestCase
     }
 
     /**
+     * @throws ExceptionGeneratingUuid
+     * @throws UserEmailInvalid
+     * @throws UserNameInvalid
+     * @throws UserPasswordInvalid
+     */
+    public function testDelete()
+    {
+        $user = $this->createUser();
+
+        $this->startRecordingEvents();
+        $user->delete();
+
+        $this->assertEquals([ User::EVENT_USER_DELETED ], $this->recordedEventNames);
+    }
+
+    /**
      * @return DomainUser
      * @throws UserEmailInvalid
      * @throws UserNameInvalid

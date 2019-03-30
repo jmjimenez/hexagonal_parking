@@ -24,6 +24,7 @@ class User extends Common\BaseAggregate
     const EVENT_USER_ADMINISTRATOR_RIGHTS_CONFIGURED = 'UserAdministratorRightsConfigured';
     const EVENT_USER_AUTHENTICATED = 'UserAuthenticated';
     const EVENT_USER_AUTHENTICATION_ERROR = 'UserNotAuthenticated';
+    const EVENT_USER_DELETED = 'UserDeleted';
 
     /**
      * @var string
@@ -55,7 +56,6 @@ class User extends Common\BaseAggregate
      */
     private $isAdministrator;
 
-    //TODO: implement deleteUser use case
     //TODO: implement createUser use case
 
     /**
@@ -237,6 +237,12 @@ class User extends Common\BaseAggregate
         ];
     }
 
+    public function delete()
+    {
+        //TODO: mark the user as deleted
+        $this->publishEvent(self::EVENT_USER_DELETED);
+    }
+
     /**
      * @param  string $name
      * @throws UserNameInvalid
@@ -273,7 +279,7 @@ class User extends Common\BaseAggregate
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getClassName(): string
     {

@@ -9,7 +9,7 @@ use Jmj\Parking\Infrastructure\Aggregate\InMemory\User as InMemoryUser;
 class User implements DomainUserFactory
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function create(string $name, string $email, string $password, bool $isAdministrator) : DomainUser
     {

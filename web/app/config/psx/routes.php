@@ -1,119 +1,153 @@
 <?php
 
+use Jmj\Parking\Infrastructure\Psx\Controller\AssignAdministratorRightsToUserForParking;
+use Jmj\Parking\Infrastructure\Psx\Controller\AssignParkingSlotToUserForPeriod;
+use Jmj\Parking\Infrastructure\Psx\Controller\AssignUserToParking;
+use Jmj\Parking\Infrastructure\Psx\Controller\CreateParking;
+use Jmj\Parking\Infrastructure\Psx\Controller\CreateParkingSlot;
+use Jmj\Parking\Infrastructure\Psx\Controller\CreateUserForParking;
+use Jmj\Parking\Infrastructure\Psx\Controller\DeassignUserFromParking;
+use Jmj\Parking\Infrastructure\Psx\Controller\DeleteParking;
+use Jmj\Parking\Infrastructure\Psx\Controller\DeleteParkingSlot;
+use Jmj\Parking\Infrastructure\Psx\Controller\DeleteUser;
+use Jmj\Parking\Infrastructure\Psx\Controller\FreeAssignedParkingSlotForUserAndPeriod;
+use Jmj\Parking\Infrastructure\Psx\Controller\GetParkingInformationForUserAndPeriod;
+use Jmj\Parking\Infrastructure\Psx\Controller\GetParkingReservationsForDate;
+use Jmj\Parking\Infrastructure\Psx\Controller\GetParkingSlotReservationsForPeriod;
+use Jmj\Parking\Infrastructure\Psx\Controller\GetUserInformation;
+use Jmj\Parking\Infrastructure\Psx\Controller\RemoveAssignmentFromParkingSlotForUserAndDate;
+use Jmj\Parking\Infrastructure\Psx\Controller\RequestResetUserPassword;
+use Jmj\Parking\Infrastructure\Psx\Controller\ReserveParkingSlotForUserAndPeriod;
+use Jmj\Parking\Infrastructure\Psx\Controller\ResetUserPassword;
+use Jmj\Parking\Infrastructure\Psx\Controller\UpdateParkingSlotInformation;
+use Jmj\Parking\Infrastructure\Psx\Controller\UserLogin;
+use PSX\Framework\Controller\Generator\OpenAPIController;
+use PSX\Framework\Controller\Generator\RamlController;
+use PSX\Framework\Controller\Generator\SwaggerController;
+use PSX\Framework\Controller\Tool\DiscoveryController;
+use PSX\Framework\Controller\Tool\Documentation\DetailController;
+use PSX\Framework\Controller\Tool\Documentation\IndexController;
+use PSX\Framework\Controller\Tool\RoutingController;
+
 return [
     # API
     [
         ['POST'],
         '/assignusertoparking',
-        \Jmj\Parking\Infrastructure\Psx\Controller\AssignUserToParking::class
+        AssignUserToParking::class
     ],
     [
         ['POST'],
         '/deassignuserfromparking',
-        \Jmj\Parking\Infrastructure\Psx\Controller\DeassignUserFromParking::class
+        DeassignUserFromParking::class
     ],
     [
         ['POST'],
         '/assignadministratorrightstouserforparking',
-        \Jmj\Parking\Infrastructure\Psx\Controller\AssignAdministratorRightsToUserForParking::class
+        AssignAdministratorRightsToUserForParking::class
     ],
     [
         ['POST'],
         '/createparking',
-        \Jmj\Parking\Infrastructure\Psx\Controller\CreateParking::class
+        CreateParking::class
     ],
     [
         ['POST'],
         '/createparkingslot',
-        \Jmj\Parking\Infrastructure\Psx\Controller\CreateParkingSlot::class
+        CreateParkingSlot::class
     ],
     [
         ['POST'],
         '/deleteparking',
-        \Jmj\Parking\Infrastructure\Psx\Controller\DeleteParking::class
+        DeleteParking::class
+    ],
+    [
+        ['POST'],
+        '/deleteuser',
+        DeleteUser::class
     ],
     [
         ['POST'],
         '/deleteparkingslot',
-        \Jmj\Parking\Infrastructure\Psx\Controller\DeleteParkingSlot::class
+        DeleteParkingSlot::class
     ],
     [
         ['POST'],
         '/createuserforparking',
-        \Jmj\Parking\Infrastructure\Psx\Controller\CreateUserForParking::class
+        CreateUserForParking::class
     ],
     [
         ['POST'],
         '/updateparkingslotinformation',
-        \Jmj\Parking\Infrastructure\Psx\Controller\UpdateParkingSlotInformation::class
+        UpdateParkingSlotInformation::class
     ],
     [
         ['POST'],
         '/updateparkingslotinformation',
-        \Jmj\Parking\Infrastructure\Psx\Controller\UpdateParkingSlotInformation::class
+        UpdateParkingSlotInformation::class
     ],
     [
         ['POST'],
         '/assignparkingslottouserforperiod',
-        \Jmj\Parking\Infrastructure\Psx\Controller\AssignParkingSlotToUserForPeriod::class
+        AssignParkingSlotToUserForPeriod::class
     ],
     [
         ['POST'],
         '/freeassignedparkingslotforuserandperiod',
-        \Jmj\Parking\Infrastructure\Psx\Controller\FreeAssignedParkingSlotForUserAndPeriod::class
+        FreeAssignedParkingSlotForUserAndPeriod::class
     ],
     [
         ['POST'],
         '/getparkinginformationforuserandperiod',
-        \Jmj\Parking\Infrastructure\Psx\Controller\GetParkingInformationForUserAndPeriod::class
+        GetParkingInformationForUserAndPeriod::class
     ],
     [
         ['POST'],
         '/getparkingslotreservationsforperiod',
-        \Jmj\Parking\Infrastructure\Psx\Controller\GetParkingSlotReservationsForPeriod::class
+        GetParkingSlotReservationsForPeriod::class
     ],
     [
         ['POST'],
         '/getparkingreservationsfordate',
-        \Jmj\Parking\Infrastructure\Psx\Controller\GetParkingReservationsForDate::class
+        GetParkingReservationsForDate::class
     ],
     [
         ['POST'],
         '/getuserinformation',
-        \Jmj\Parking\Infrastructure\Psx\Controller\GetUserInformation::class
+        GetUserInformation::class
     ],
     [
         ['POST'],
         '/removeassignmentfromparkingslotforuseranddate',
-        \Jmj\Parking\Infrastructure\Psx\Controller\RemoveAssignmentFromParkingSlotForUserAndDate::class
+        RemoveAssignmentFromParkingSlotForUserAndDate::class
     ],
     [
         ['POST'],
         '/reserveparkingslotforuserandperiod',
-        \Jmj\Parking\Infrastructure\Psx\Controller\ReserveParkingSlotForUserAndPeriod::class
+        ReserveParkingSlotForUserAndPeriod::class
     ],
     [
         ['POST'],
         '/requestresetuserpassword',
-        \Jmj\Parking\Infrastructure\Psx\Controller\RequestResetUserPassword::class
+        RequestResetUserPassword::class
     ],
     [
         ['POST'],
         '/resetuserpassword',
-        \Jmj\Parking\Infrastructure\Psx\Controller\ResetUserPassword::class
+        ResetUserPassword::class
     ],
     [
         ['POST'],
         '/login',
-        \Jmj\Parking\Infrastructure\Psx\Controller\UserLogin::class
+        UserLogin::class
     ],
 
     # tool controller
-    [['ANY'], '/tool/discovery', \PSX\Framework\Controller\Tool\DiscoveryController::class],
-    [['ANY'], '/tool/routing', \PSX\Framework\Controller\Tool\RoutingController::class],
-    [['ANY'], '/tool/doc', \PSX\Framework\Controller\Tool\Documentation\IndexController::class],
-    [['ANY'], '/tool/doc/:version/*path', \PSX\Framework\Controller\Tool\Documentation\DetailController::class],
-    [['ANY'], '/tool/raml/:version/*path', \PSX\Framework\Controller\Generator\RamlController::class],
-    [['ANY'], '/tool/swagger/:version/*path', \PSX\Framework\Controller\Generator\SwaggerController::class],
-    [['ANY'], '/tool/openapi/:version/*path', \PSX\Framework\Controller\Generator\OpenAPIController::class],
+    [['ANY'], '/tool/discovery', DiscoveryController::class],
+    [['ANY'], '/tool/routing', RoutingController::class],
+    [['ANY'], '/tool/doc', IndexController::class],
+    [['ANY'], '/tool/doc/:version/*path', DetailController::class],
+    [['ANY'], '/tool/raml/:version/*path', RamlController::class],
+    [['ANY'], '/tool/swagger/:version/*path', SwaggerController::class],
+    [['ANY'], '/tool/openapi/:version/*path', OpenAPIController::class],
 ];

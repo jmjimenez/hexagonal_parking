@@ -13,4 +13,6 @@ interface User
     public function findByEmail(string $email) : ?DomainUser;
 
     public function save(DomainUser $user);
+
+    public function delete(DomainUser $user);
 }

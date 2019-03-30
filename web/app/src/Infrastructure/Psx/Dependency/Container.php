@@ -11,6 +11,7 @@ use Jmj\Parking\Application\Command\Handler\AssignUserToParking;
 use Jmj\Parking\Application\Command\Handler\DeassignUserFromParking;
 use Jmj\Parking\Application\Command\Handler\CreateParking;
 use Jmj\Parking\Application\Command\Handler\DeleteParking;
+use Jmj\Parking\Application\Command\Handler\DeleteUser;
 use Jmj\Parking\Application\Command\Handler\FreeAssignedParkingSlotForUserAndPeriod;
 use Jmj\Parking\Application\Command\Handler\GetParkingReservationsForDate;
 use Jmj\Parking\Application\Command\Handler\GetUserInformation;
@@ -141,6 +142,17 @@ class Container extends DefaultContainer
             $this->get('PdoProxy'),
             $this->get('UserRepository'),
             $this->get('ParkingRepository')
+        );
+    }
+
+    /**
+     * @return DeleteUser
+     */
+    public function getDeleteUserCommandHandler() : DeleteUser
+    {
+        return new DeleteUser(
+            $this->get('PdoProxy'),
+            $this->get('UserRepository')
         );
     }
 

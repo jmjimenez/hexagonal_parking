@@ -32,7 +32,7 @@ class AssignAdministratorRightsToUserForParking extends Common\BaseController
             $this->commandHandler->execute($command);
             $data = [ 'result' => 'ok' ];
         } catch (ParkingNotFound $e) {
-            //TODO: this exception shouldn't be cought here, it should only receive generic ParkingExceptions
+            //TODO: this exception shouldn't be caught here, it should only receive generic ParkingExceptions
             $data = [ 'result' => 'error', 'message' => 'Parking not found' ];
         } catch (UserNotFound $e) {
             $data = [ 'result' => 'error', 'message' => 'User not found' ];

@@ -425,7 +425,7 @@ abstract class Parking extends Common\BaseAggregate
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getClassName(): string
     {

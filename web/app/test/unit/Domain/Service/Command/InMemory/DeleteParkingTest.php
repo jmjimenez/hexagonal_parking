@@ -49,7 +49,5 @@ class DeleteParkingTest extends TestCase
             ],
             $this->recordedEventNames
         );
-
-        //TODO: test parking is marked as deleted
     }
 }

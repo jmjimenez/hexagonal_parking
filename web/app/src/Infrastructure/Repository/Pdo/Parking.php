@@ -39,7 +39,7 @@ class Parking extends PdoObjectRepository implements DomainParkingRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * @param DomainParking $parking
      * @throws Exception
      */

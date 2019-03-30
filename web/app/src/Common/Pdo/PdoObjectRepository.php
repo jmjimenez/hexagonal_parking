@@ -84,7 +84,7 @@ abstract class PdoObjectRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * @throws Exception
      */
     public function deleteObject(BaseAggregate $object) : int

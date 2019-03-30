@@ -416,7 +416,7 @@ abstract class ParkingSlot extends Common\BaseAggregate
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getClassName() : string
     {

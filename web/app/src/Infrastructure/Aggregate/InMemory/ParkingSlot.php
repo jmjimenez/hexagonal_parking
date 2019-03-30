@@ -33,7 +33,7 @@ class ParkingSlot extends DomainParkingSlot
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _isFreeForUserAndDay(User $user, DateTimeImmutable $date) : bool
     {
@@ -50,7 +50,7 @@ class ParkingSlot extends DomainParkingSlot
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _markAsFreeFromUserAndPeriod(User $user, DateTimeImmutable $fromDate, DateTimeImmutable $toDate)
     {
@@ -62,7 +62,7 @@ class ParkingSlot extends DomainParkingSlot
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _removeFreeNotificationsForUser(User $user)
     {
@@ -74,7 +74,7 @@ class ParkingSlot extends DomainParkingSlot
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * @throws Exception
      */
     protected function _getAssignmentsForPeriod(DateTimeImmutable $fromDate, DateTimeImmutable $toDate) : array
@@ -97,7 +97,7 @@ class ParkingSlot extends DomainParkingSlot
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _assignToUserForPeriod(
         User $user,
@@ -114,7 +114,7 @@ class ParkingSlot extends DomainParkingSlot
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * @throws Exception
      */
     protected function _removeAssignment(User $user, DateTimeImmutable $date)
@@ -138,7 +138,7 @@ class ParkingSlot extends DomainParkingSlot
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _removeAssignmensForUser(User $user)
     {
@@ -150,7 +150,7 @@ class ParkingSlot extends DomainParkingSlot
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _reserveToUserForPeriod(User $user, DateTimeImmutable $fromDate, DateTimeImmutable $toDate)
     {
@@ -162,7 +162,7 @@ class ParkingSlot extends DomainParkingSlot
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * @throws Exception
      */
     protected function _getReservationsForPeriod(DateTimeImmutable $fromDate, DateTimeImmutable $toDate) : array
@@ -184,7 +184,7 @@ class ParkingSlot extends DomainParkingSlot
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _removeReservationsForUser(User $user)
     {
@@ -196,7 +196,7 @@ class ParkingSlot extends DomainParkingSlot
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _delete()
     {

@@ -25,7 +25,7 @@ class SynchronousEventsBroker implements DomainEventsBrokerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function getInstance() : DomainEventsBrokerInterface
     {
@@ -37,7 +37,7 @@ class SynchronousEventsBroker implements DomainEventsBrokerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function resetSubscriptions()
     {
@@ -46,7 +46,7 @@ class SynchronousEventsBroker implements DomainEventsBrokerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function subscribeToAllEvents(callable $callback)
     {
@@ -54,7 +54,7 @@ class SynchronousEventsBroker implements DomainEventsBrokerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function subscribeToClassEvents(string $className, callable $callback)
     {
@@ -70,7 +70,7 @@ class SynchronousEventsBroker implements DomainEventsBrokerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function subscribeToSingleClassEvent(string $className, string $eventName, callable $callback)
     {
@@ -86,7 +86,7 @@ class SynchronousEventsBroker implements DomainEventsBrokerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function publishEvent(string $className, string $eventName, object $object, $payload = null)
     {

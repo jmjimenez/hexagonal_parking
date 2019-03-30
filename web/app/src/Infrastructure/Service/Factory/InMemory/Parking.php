@@ -10,7 +10,7 @@ use Jmj\Parking\Infrastructure\Aggregate\InMemory\Parking as InMemoryParking;
 class Parking implements DomainParkingFactory
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * @throws ExceptionGeneratingUuid
      */
     public function create(string $description) : DomainParking

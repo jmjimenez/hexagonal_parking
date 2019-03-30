@@ -11,7 +11,7 @@ class Parking implements DomainParkingRepository
     protected $parkings = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function findByUuid(string $uuid): ?DomainParking
     {
@@ -25,7 +25,7 @@ class Parking implements DomainParkingRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function save(DomainParking $parking) : int
     {
@@ -35,7 +35,7 @@ class Parking implements DomainParkingRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete(DomainParking $parking) : int
     {

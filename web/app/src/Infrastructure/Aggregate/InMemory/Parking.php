@@ -21,7 +21,7 @@ class Parking extends DomainParking
     protected $administrators = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _countParkingSlots(): int
     {
@@ -29,7 +29,7 @@ class Parking extends DomainParking
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * @param string $number
      * @param string $description
      * @return DomainParkingSlot
@@ -43,7 +43,7 @@ class Parking extends DomainParking
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _addParkingSlot(DomainParkingSlot $parkingSlot)
     {
@@ -51,7 +51,7 @@ class Parking extends DomainParking
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _deleteParkingSlotByUuid(string $parkingSlotUuid)
     {
@@ -59,7 +59,7 @@ class Parking extends DomainParking
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _getParkingSlotByUuid(string $parkingSlotUuid) : ?DomainParkingSlot
     {
@@ -67,7 +67,7 @@ class Parking extends DomainParking
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _getParkingSlotByNumber(string $number): ?DomainParkingSlot
     {
@@ -81,7 +81,7 @@ class Parking extends DomainParking
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _getParkingSlots()
     {
@@ -89,7 +89,7 @@ class Parking extends DomainParking
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _getUserByUuid(string $userUuid): ?User
     {
@@ -97,7 +97,7 @@ class Parking extends DomainParking
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _getUserByName(string $userName): ?User
     {
@@ -111,7 +111,7 @@ class Parking extends DomainParking
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _addUser(User $user, bool $isAdministrator)
     {
@@ -120,7 +120,7 @@ class Parking extends DomainParking
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _removeUser(User $user)
     {
@@ -131,7 +131,7 @@ class Parking extends DomainParking
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _addAdministrator(User $user)
     {
@@ -141,7 +141,7 @@ class Parking extends DomainParking
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _removeAdministrator(User $user)
     {
@@ -149,7 +149,7 @@ class Parking extends DomainParking
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _getAdministrators()
     {

@@ -45,8 +45,7 @@ class DeleteParkingSlotTest extends TestCase
             $this->recordedEventNames
         );
 
-        $parking = $this->parkingRepository->findByUuid($this->parking->uuid());
-        $parkingSlot = $parking->getParkingSlotByUuid($parkingSlotUuid);
+        $parkingSlot = $this->parking->getParkingSlotByUuid($parkingSlotUuid);
         $this->assertNull($parkingSlot);
     }
 }

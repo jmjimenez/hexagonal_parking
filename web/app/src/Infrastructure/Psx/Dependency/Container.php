@@ -22,6 +22,7 @@ use Jmj\Parking\Application\Command\Handler\UpdateParkingSlotInformation;
 use Jmj\Parking\Application\Command\Handler\GetParkingInformationForUserAndPeriod;
 use Jmj\Parking\Application\Command\Handler\GetParkingSlotReservationsForPeriod;
 use Jmj\Parking\Application\Command\Handler\UserLogin;
+use Jmj\Parking\Common\Exception\PdoConnectionError;
 use Jmj\Parking\Common\Pdo\PdoProxy;
 use Jmj\Parking\Infrastructure\Repository\Pdo\User as PdoUserRepository;
 use Jmj\Parking\Infrastructure\Repository\Pdo\Parking as PdoParkingRepository;
@@ -52,7 +53,7 @@ class Container extends DefaultContainer
 
     /**
      * @return PdoProxy
-     * @throws \Jmj\Parking\Common\Exception\PdoConnectionError
+     * @throws PdoConnectionError
      */
     public function getPdoProxy() : PdoProxy
     {

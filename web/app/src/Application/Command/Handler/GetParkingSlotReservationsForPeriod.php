@@ -3,6 +3,7 @@
 namespace Jmj\Parking\Application\Command\Handler;
 
 use Jmj\Parking\Application\Command\GetParkingSlotReservationsForPeriod as GetParkingSlotReservationsForPeriodCommand;
+use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\Parking;
 use Jmj\Parking\Domain\Repository\User;
 use Jmj\Parking\Domain\Service\Command\GetParkingSlotReservationsForPeriod
@@ -29,7 +30,7 @@ class GetParkingSlotReservationsForPeriod extends Common\BaseHandler
      * @return array
      * @throws Exception\ParkingNotFound
      * @throws Exception\UserNotFound
-     * @throws \Jmj\Parking\Domain\Exception\ParkingException
+     * @throws ParkingException
      */
     public function execute(GetParkingSlotReservationsForPeriodCommand $payload) : array
     {

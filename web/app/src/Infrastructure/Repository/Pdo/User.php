@@ -2,6 +2,7 @@
 
 namespace Jmj\Parking\Infrastructure\Repository\Pdo;
 
+use Exception;
 use Jmj\Parking\Common\Exception\PdoExecuteError;
 use Jmj\Parking\Common\Pdo\PdoObjectRepository;
 use Jmj\Parking\Common\Pdo\PdoProxy;
@@ -41,7 +42,7 @@ class User extends PdoObjectRepository implements DomainUserRepository
     /**
      * @inheritdoc
      * @param DomainUser $user
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(DomainUser $user) : int
     {
@@ -51,7 +52,7 @@ class User extends PdoObjectRepository implements DomainUserRepository
     /**
      * @param DomainUser $user
      * @return int
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(DomainUser $user): int
     {

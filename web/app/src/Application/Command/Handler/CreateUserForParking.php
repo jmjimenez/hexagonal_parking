@@ -4,6 +4,7 @@ namespace Jmj\Parking\Application\Command\Handler;
 
 use Jmj\Parking\Application\Command\CreateUserForParking as CreateUserForParkingPayload;
 use Jmj\Parking\Domain\Aggregate\User;
+use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\CreateUserForParking as CreateUserForParkingCommand;
@@ -40,7 +41,7 @@ class CreateUserForParking extends Common\BaseHandler
      * @return User
      * @throws Exception\ParkingNotFound
      * @throws Exception\UserNotFound
-     * @throws \Jmj\Parking\Domain\Exception\ParkingException
+     * @throws ParkingException
      */
     public function execute(CreateUserForParkingPayload $payload) : User
     {

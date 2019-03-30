@@ -3,6 +3,7 @@
 namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
 use Jmj\Parking\Application\Command\DeleteParking as DeleteParkingCommand;
+use Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use PSX\Http\RequestInterface;
@@ -19,7 +20,7 @@ class DeleteParking extends Common\BaseController
     /**
      * @param RequestInterface $request
      * @param ResponseInterface $response
-     * @throws \Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound
+     * @throws ParkingNotFound
      */
     public function onPost(RequestInterface $request, ResponseInterface $response)
     {

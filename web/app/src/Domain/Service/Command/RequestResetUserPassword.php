@@ -3,6 +3,7 @@
 namespace Jmj\Parking\Domain\Service\Command;
 
 use DateTimeImmutable;
+use Exception;
 use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\ParkingException;
 
@@ -40,7 +41,7 @@ class RequestResetUserPassword extends Common\BaseCommand
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function process()
     {

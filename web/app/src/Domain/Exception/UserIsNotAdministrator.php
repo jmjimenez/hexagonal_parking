@@ -2,7 +2,9 @@
 
 namespace Jmj\Parking\Domain\Exception;
 
-class UserIsNotAdministrator extends \Exception
+use Exception;
+
+class UserIsNotAdministrator extends Exception
 {
 
 }

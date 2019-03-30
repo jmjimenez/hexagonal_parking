@@ -2,6 +2,7 @@
 
 namespace Jmj\Parking\Infrastructure\Repository\Pdo;
 
+use Exception;
 use Jmj\Parking\Common\Exception\PdoExecuteError;
 use Jmj\Parking\Common\Pdo\PdoObjectRepository;
 use Jmj\Parking\Common\Pdo\PdoProxy;
@@ -40,7 +41,7 @@ class Parking extends PdoObjectRepository implements DomainParkingRepository
     /**
      * @inheritdoc
      * @param DomainParking $parking
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(DomainParking $parking) : int
     {
@@ -50,7 +51,7 @@ class Parking extends PdoObjectRepository implements DomainParkingRepository
     /**
      * @param DomainParking $parking
      * @return int
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(DomainParking $parking): int
     {

@@ -2,7 +2,9 @@
 
 namespace Jmj\Parking\Common\Pdo\Exception;
 
-class UpdateError extends \Exception
+use Exception;
+
+class UpdateError extends Exception
 {
 
 }

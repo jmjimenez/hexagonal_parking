@@ -4,6 +4,7 @@ namespace Jmj\Parking\Application\Command\Handler;
 
 use Jmj\Parking\Application\Command\FreeAssignedParkingSlotForUserAndPeriod
     as FreeAssignedParkingSlotForUserAndPeriodCommand;
+use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\FreeAssignedParkingSlotForUserAndPeriod
@@ -31,7 +32,7 @@ class FreeAssignedParkingSlotForUserAndPeriod extends Common\BaseHandler
      * @param FreeAssignedParkingSlotForUserAndPeriodCommand $payload
      * @throws Exception\ParkingNotFound
      * @throws Exception\UserNotFound
-     * @throws \Jmj\Parking\Domain\Exception\ParkingException
+     * @throws ParkingException
      */
     public function execute(FreeAssignedParkingSlotForUserAndPeriodCommand $payload)
     {

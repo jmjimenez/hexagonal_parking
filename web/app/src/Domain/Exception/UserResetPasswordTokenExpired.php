@@ -2,6 +2,8 @@
 
 namespace Jmj\Parking\Domain\Exception;
 
-class UserResetPasswordTokenExpired extends \Exception
+use Exception;
+
+class UserResetPasswordTokenExpired extends Exception
 {
 }

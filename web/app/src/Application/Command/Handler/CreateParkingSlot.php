@@ -31,7 +31,7 @@ class CreateParkingSlot extends Common\BaseHandler
 
     /**
      * @param CreateParkingSlotPayload $payload
-     * @return \Jmj\Parking\Domain\Aggregate\ParkingSlot
+     * @return ParkingSlot
      * @throws Exception\ParkingNotFound
      * @throws Exception\UserNotFound
      * @throws ParkingException

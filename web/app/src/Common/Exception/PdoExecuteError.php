@@ -2,7 +2,9 @@
 
 namespace Jmj\Parking\Common\Exception;
 
-class PdoExecuteError extends \Exception
+use Exception;
+
+class PdoExecuteError extends Exception
 {
 
 }

@@ -4,6 +4,7 @@ namespace Jmj\Parking\Common;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use Exception;
 
 trait NormalizeDate
 {
@@ -32,7 +33,7 @@ trait NormalizeDate
      * @param DateTimeInterface $date
      * @param int $days
      * @return DateTimeImmutable
-     * @throws \Exception
+     * @throws Exception
      */
     protected function incrementDate(DateTimeInterface $date, int $days) : DateTimeImmutable
     {
@@ -43,7 +44,7 @@ trait NormalizeDate
      * @param DateTimeInterface $date
      * @param int $days
      * @return DateTimeImmutable
-     * @throws \Exception
+     * @throws Exception
      */
     protected function decrementDate(DateTimeInterface $date, int $days) : DateTimeImmutable
     {

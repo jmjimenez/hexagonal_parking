@@ -2,6 +2,7 @@
 
 namespace Jmj\Parking\Domain\Service\Command;
 
+use Exception;
 use Jmj\Parking\Domain\Aggregate\User;
 use Jmj\Parking\Domain\Exception\ParkingException;
 
@@ -38,7 +39,7 @@ class ResetUserPassword extends Common\BaseCommand
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function process()
     {

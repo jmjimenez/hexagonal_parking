@@ -5,6 +5,7 @@ namespace Jmj\Parking\Domain\Value;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Exception;
 use Jmj\Parking\Domain\Aggregate\ParkingSlot;
 use Jmj\Parking\Domain\Aggregate\User;
 
@@ -35,7 +36,7 @@ class Assignment
      * @param  User              $user
      * @param  DateTimeInterface $day
      * @param  bool              $exclusive
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(ParkingSlot $parkingSlot, User $user, DateTimeInterface $day, bool $exclusive)
     {

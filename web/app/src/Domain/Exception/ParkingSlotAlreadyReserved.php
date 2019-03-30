@@ -3,9 +3,10 @@
 namespace Jmj\Parking\Domain\Exception;
 
 use DateTimeInterface;
+use Exception;
 use Jmj\Parking\Domain\Aggregate\User;
 
-class ParkingSlotAlreadyReserved extends \Exception
+class ParkingSlotAlreadyReserved extends Exception
 {
     /**
      * @var DateTimeInterface

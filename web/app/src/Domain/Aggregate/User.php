@@ -4,6 +4,7 @@ namespace Jmj\Parking\Domain\Aggregate;
 
 use DateTime;
 use DateTimeImmutable;
+use Exception;
 use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Domain\Exception\UserEmailInvalid;
 use Jmj\Parking\Domain\Exception\UserNameInvalid;
@@ -143,7 +144,7 @@ class User extends Common\BaseAggregate
     /**
      * @param  string $password
      * @param  string $resetPasswordToken
-     * @throws \Exception
+     * @throws Exception
      */
     public function resetPassword(string $password, string $resetPasswordToken)
     {
@@ -295,7 +296,7 @@ class User extends Common\BaseAggregate
     /**
      * @param  DateTimeImmutable $resetPasswordTokenTimeout
      * @throws UserResetPasswordTokenTimeoutInvalid
-     * @throws \Exception
+     * @throws Exception
      */
     private function setResetPasswordTokenTimeout(DateTimeImmutable $resetPasswordTokenTimeout)
     {

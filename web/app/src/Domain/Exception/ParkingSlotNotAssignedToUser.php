@@ -3,9 +3,10 @@
 namespace Jmj\Parking\Domain\Exception;
 
 use DateTimeImmutable;
+use Exception;
 use Jmj\Parking\Domain\Aggregate\User;
 
-class ParkingSlotNotAssignedToUser extends \Exception
+class ParkingSlotNotAssignedToUser extends Exception
 {
     /**
      * @var DateTimeImmutable

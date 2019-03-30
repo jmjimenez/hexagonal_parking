@@ -4,6 +4,8 @@ namespace Jmj\Parking\Infrastructure\Psx\Controller\Common;
 
 use Firebase\JWT\JWT;
 use Jmj\Parking\Domain\Aggregate\User;
+use Jmj\Parking\Domain\Repository\Parking;
+use PSX\Framework\Config\Config;
 use PSX\Framework\Controller\ControllerAbstract;
 use PSX\Framework\Filter\Oauth2Authentication;
 
@@ -11,7 +13,7 @@ class BaseController extends ControllerAbstract
 {
     /**
      * @Inject
-     * @var \PSX\Framework\Config\Config
+     * @var Config
      */
     protected $config;
 
@@ -23,7 +25,7 @@ class BaseController extends ControllerAbstract
 
     /**
      * @Inject("ParkingRepository")
-     * @var \Jmj\Parking\Domain\Repository\Parking
+     * @var Parking
      */
     protected $parkingRepository;
 

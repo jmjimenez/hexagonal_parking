@@ -38,7 +38,7 @@ class CreateParking extends Common\BaseHandler
 
     /**
      * @param CreateParkingPayload $payload
-     * @return \Jmj\Parking\Domain\Aggregate\Parking
+     * @return Parking
      * @throws Exception\UserNotFound
      * @throws ParkingException
      */

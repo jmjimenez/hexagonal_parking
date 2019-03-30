@@ -2,6 +2,8 @@
 
 namespace Jmj\Parking\Domain\Exception;
 
-class ParkingSlotNotFound extends \Exception
+use Exception;
+
+class ParkingSlotNotFound extends Exception
 {
 }

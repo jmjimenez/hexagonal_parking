@@ -2,6 +2,7 @@
 
 namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
+use Exception;
 use Jmj\Parking\Application\Command\UserLogin as UserLoginCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
@@ -20,7 +21,7 @@ class UserLogin extends ControllerAbstract
     /**
      * @param RequestInterface $request
      * @param ResponseInterface $response
-     * @throws \Exception
+     * @throws Exception
      */
     public function onPost(RequestInterface $request, ResponseInterface $response)
     {

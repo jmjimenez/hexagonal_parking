@@ -2,6 +2,8 @@
 
 namespace Jmj\Parking\Domain\Exception;
 
-class UserNameInvalid extends \Exception
+use Exception;
+
+class UserNameInvalid extends Exception
 {
 }

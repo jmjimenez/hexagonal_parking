@@ -4,6 +4,7 @@ namespace Jmj\Parking\Application\Command\Handler;
 
 use Firebase\JWT\JWT;
 use Jmj\Parking\Application\Command\UserLogin as UserLoginPayload;
+use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\UserLogin as UserLoginCommand;
 
@@ -34,7 +35,7 @@ class UserLogin extends Common\BaseHandler
      * @param UserLoginPayload $payload
      * @return string
      * @throws Exception\UserNotFound
-     * @throws \Jmj\Parking\Domain\Exception\ParkingException
+     * @throws ParkingException
      */
     public function execute(UserLoginPayload $payload) : string
     {

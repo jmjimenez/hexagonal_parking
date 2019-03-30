@@ -3,6 +3,7 @@
 namespace Jmj\Parking\Domain\Service\Command;
 
 use DateTimeImmutable;
+use Exception;
 use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Exception\ParkingSlotNotFound;
 use Jmj\Parking\Domain\Aggregate\Parking;
@@ -63,7 +64,7 @@ class FreeAssignedParkingSlotForUserAndPeriod extends Common\BaseCommand
      * @throws NotAuthorizedOperation
      * @throws ParkingSlotNotFound
      * @throws UserNotAssigned
-     * @throws \Exception
+     * @throws Exception
      */
     protected function process()
     {

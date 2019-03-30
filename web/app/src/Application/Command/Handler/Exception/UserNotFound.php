@@ -2,7 +2,9 @@
 
 namespace Jmj\Parking\Application\Command\Handler\Exception;
 
-class UserNotFound extends \Exception
+use Exception;
+
+class UserNotFound extends Exception
 {
 
 }

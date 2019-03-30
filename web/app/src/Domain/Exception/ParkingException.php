@@ -2,7 +2,9 @@
 
 namespace Jmj\Parking\Domain\Exception;
 
-class ParkingException extends \Exception
+use Exception;
+
+class ParkingException extends Exception
 {
 
 }

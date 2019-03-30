@@ -2,7 +2,9 @@
 
 namespace Jmj\Parking\Common\Exception;
 
-class InvalidDateRange extends \Exception
+use Exception;
+
+class InvalidDateRange extends Exception
 {
 
 }

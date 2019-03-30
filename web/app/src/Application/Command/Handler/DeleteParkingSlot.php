@@ -3,6 +3,7 @@
 namespace Jmj\Parking\Application\Command\Handler;
 
 use Jmj\Parking\Application\Command\DeleteParkingSlot as DeleteParkingSlotPayload;
+use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\DeleteParkingSlot as DeleteParkingSlotCommand;
@@ -31,7 +32,7 @@ class DeleteParkingSlot extends Common\BaseHandler
      * @param DeleteParkingSlotPayload $payload
      * @throws Exception\ParkingNotFound
      * @throws Exception\UserNotFound
-     * @throws \Jmj\Parking\Domain\Exception\ParkingException
+     * @throws ParkingException
      */
     public function execute(DeleteParkingSlotPayload $payload)
     {

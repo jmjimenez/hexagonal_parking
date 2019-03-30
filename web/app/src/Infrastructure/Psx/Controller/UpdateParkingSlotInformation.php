@@ -2,6 +2,7 @@
 
 namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
+use Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound;
 use Jmj\Parking\Application\Command\UpdateParkingSlotInformation as UpdateParkingSlotInformationCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Domain\Exception\ParkingException;
@@ -19,7 +20,7 @@ class UpdateParkingSlotInformation extends Common\BaseController
     /**
      * @param RequestInterface $request
      * @param ResponseInterface $response
-     * @throws \Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound
+     * @throws ParkingNotFound
      */
     public function onPost(RequestInterface $request, ResponseInterface $response)
     {

@@ -2,7 +2,9 @@
 
 namespace Jmj\Parking\Common\Exception;
 
-class PdoConnectionError extends \Exception
+use Exception;
+
+class PdoConnectionError extends Exception
 {
 
 }

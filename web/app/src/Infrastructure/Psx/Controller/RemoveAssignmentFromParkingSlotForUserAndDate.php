@@ -3,6 +3,8 @@
 namespace Jmj\Parking\Infrastructure\Psx\Controller;
 
 use DateTimeImmutable;
+use Exception;
+use Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound;
 use Jmj\Parking\Application\Command\RemoveAssignmentFromParkingSlotForUserAndDate
     as RemoveAssignmentFromParkingSlotFromUserAndDateCommand;
 use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
@@ -21,8 +23,8 @@ class RemoveAssignmentFromParkingSlotForUserAndDate extends Common\BaseControlle
     /**
      * @param RequestInterface $request
      * @param ResponseInterface $response
-     * @throws \Jmj\Parking\Application\Command\Handler\Exception\ParkingNotFound
-     * @throws \Exception
+     * @throws ParkingNotFound
+     * @throws Exception
      */
     public function onPost(RequestInterface $request, ResponseInterface $response)
     {

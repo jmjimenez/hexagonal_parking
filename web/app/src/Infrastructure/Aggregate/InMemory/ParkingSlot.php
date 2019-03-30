@@ -3,6 +3,7 @@
 namespace Jmj\Parking\Infrastructure\Aggregate\InMemory;
 
 use DateTimeImmutable;
+use Exception;
 use Jmj\Parking\Common\DateRangeProcessor;
 use Jmj\Parking\Domain\Aggregate\Parking;
 use Jmj\Parking\Domain\Aggregate\ParkingSlot as DomainParkingSlot;
@@ -74,7 +75,7 @@ class ParkingSlot extends DomainParkingSlot
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     protected function _getAssignmentsForPeriod(DateTimeImmutable $fromDate, DateTimeImmutable $toDate) : array
     {
@@ -114,7 +115,7 @@ class ParkingSlot extends DomainParkingSlot
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     protected function _removeAssignment(User $user, DateTimeImmutable $date)
     {
@@ -162,7 +163,7 @@ class ParkingSlot extends DomainParkingSlot
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     protected function _getReservationsForPeriod(DateTimeImmutable $fromDate, DateTimeImmutable $toDate) : array
     {

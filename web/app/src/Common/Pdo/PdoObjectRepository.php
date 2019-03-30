@@ -2,6 +2,7 @@
 
 namespace Jmj\Parking\Common\Pdo;
 
+use Exception;
 use Jmj\Parking\Common\Exception\PdoExecuteError;
 use Jmj\Parking\Common\Pdo\Exception\DifferentObjectVersions;
 use Jmj\Parking\Domain\Aggregate\Common\BaseAggregate;
@@ -54,7 +55,7 @@ abstract class PdoObjectRepository
     /**
      * @param BaseAggregate $object
      * @return int
-     * @throws \Exception
+     * @throws Exception
      */
     public function saveObject(BaseAggregate $object): int
     {
@@ -72,7 +73,7 @@ abstract class PdoObjectRepository
             if ($records === 0) {
                 throw new UpdateError();
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->pdoProxy->rollbackTransaction();
             throw $e;
         }
@@ -84,7 +85,7 @@ abstract class PdoObjectRepository
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function deleteObject(BaseAggregate $object) : int
     {
@@ -109,7 +110,7 @@ abstract class PdoObjectRepository
             if ($records === 0) {
                 throw new UpdateError();
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->pdoProxy->rollbackTransaction();
             throw $e;
         }
@@ -163,7 +164,7 @@ abstract class PdoObjectRepository
     /**
      * @param BaseAggregate $object
      * @return int
-     * @throws \Exception
+     * @throws Exception
      */
     protected function insertObject(BaseAggregate $object)
     {
@@ -201,7 +202,7 @@ abstract class PdoObjectRepository
     /**
      * @param BaseAggregate $object
      * @return int
-     * @throws \Exception
+     * @throws Exception
      */
     protected function updateObject(BaseAggregate $object) : int
     {

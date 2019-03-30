@@ -2,6 +2,7 @@
 
 namespace Jmj\Parking\Common\Pdo;
 
+use Exception;
 use Jmj\Parking\Common\Exception\PdoConnectionError;
 use Jmj\Parking\Common\Exception\PdoExecuteError;
 use Jmj\Parking\Domain\Service\Event\DomainEventsBroker;
@@ -100,7 +101,7 @@ class PdoProxy
      * @param string $table
      * @param array $values
      * @return int
-     * @throws \Exception
+     * @throws Exception
      */
     public function insert(string $table, array $values): int
     {
@@ -155,7 +156,7 @@ class PdoProxy
      * @param string $sql
      * @param array $params
      * @return int
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(string $sql, array $params = null) : int
     {

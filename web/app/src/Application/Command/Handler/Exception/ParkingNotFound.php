@@ -2,7 +2,10 @@
 
 namespace Jmj\Parking\Application\Command\Handler\Exception;
 
-class ParkingNotFound extends \Exception
+//TODO: all parking exceptions should inherit from the same domain generic exception class
+use Exception;
+
+class ParkingNotFound extends Exception
 {
 
 }

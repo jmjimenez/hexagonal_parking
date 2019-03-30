@@ -4,6 +4,7 @@ namespace Jmj\Parking\Domain\Aggregate;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use Exception;
 use Jmj\Parking\Common\DateRangeProcessor;
 use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
 use Jmj\Parking\Domain\Exception\ParkingSlotNotFound;
@@ -321,7 +322,7 @@ abstract class Parking extends Common\BaseAggregate
      * @param  DateTimeInterface $toDate
      * @return array
      * @throws UserNotAssigned
-     * @throws \Exception
+     * @throws Exception
      */
     public function getUserInformation(User $user, DateTimeInterface $fromDate, DateTimeInterface $toDate) : array
     {

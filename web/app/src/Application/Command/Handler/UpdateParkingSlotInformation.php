@@ -3,6 +3,7 @@
 namespace Jmj\Parking\Application\Command\Handler;
 
 use Jmj\Parking\Application\Command\UpdateParkingSlotInformation as UpdateParkingSlotInformationPayload;
+use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\Parking as ParkingRepository;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\UpdateParkingSlotInformation as UpdateParkingSlotInformationCommand;
@@ -31,7 +32,7 @@ class UpdateParkingSlotInformation extends Common\BaseHandler
      * @param UpdateParkingSlotInformationPayload $payload
      * @throws Exception\ParkingNotFound
      * @throws Exception\UserNotFound
-     * @throws \Jmj\Parking\Domain\Exception\ParkingException
+     * @throws ParkingException
      */
     public function execute(UpdateParkingSlotInformationPayload $payload)
     {

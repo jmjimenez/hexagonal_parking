@@ -3,7 +3,10 @@
 namespace Jmj\Parking\Application\Command\Handler;
 
 use DateTimeImmutable;
+use Exception;
+use Jmj\Parking\Application\Command\Handler\Exception\UserNotFound;
 use Jmj\Parking\Application\Command\RequestResetUserPassword as RequestResetUserPasswordPayload;
+use Jmj\Parking\Domain\Exception\ParkingException;
 use Jmj\Parking\Domain\Repository\User as UserRepository;
 use Jmj\Parking\Domain\Service\Command\RequestResetUserPassword as RequestResetUserPasswordDomainCommand;
 
@@ -29,9 +32,9 @@ class RequestResetUserPassword extends Common\BaseHandler
     /**
      * @param RequestResetUserPasswordPayload $payload
      * @return array
-     * @throws Exception\UserNotFound
-     * @throws \Jmj\Parking\Domain\Exception\ParkingException
-     * @throws \Exception
+     * @throws UserNotFound
+     * @throws ParkingException
+     * @throws Exception
      */
     public function execute(RequestResetUserPasswordPayload $payload): array
     {

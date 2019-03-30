@@ -2,7 +2,9 @@
 
 namespace Jmj\Parking\Domain\Exception;
 
-class ParkingSlotNumberAlreadyExists extends \Exception
+use Exception;
+
+class ParkingSlotNumberAlreadyExists extends Exception
 {
 
 }

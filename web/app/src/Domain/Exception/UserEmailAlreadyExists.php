@@ -2,7 +2,9 @@
 
 namespace Jmj\Parking\Domain\Exception;
 
-class UserEmailAlreadyExists extends \Exception
+use Exception;
+
+class UserEmailAlreadyExists extends Exception
 {
 
 }

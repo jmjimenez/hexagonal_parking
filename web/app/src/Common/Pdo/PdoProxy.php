@@ -19,6 +19,9 @@ class PdoProxy
     const EVENT_EXECUTE_SQL = 'PdoSqlExecuted';
     const MAX_LONG_STRING_FOR_EVENT_PUBLISHING = 100;
 
+
+    private $nestedTransactionCount = 0;
+
     /** @var int  */
     private $connection = self::MYSQL;
 
@@ -170,7 +173,11 @@ class PdoProxy
      */
     public function startTransacction() : bool
     {
-        return $this->pdo->beginTransaction();
+        if (++$this->nestedTransactionCount == 1) {
+            return $this->pdo->beginTransaction();
+        }
+
+        return true;
     }
 
     /**
@@ -178,14 +185,19 @@ class PdoProxy
      */
     public function commitTransaction() : bool
     {
-        return $this->pdo->commit();
+        if (--$this->nestedTransactionCount == 0) {
+            return $this->pdo->commit();
+        }
+
+        return true;
     }
 
     /**
      * @return bool
      */
-    public function rollbackTransaction()
+    public function rollbackTransaction(): bool
     {
+        $this->nestedTransactionCount = 0;
         return $this->pdo->rollBack();
     }
 

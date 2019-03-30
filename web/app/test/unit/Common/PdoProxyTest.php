@@ -2,6 +2,7 @@
 
 namespace Jmj\Test\Unit\Common;
 
+use Exception;
 use Jmj\Parking\Common\Exception\PdoConnectionError;
 use Jmj\Parking\Common\Exception\PdoExecuteError;
 use Jmj\Parking\Common\Pdo\PdoProxy;
@@ -68,7 +69,7 @@ class PdoProxyTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testInsert()
     {
@@ -78,7 +79,7 @@ class PdoProxyTest extends TestCase
 
     /**
      * @throws PdoExecuteError
-     * @throws \Exception
+     * @throws Exception
      */
     public function testInsertWhenJsonData()
     {
@@ -139,7 +140,7 @@ class PdoProxyTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testFetchAll()
     {
@@ -152,7 +153,7 @@ class PdoProxyTest extends TestCase
 
     /**
      * @throws PdoExecuteError
-     * @throws \Exception
+     * @throws Exception
      */
     public function testExecute()
     {
@@ -165,7 +166,7 @@ class PdoProxyTest extends TestCase
 
     /**
      * @throws PdoExecuteError
-     * @throws \Exception
+     * @throws Exception
      */
     public function testRollbackTransaction()
     {
@@ -176,5 +177,39 @@ class PdoProxyTest extends TestCase
 
         $record = self::$pdoProxy->fetchOne("SELECT * FROM {$this->tableName} WHERE id = 2");
         $this->assertEquals($this->testData[1], $record);
+    }
+
+    /**
+     * @throws PdoExecuteError
+     * @throws Exception
+     */
+    public function testRollbackTransactionWhenNested()
+    {
+        self::$pdoProxy->insert($this->tableName, $this->testData[0]);
+
+        self::$pdoProxy->startTransacction();
+        $result = self::$pdoProxy->execute("DELETE FROM `{$this->tableName}` WHERE id = :id", [ ':id' => 1 ]);
+        $this->assertEquals(1, $result);
+
+        self::$pdoProxy->startTransacction();
+        $result = self::$pdoProxy->execute("DELETE FROM `{$this->tableName}` WHERE id = :id", [ ':id' => 2 ]);
+        $this->assertEquals(1, $result);
+        self::$pdoProxy->commitTransaction();
+
+        self::$pdoProxy->startTransacction();
+        $result = self::$pdoProxy->execute("DELETE FROM `{$this->tableName}` WHERE id = :id", [ ':id' => 3 ]);
+        $this->assertEquals(1, $result);
+        self::$pdoProxy->commitTransaction();
+
+        self::$pdoProxy->rollbackTransaction();
+
+        $record = self::$pdoProxy->fetchOne("SELECT * FROM {$this->tableName} WHERE id = 1");
+        $this->assertEquals($this->testData[0], $record);
+
+        $record = self::$pdoProxy->fetchOne("SELECT * FROM {$this->tableName} WHERE id = 2");
+        $this->assertEquals($this->testData[1], $record);
+
+        $record = self::$pdoProxy->fetchOne("SELECT * FROM {$this->tableName} WHERE id = 3");
+        $this->assertEquals($this->testData[2], $record);
     }
 }

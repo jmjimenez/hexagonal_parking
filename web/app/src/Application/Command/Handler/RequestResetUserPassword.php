@@ -53,11 +53,11 @@ class RequestResetUserPassword extends Common\BaseHandler
             //TODO: perhaps inject an infrastructure service to create the token
             $resetPasswordToken = md5($user->email() . date('YmdHis') . self::SECRET);
             //TODO: perhaps inject an infrastructure service to configure the time limit
-            $resetPasswordTokenTimeout = new DateTimeImmutable(sprintf('+%s days', self::TOKEN_DAYS_TIMEOUT));
+            $tokenExpirationDate = new DateTimeImmutable(sprintf('+%s days', self::TOKEN_DAYS_TIMEOUT));
 
             $command = new RequestResetUserPasswordDomainCommand();
 
-            $command->execute($user, $resetPasswordToken, $resetPasswordTokenTimeout);
+            $command->execute($user, $resetPasswordToken, $tokenExpirationDate);
             $this->userRepository->save($user);
 
             $this->pdoProxy->commitTransaction();
@@ -70,7 +70,7 @@ class RequestResetUserPassword extends Common\BaseHandler
         return [
             'email' => $user->email(),
             'token' => $resetPasswordToken,
-            'expirationDate' => $resetPasswordTokenTimeout->format('Y-m-d')
+            'expirationDate' => $tokenExpirationDate->format('Y-m-d')
         ];
     }
 }

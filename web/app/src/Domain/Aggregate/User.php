@@ -11,7 +11,7 @@ use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
 use Jmj\Parking\Domain\Exception\UserResetPasswordTokenExpired;
 use Jmj\Parking\Domain\Exception\UserResetPasswordTokenInvalid;
-use Jmj\Parking\Domain\Exception\UserResetPasswordTokenTimeoutInvalid;
+use Jmj\Parking\Domain\Exception\UserTokenExpirationDateInvalid;
 
 class User extends Common\BaseAggregate
 {
@@ -48,7 +48,7 @@ class User extends Common\BaseAggregate
     /**
      * @var DateTime
      */
-    private $resetPasswordTokenTimeout;
+    private $tokenExpirationDate;
 
     /**
      * @var bool
@@ -152,7 +152,7 @@ class User extends Common\BaseAggregate
             throw new UserResetPasswordTokenInvalid();
         }
 
-        if ($this->resetPasswordTokenTimeout < new DateTime()) {
+        if ($this->tokenExpirationDate < new DateTime()) {
             throw new UserResetPasswordTokenExpired();
         }
 
@@ -163,18 +163,18 @@ class User extends Common\BaseAggregate
 
     /**
      * @param  string            $resetPasswordToken
-     * @param  DateTimeImmutable $resetPasswordTokenTimeout
+     * @param  DateTimeImmutable $tokenExpirationDate
      * @throws UserResetPasswordTokenInvalid
-     * @throws UserResetPasswordTokenTimeoutInvalid
+     * @throws UserTokenExpirationDateInvalid
      */
-    public function requestResetPassword(string $resetPasswordToken, DateTimeImmutable $resetPasswordTokenTimeout)
+    public function requestResetPassword(string $resetPasswordToken, DateTimeImmutable $tokenExpirationDate)
     {
         $this->setResetPasswordToken($resetPasswordToken);
-        $this->setResetPasswordTokenTimeout($resetPasswordTokenTimeout);
+        $this->setTokenExpirationDate($tokenExpirationDate);
 
         $this->publishEvent(
             self::EVENT_USER_PASSWORD_RESET_REQUESTED,
-            [ 'resetPasswordToken' => $resetPasswordToken, 'resetPasswordTokenTimeout' => $resetPasswordTokenTimeout]
+            [ 'resetPasswordToken' => $resetPasswordToken, 'tokenExpirationDate' => $tokenExpirationDate]
         );
     }
 
@@ -294,16 +294,16 @@ class User extends Common\BaseAggregate
     }
 
     /**
-     * @param  DateTimeImmutable $resetPasswordTokenTimeout
-     * @throws UserResetPasswordTokenTimeoutInvalid
+     * @param  DateTimeImmutable $tokenExpirationDate
+     * @throws UserTokenExpirationDateInvalid
      * @throws Exception
      */
-    private function setResetPasswordTokenTimeout(DateTimeImmutable $resetPasswordTokenTimeout)
+    private function setTokenExpirationDate(DateTimeImmutable $tokenExpirationDate)
     {
-        if ($resetPasswordTokenTimeout < new DateTime()) {
-            throw new UserResetPasswordTokenTimeoutInvalid();
+        if ($tokenExpirationDate < new DateTime()) {
+            throw new UserTokenExpirationDateInvalid();
         }
 
-        $this->resetPasswordTokenTimeout = $resetPasswordTokenTimeout;
+        $this->tokenExpirationDate = $tokenExpirationDate;
     }
 }

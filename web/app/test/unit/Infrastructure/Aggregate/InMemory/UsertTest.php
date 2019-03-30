@@ -3,6 +3,7 @@
 namespace Jmj\Test\Unit\Infrastructure\Aggregate\InMemory;
 
 use DateTimeImmutable;
+use Exception;
 use Jmj\Parking\Domain\Aggregate\Common\BaseAggregate;
 use Jmj\Parking\Domain\Aggregate\User as DomainUser;
 use Jmj\Parking\Domain\Exception\ExceptionGeneratingUuid;
@@ -10,7 +11,7 @@ use Jmj\Parking\Domain\Exception\UserEmailInvalid;
 use Jmj\Parking\Domain\Exception\UserNameInvalid;
 use Jmj\Parking\Domain\Exception\UserPasswordInvalid;
 use Jmj\Parking\Domain\Exception\UserResetPasswordTokenInvalid;
-use Jmj\Parking\Domain\Exception\UserResetPasswordTokenTimeoutInvalid;
+use Jmj\Parking\Domain\Exception\UserTokenExpirationDateInvalid;
 use Jmj\Parking\Infrastructure\Aggregate\InMemory\User;
 use Jmj\Parking\Common\EventsRecorder;
 use PHPUnit\Framework\TestCase;
@@ -287,18 +288,18 @@ class UserTest extends TestCase
      * @throws UserPasswordInvalid
      * @throws ExceptionGeneratingUuid
      * @throws UserResetPasswordTokenInvalid
-     * @throws UserResetPasswordTokenTimeoutInvalid
-     * @throws \Exception
+     * @throws UserTokenExpirationDateInvalid
+     * @throws Exception
      */
     public function testRequestResetPassword()
     {
         $user = $this->createUser();
 
         $resetPasswordToken = 'resetPasswordToken';
-        $resetPasswordTokenTimeout = new DateTimeImmutable('tomorrow');
+        $passwordTokenTimeout = new DateTimeImmutable('tomorrow');
 
         $this->startRecordingEvents();
-        $user->requestResetPassword($resetPasswordToken, $resetPasswordTokenTimeout);
+        $user->requestResetPassword($resetPasswordToken, $passwordTokenTimeout);
 
         $this->assertEquals([ DomainUser::EVENT_USER_PASSWORD_RESET_REQUESTED ], $this->recordedEventNames);
         $this->assertEquals([ DomainUser::class ], $this->recordedClasses);
@@ -307,7 +308,7 @@ class UserTest extends TestCase
             [
                 [
                     'resetPasswordToken' => $resetPasswordToken,
-                    'resetPasswordTokenTimeout' => $resetPasswordTokenTimeout
+                    'tokenExpirationDate' => $passwordTokenTimeout
                 ]
             ],
             $this->recordedPayloads
@@ -320,19 +321,19 @@ class UserTest extends TestCase
      * @throws UserPasswordInvalid
      * @throws UserResetPasswordTokenInvalid
      * @throws ExceptionGeneratingUuid
-     * @throws UserResetPasswordTokenTimeoutInvalid
-     * @throws \Exception
+     * @throws UserTokenExpirationDateInvalid
+     * @throws Exception
      */
     public function testRequestResetPasswordErrorWhenResetTokenInvalid()
     {
         $user = $this->createUser();
 
         $resetPasswordToken = '';
-        $resetPasswordTokenTimeout = new DateTimeImmutable('tomorrow');
+        $tokenExpirationDate = new DateTimeImmutable('tomorrow');
 
         $this->startRecordingEvents();
         $this->expectException(UserResetPasswordTokenInvalid::class);
-        $user->requestResetPassword($resetPasswordToken, $resetPasswordTokenTimeout);
+        $user->requestResetPassword($resetPasswordToken, $tokenExpirationDate);
 
         $this->assertEquals([], $this->recordedEventNames);
     }
@@ -342,20 +343,20 @@ class UserTest extends TestCase
      * @throws UserNameInvalid
      * @throws UserPasswordInvalid
      * @throws UserResetPasswordTokenInvalid
-     * @throws UserResetPasswordTokenTimeoutInvalid
+     * @throws UserTokenExpirationDateInvalid
      * @throws ExceptionGeneratingUuid
-     * @throws \Exception
+     * @throws Exception
      */
     public function testRequestResetPasswordErrorWhenResetTokenTimeoutInvalid()
     {
         $user = $this->createUser();
 
         $resetPasswordToken = 'resetPasswordToken';
-        $resetPasswordTokenTimeout = new DateTimeImmutable('yesterday');
+        $tokenExpirationDate = new DateTimeImmutable('yesterday');
 
         $this->startRecordingEvents();
-        $this->expectException(UserResetPasswordTokenTimeoutInvalid::class);
-        $user->requestResetPassword($resetPasswordToken, $resetPasswordTokenTimeout);
+        $this->expectException(UserTokenExpirationDateInvalid::class);
+        $user->requestResetPassword($resetPasswordToken, $tokenExpirationDate);
 
         $this->assertEquals([], $this->recordedEventNames);
     }
@@ -365,9 +366,9 @@ class UserTest extends TestCase
      * @throws UserNameInvalid
      * @throws UserPasswordInvalid
      * @throws UserResetPasswordTokenInvalid
-     * @throws UserResetPasswordTokenTimeoutInvalid
+     * @throws UserTokenExpirationDateInvalid
      * @throws ExceptionGeneratingUuid
-     * @throws \Exception
+     * @throws Exception
      */
     public function testResetPassword()
     {
@@ -375,9 +376,9 @@ class UserTest extends TestCase
 
         $newPassword = 'newpassword';
         $resetPasswordToken = 'resetPasswordToken';
-        $resetPasswordTokenTimeout = new DateTimeImmutable('tomorrow');
+        $tokenExpirationDate = new DateTimeImmutable('tomorrow');
 
-        $user->requestResetPassword($resetPasswordToken, $resetPasswordTokenTimeout);
+        $user->requestResetPassword($resetPasswordToken, $tokenExpirationDate);
         $this->startRecordingEvents();
         $user->resetPassword($newPassword, $resetPasswordToken);
 
@@ -391,9 +392,9 @@ class UserTest extends TestCase
      * @throws UserNameInvalid
      * @throws UserPasswordInvalid
      * @throws UserResetPasswordTokenInvalid
-     * @throws UserResetPasswordTokenTimeoutInvalid
+     * @throws UserTokenExpirationDateInvalid
      * @throws ExceptionGeneratingUuid
-     * @throws \Exception
+     * @throws Exception
      */
     public function testResetPasswordErrorWhenNewPasswordInvalid()
     {
@@ -401,9 +402,9 @@ class UserTest extends TestCase
 
         $newPassword = '';
         $resetPasswordToken = 'resetPasswordToken';
-        $resetPasswordTokenTimeout = new DateTimeImmutable('tomorrow');
+        $tokenExpirationDate = new DateTimeImmutable('tomorrow');
 
-        $user->requestResetPassword($resetPasswordToken, $resetPasswordTokenTimeout);
+        $user->requestResetPassword($resetPasswordToken, $tokenExpirationDate);
         $this->startRecordingEvents();
         $this->expectException(UserPasswordInvalid::class);
         $user->resetPassword($newPassword, $resetPasswordToken);
@@ -416,9 +417,9 @@ class UserTest extends TestCase
      * @throws UserNameInvalid
      * @throws UserPasswordInvalid
      * @throws UserResetPasswordTokenInvalid
-     * @throws UserResetPasswordTokenTimeoutInvalid
+     * @throws UserTokenExpirationDateInvalid
      * @throws ExceptionGeneratingUuid
-     * @throws \Exception
+     * @throws Exception
      */
     public function testResetPasswordErrorWhenResetPasswordTokenInvalid()
     {
@@ -427,9 +428,9 @@ class UserTest extends TestCase
         $newPassword = 'newPassword';
         $resetPasswordToken = 'resetPasswordToken';
         $wrongPasswordToken = 'wrongPasswordToken';
-        $resetPasswordTokenTimeout = new DateTimeImmutable('tomorrow');
+        $tokenExpirationDate = new DateTimeImmutable('tomorrow');
 
-        $user->requestResetPassword($resetPasswordToken, $resetPasswordTokenTimeout);
+        $user->requestResetPassword($resetPasswordToken, $tokenExpirationDate);
         $this->startRecordingEvents();
         $this->expectException(UserResetPasswordTokenInvalid::class);
         $user->resetPassword($newPassword, $wrongPasswordToken);

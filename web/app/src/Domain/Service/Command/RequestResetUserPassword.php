@@ -22,20 +22,19 @@ class RequestResetUserPassword extends Common\BaseCommand
     /**
      * @var DateTimeImmutable
      */
-    protected $resetPasswordTokenTimeout;
+    protected $tokenExpirationDate;
 
     /**
      * @param  User $user
      * @param  string $resetPasswordToken
-     * @param DateTimeImmutable $resetPasswordTokenTimeout
+     * @param DateTimeImmutable $tokenExpirationDate
      * @throws ParkingException
      */
-    public function execute(User $user, string $resetPasswordToken, DateTimeImmutable $resetPasswordTokenTimeout)
+    public function execute(User $user, string $resetPasswordToken, DateTimeImmutable $tokenExpirationDate)
     {
         $this->user = $user;
         $this->resetPasswordToken = $resetPasswordToken;
-        //TODO: this property should be called expirationDate
-        $this->resetPasswordTokenTimeout = $resetPasswordTokenTimeout;
+        $this->tokenExpirationDate = $tokenExpirationDate;
 
         $this->processCatchingDomainEvents();
     }
@@ -45,6 +44,6 @@ class RequestResetUserPassword extends Common\BaseCommand
      */
     protected function process()
     {
-        $this->user->requestResetPassword($this->resetPasswordToken, $this->resetPasswordTokenTimeout);
+        $this->user->requestResetPassword($this->resetPasswordToken, $this->tokenExpirationDate);
     }
 }

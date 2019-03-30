@@ -3,6 +3,7 @@
 namespace Jmj\Test\Unit\Application\Command\Handler\InMemory\Pdo;
 
 use DateTimeImmutable;
+use Exception;
 use Jmj\Parking\Application\Command\RequestResetUserPassword as RequestResetUserPasswordPayload;
 use Jmj\Parking\Application\Command\Handler\RequestResetUserPassword;
 use Jmj\Parking\Common\Exception\PdoConnectionError;
@@ -24,7 +25,7 @@ class RequestResetUserPasswordTest extends TestCase
      * @throws PdoConnectionError
      * @throws PdoExecuteError
      * @throws ExceptionGeneratingUuid
-     * @throws \Exception
+     * @throws Exception
      */
     public function testExecute()
     {
